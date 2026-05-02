@@ -1,0 +1,57 @@
+{
+  "manifest_version": 3,
+  "name": "يمين — Arabic RTL for AI & Productivity",
+  "short_name": "يمين",
+  "version": "1.0.0",
+  "description": "Automatic Arabic RTL for Claude, ChatGPT, Gemini, Grok, DeepSeek, Perplexity, Notion, Coda, and more. Zero config — install and read.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png"
+    }
+  },
+  "permissions": ["storage", "activeTab", "scripting"],
+  "optional_permissions": ["<all_urls>"],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://claude.ai/*",
+        "https://chat.openai.com/*",
+        "https://chatgpt.com/*",
+        "https://gemini.google.com/*",
+        "https://grok.com/*",
+        "https://chat.deepseek.com/*",
+        "https://www.perplexity.ai/*",
+        "https://perplexity.ai/*",
+        "https://chat.mistral.ai/*",
+        "https://poe.com/*",
+        "https://huggingface.co/chat/*",
+        "https://aistudio.google.com/*",
+        "https://lmarena.ai/*",
+        "https://copilot.microsoft.com/*",
+        "https://you.com/*",
+        "https://pi.ai/*",
+        "https://coral.cohere.com/*",
+        "https://www.notion.so/*",
+        "https://notion.so/*",
+        "https://coda.io/*",
+        "https://docs.google.com/*",
+        "https://linear.app/*",
+        "https://clickup.com/*",
+        "https://app.clickup.com/*"
+      ],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}

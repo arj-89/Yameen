@@ -1,0 +1,145 @@
+/* ══════════════════════════════════════════════════════════
+   يمين — Arabic RTL for AI & Productivity
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Auto mode: per-element RTL ── */
+[data-ymn="rtl"] {
+  direction: rtl !important;
+  text-align: right !important;
+  unicode-bidi: plaintext !important;
+}
+
+/* ── Western numerals (default) ── */
+body[data-ymn-numerals="western"] [data-ymn="rtl"],
+body[data-ymn-numerals="western"] [data-ymn-input="rtl"] {
+  font-feature-settings: "lnum" !important;
+}
+
+/* ── Force mode: entire page RTL ── */
+body[data-ymn-mode="force"] {
+  direction: rtl !important;
+}
+body[data-ymn-mode="force"] main,
+body[data-ymn-mode="force"] article,
+body[data-ymn-mode="force"] section,
+body[data-ymn-mode="force"] [role="main"],
+body[data-ymn-mode="force"] p,
+body[data-ymn-mode="force"] li,
+body[data-ymn-mode="force"] h1,
+body[data-ymn-mode="force"] h2,
+body[data-ymn-mode="force"] h3,
+body[data-ymn-mode="force"] h4,
+body[data-ymn-mode="force"] h5,
+body[data-ymn-mode="force"] h6,
+body[data-ymn-mode="force"] blockquote,
+body[data-ymn-mode="force"] td,
+body[data-ymn-mode="force"] th,
+body[data-ymn-mode="force"] dt,
+body[data-ymn-mode="force"] dd,
+body[data-ymn-mode="force"] span,
+body[data-ymn-mode="force"] label,
+body[data-ymn-mode="force"] div {
+  direction: rtl !important;
+  text-align: right !important;
+  unicode-bidi: plaintext !important;
+}
+body[data-ymn-mode="force"][data-ymn-numerals="western"] {
+  font-feature-settings: "lnum" !important;
+}
+
+/* ── Code: ALWAYS LTR (all modes) ── */
+pre,
+pre *,
+code,
+.code-block__code,
+[class*="code-block"],
+[class*="CodeBlock"],
+[class*="hljs"],
+[data-ymn="rtl"] pre,
+[data-ymn="rtl"] pre *,
+[data-ymn="rtl"] code:not(:only-child),
+body[data-ymn-mode="force"] pre,
+body[data-ymn-mode="force"] pre *,
+body[data-ymn-mode="force"] code,
+body[data-ymn-mode="force"] .code-block__code,
+body[data-ymn-mode="force"] [class*="code-block"],
+body[data-ymn-mode="force"] [class*="CodeBlock"],
+body[data-ymn-mode="force"] [class*="hljs"] {
+  direction: ltr !important;
+  text-align: left !important;
+  unicode-bidi: isolate !important;
+}
+
+/* ── Inline code: isolate ── */
+[data-ymn="rtl"] code:only-child,
+[data-ymn="rtl"] p > code,
+[data-ymn="rtl"] li > code,
+[data-ymn="rtl"] span > code,
+body[data-ymn-mode="force"] p > code,
+body[data-ymn-mode="force"] li > code,
+body[data-ymn-mode="force"] span > code {
+  direction: ltr !important;
+  unicode-bidi: isolate !important;
+}
+
+/* ── Lists ── */
+ul[data-ymn="rtl"],
+ol[data-ymn="rtl"],
+[data-ymn="rtl"] > ul,
+[data-ymn="rtl"] > ol,
+body[data-ymn-mode="force"] ul,
+body[data-ymn-mode="force"] ol {
+  padding-right: 1.5em !important;
+  padding-left: 0 !important;
+}
+
+/* ── Blockquotes ── */
+blockquote[data-ymn="rtl"],
+[data-ymn="rtl"] blockquote,
+body[data-ymn-mode="force"] blockquote {
+  border-right: 3px solid currentColor !important;
+  border-left: none !important;
+  padding-right: 1em !important;
+  padding-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* ── Tables ── */
+[data-ymn="rtl"] th,
+[data-ymn="rtl"] td,
+body[data-ymn-mode="force"] th,
+body[data-ymn-mode="force"] td {
+  text-align: right !important;
+}
+
+/* ── Input area ── */
+[data-ymn-input="rtl"] {
+  direction: rtl !important;
+  text-align: right !important;
+  unicode-bidi: plaintext !important;
+}
+
+/* ── Math: keep LTR ── */
+[data-ymn="rtl"] .katex,
+[data-ymn="rtl"] .MathJax,
+[data-ymn="rtl"] mjx-container,
+body[data-ymn-mode="force"] .katex,
+body[data-ymn-mode="force"] .MathJax,
+body[data-ymn-mode="force"] mjx-container {
+  direction: ltr !important;
+  unicode-bidi: isolate !important;
+}
+
+/* ── UI elements: keep LTR (buttons, nav, toolbars) ── */
+body[data-ymn-mode="force"] nav,
+body[data-ymn-mode="force"] [role="navigation"],
+body[data-ymn-mode="force"] [role="toolbar"],
+body[data-ymn-mode="force"] [role="menubar"],
+body[data-ymn-mode="force"] button,
+body[data-ymn-mode="force"] [role="button"],
+body[data-ymn-mode="force"] header > *,
+body[data-ymn-mode="force"] aside {
+  direction: ltr !important;
+  text-align: left !important;
+  unicode-bidi: normal !important;
+}

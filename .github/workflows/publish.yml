@@ -1,0 +1,79 @@
+# .github/workflows/publish.yml
+# Publishes to Chrome Web Store and Firefox Add-ons when a version tag is pushed.
+# Usage: bump version in manifest.json, commit, then:
+#   git tag v1.0.1 && git push origin v1.0.1
+
+name: Publish Extension
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      # ── Package Chrome zip ──
+      - name: Package Chrome extension
+        run: |
+          cd extension
+          zip -r ../yameen-chrome.zip . \
+            -x "manifest-firefox.json" "*.DS_Store"
+
+      # ── Package Firefox zip ──
+      - name: Package Firefox extension
+        run: |
+          cd extension
+          # Swap manifests for Firefox
+          cp manifest.json manifest-chrome-backup.json
+          cp manifest-firefox.json manifest.json
+          zip -r ../yameen-firefox.zip . \
+            -x "manifest-chrome-backup.json" "manifest-firefox.json" \
+            -x "background.js" "*.DS_Store"
+          # Restore Chrome manifest
+          mv manifest-chrome-backup.json manifest.json
+
+      # ── Upload to Chrome Web Store ──
+      - name: Publish to Chrome Web Store
+        uses: niceurls/chrome-webstore-upload-action@v3
+        with:
+          extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          zip-path: yameen-chrome.zip
+          publish: true
+
+      # ── Upload to Firefox Add-ons ──
+      - name: Publish to Firefox Add-ons
+        uses: yayuyokitano/firefox-addon@v1
+        with:
+          api-key: ${{ secrets.FIREFOX_API_KEY }}
+          api-secret: ${{ secrets.FIREFOX_API_SECRET }}
+          guid: 'yameen@arj.dev'
+          xpi-path: yameen-firefox.zip
+
+      # ── Create GitHub Release ──
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            yameen-chrome.zip
+            yameen-firefox.zip
+          body: |
+            ## يمين v${{ steps.version.outputs.VERSION }}
+
+            ### التغييرات
+            - See commit history for details
+
+            ### التثبيت
+            - [Chrome Web Store](https://chrome.google.com/webstore/detail/EXTENSION_ID)
+            - [Firefox Add-ons](https://addons.mozilla.org/addon/yameen/)
+            - [Safari — Mac App Store](https://apps.apple.com/app/yameen/ID)

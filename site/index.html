@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>يمين — Arabic RTL for AI & Productivity</title>
+<meta name="description" content="إضافة متصفح تكتشف العربية تلقائياً وتحوّل الاتجاه. تدعم 20+ منصة. ثبّت من المتجر وابدأ.">
+<meta property="og:title" content="يمين — Arabic RTL for AI & Productivity">
+<meta property="og:description" content="إضافة متصفح تكتشف العربية تلقائياً وتحوّل الاتجاه. تدعم 20+ منصة.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+Arabic:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #c89b3c;
+  --gold-light: #e0b95c;
+  --gold-dim: #9a7a2e;
+  --gold-glow: rgba(200,155,60,0.12);
+  --gold-glow-strong: rgba(200,155,60,0.25);
+  --bg: #080808;
+  --bg-2: #0e0e0e;
+  --surface: #131313;
+  --surface-2: #1a1a1a;
+  --border: rgba(255,255,255,0.05);
+  --border-2: rgba(255,255,255,0.08);
+  --text: #e8e4db;
+  --text-2: #9a9590;
+  --text-3: #5a5652;
+  --text-4: #3a3835;
+  --green: #4ade80;
+  --red: #ef4444;
+  --mono: 'IBM Plex Mono', monospace;
+  --sans: 'Noto Sans Arabic', -apple-system, sans-serif;
+  --display: 'Amiri', serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--gold);color:var(--bg)}
+img{max-width:100%}
+a{text-decoration:none}
+
+/* ── Grain ── */
+body::after{content:"";position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:9999}
+
+/* ── Geometric Pattern ── */
+.geo-pattern{position:absolute;width:100%;height:100%;opacity:0.03;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 0L80 40L40 80L0 40Z' fill='none' stroke='%23c89b3c' stroke-width='0.5'/%3E%3Cpath d='M40 10L70 40L40 70L10 40Z' fill='none' stroke='%23c89b3c' stroke-width='0.3'/%3E%3C/svg%3E")}
+
+.wrap{max-width:1000px;margin:0 auto;padding:0 32px}
+
+/* ── Scroll Animations ── */
+.sr{opacity:0;transform:translateY(32px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1)}
+.sr.visible{opacity:1;transform:translateY(0)}
+.sr-d1{transition-delay:0.1s}.sr-d2{transition-delay:0.2s}.sr-d3{transition-delay:0.3s}.sr-d4{transition-delay:0.4s}.sr-d5{transition-delay:0.5s}
+
+/* ── Nav ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(8,8,8,0.75);border-bottom:1px solid var(--border);transition:padding 0.3s}
+nav.scrolled{padding:10px 32px;background:rgba(8,8,8,0.92)}
+.brand{display:flex;align-items:center;gap:10px;color:var(--text)}
+.brand-ico{width:30px;height:30px;background:var(--gold);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:var(--bg)}
+.brand span{font-size:16px;font-weight:600}
+.nav-links{display:flex;gap:24px;list-style:none}
+.nav-links a{color:var(--text-3);font-size:13px;transition:color 0.2s;font-weight:400}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{background:var(--gold);color:var(--bg);padding:7px 20px;border-radius:6px;font-size:13px;font-weight:600;transition:all 0.2s;border:none;cursor:pointer}
+.nav-cta:hover{background:var(--gold-light)}
+
+/* ── Hero ── */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;padding:120px 32px 80px;overflow:hidden}
+.hero-glow{position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(ellipse, var(--gold-glow) 0%, transparent 65%);pointer-events:none;animation:pulse 6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:0.6;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.08)}}
+.hero-badge{display:inline-block;font-family:var(--mono);font-size:12px;color:var(--gold);border:1px solid rgba(200,155,60,0.25);padding:5px 16px;border-radius:100px;margin-bottom:32px;letter-spacing:0.3px;opacity:0;animation:fadeIn 0.6s 0.3s forwards}
+@keyframes fadeIn{to{opacity:1}}
+.hero h1{font-family:var(--display);font-size:clamp(44px,9vw,88px);font-weight:700;line-height:1.15;margin-bottom:28px;color:#fff;opacity:0;animation:heroIn 1s 0.5s cubic-bezier(0.16,1,0.3,1) forwards}
+@keyframes heroIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.hero h1 em{font-style:normal;color:var(--gold);position:relative}
+.hero h1 em::after{content:"";position:absolute;bottom:4px;right:0;width:100%;height:3px;background:var(--gold);opacity:0.3;border-radius:2px}
+.hero-sub{font-size:18px;color:var(--text-2);max-width:520px;margin:0 auto 44px;line-height:1.9;font-weight:300;opacity:0;animation:fadeIn 0.8s 0.8s forwards}
+.hero-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;opacity:0;animation:fadeIn 0.8s 1s forwards}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:var(--bg);padding:15px 40px;border-radius:8px;font-size:16px;font-weight:600;font-family:var(--sans);transition:all 0.25s;border:none;cursor:pointer}
+.btn-primary:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 32px rgba(200,155,60,0.25)}
+.btn-ghost{display:inline-flex;align-items:center;gap:6px;color:var(--text-2);padding:15px 28px;border:1px solid var(--border-2);border-radius:8px;font-size:14px;font-family:var(--sans);transition:all 0.2s}
+.btn-ghost:hover{color:var(--text);border-color:var(--gold-dim)}
+.hero-note{margin-top:28px;font-size:12px;color:var(--text-4);opacity:0;animation:fadeIn 0.8s 1.2s forwards}
+.hero-note span{color:var(--green);font-weight:500}
+
+/* ── Stats Bar ── */
+.stats-bar{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:32px 0;background:var(--bg-2)}
+.stats-grid{display:flex;justify-content:center;gap:64px;flex-wrap:wrap}
+.stat{text-align:center}
+.stat .num{font-family:var(--mono);font-size:36px;font-weight:500;color:var(--gold);line-height:1}
+.stat .label{font-size:12px;color:var(--text-3);margin-top:6px}
+
+/* ── Platforms ── */
+.platforms{padding:80px 0;text-align:center}
+.platforms .label{font-family:var(--mono);font-size:11px;color:var(--text-4);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:28px}
+.platform-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:780px;margin:0 auto}
+.ptag{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;background:var(--surface);border:1px solid var(--border);border-radius:100px;font-size:13px;color:var(--text-2);transition:all 0.25s;cursor:default}
+.ptag:hover{border-color:rgba(200,155,60,0.3);color:var(--text);background:var(--surface-2)}
+.ptag .d{width:5px;height:5px;border-radius:50%;background:var(--gold)}
+.ptag.new::after{content:"جديد";font-size:9px;background:var(--gold-glow);color:var(--gold);padding:1px 6px;border-radius:4px;margin-right:4px}
+
+/* ── Section ── */
+.section{padding:100px 0}
+.sec-head{text-align:center;margin-bottom:60px}
+.sec-num{font-family:var(--mono);font-size:11px;color:var(--gold-dim);letter-spacing:1px;margin-bottom:10px}
+.sec-head h2{font-family:var(--display);font-size:clamp(28px,5vw,40px);font-weight:700;color:#fff;margin-bottom:14px}
+.sec-head p{font-size:15px;color:var(--text-2);max-width:480px;margin:0 auto;font-weight:300}
+.divider{width:48px;height:1px;background:var(--gold-dim);margin:0 auto 14px;opacity:0.5}
+
+/* ── Interactive Demo / Before-After Slider ── */
+.demo-frame{max-width:680px;margin:0 auto;background:#111;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.06);box-shadow:0 24px 80px rgba(0,0,0,0.5)}
+.demo-chrome{display:flex;align-items:center;padding:11px 16px;background:#181818;border-bottom:1px solid rgba(255,255,255,0.06);gap:8px}
+.demo-dots{display:flex;gap:6px}
+.demo-dots span{width:11px;height:11px;border-radius:50%;display:block}
+.demo-url-bar{flex:1;margin:0 12px;background:rgba(255,255,255,0.05);border-radius:6px;padding:5px 12px}
+.demo-url-bar span{font-family:var(--mono);font-size:11px;color:rgba(255,255,255,0.3);letter-spacing:0.2px}
+.slider-area{position:relative;min-height:400px;cursor:col-resize;user-select:none;-webkit-user-select:none;overflow:hidden}
+.sl-layer{padding:28px 28px 48px;position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden}
+.sl-before{position:relative;background:#111}
+.sl-after{background:#111;clip-path:inset(0 0 0 50%);z-index:2}
+.sl-msg-row{display:flex;align-items:center;gap:7px;margin-bottom:12px}
+.sl-avatar{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.sl-av-user{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.4)}
+.sl-av-ai{background:rgba(200,155,60,0.15);color:rgba(200,155,60,0.8)}
+.sl-msg-name{font-size:11px;color:rgba(255,255,255,0.3);font-weight:500;letter-spacing:0.3px}
+.sl-q{background:rgba(255,255,255,0.04);border-radius:10px;padding:11px 15px;margin-bottom:18px;font-size:13px;color:rgba(255,255,255,0.65);line-height:1.7;direction:ltr;text-align:left;border:1px solid rgba(255,255,255,0.04)}
+.sl-a{font-size:13.5px;line-height:1.85;color:rgba(255,255,255,0.72)}
+.sl-a.broken{direction:ltr;text-align:left}
+.sl-a.fixed{direction:rtl;text-align:right}
+.sl-a strong{color:rgba(255,255,255,0.9);font-weight:600}
+.sl-a .en{direction:ltr;unicode-bidi:isolate;color:rgba(200,155,60,0.7);font-family:var(--mono);font-size:12px}
+.sl-a .num{color:rgba(200,155,60,0.8);font-weight:600;font-feature-settings:"lnum"}
+.sl-a .bullet{display:block;margin:5px 0}
+.sl-code{background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);border-radius:8px;margin-top:14px;overflow:hidden}
+.sl-code-hdr{display:flex;align-items:center;justify-content:space-between;padding:7px 14px;border-bottom:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02)}
+.sl-code-lang{font-family:var(--mono);font-size:10px;color:rgba(255,255,255,0.2);letter-spacing:0.5px;text-transform:uppercase}
+.sl-code-cp{font-size:10px;color:rgba(255,255,255,0.2);padding:2px 8px;border:1px solid rgba(255,255,255,0.06);border-radius:4px}
+.sl-code-body{padding:12px 14px;font-family:var(--mono);font-size:11.5px;line-height:1.75;color:rgba(255,255,255,0.4);direction:ltr;text-align:left;white-space:pre}
+.sl-code-body .kw{color:#c586c0}.sl-code-body .fn{color:#dcdcaa}.sl-code-body .str{color:#ce9178}.sl-code-body .cm{color:rgba(255,255,255,0.18)}
+.sl-handle{position:absolute;top:0;left:50%;width:2px;height:100%;background:rgba(200,155,60,0.5);z-index:20;transform:translateX(-50%)}
+.sl-knob{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:28px;height:28px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;cursor:col-resize;box-shadow:0 2px 12px rgba(200,155,60,0.3)}
+.sl-knob svg{width:12px;height:12px}
+.sl-wm-bar{position:absolute;bottom:0;left:0;right:0;height:32px;display:flex;z-index:25;pointer-events:none;border-top:1px solid rgba(255,255,255,0.04);background:rgba(17,17,17,0.95)}
+.sl-wm-side{flex:1;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;letter-spacing:0.3px;gap:5px}
+.sl-wm-before{color:rgba(239,68,68,0.5)}
+.sl-wm-after{color:rgba(74,222,128,0.55)}
+.sl-wm-sep{width:2px;background:rgba(200,155,60,0.5);align-self:stretch}
+
+/* ── Features ── */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.feat{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:32px 24px;transition:all 0.3s;position:relative;overflow:hidden}
+.feat:hover{border-color:rgba(200,155,60,0.15);transform:translateY(-2px)}
+.feat::before{content:"";position:absolute;top:0;right:0;width:100%;height:2px;background:linear-gradient(to left,var(--gold),transparent);opacity:0;transition:opacity 0.3s}
+.feat:hover::before{opacity:1}
+.feat-icon{width:40px;height:40px;border-radius:10px;background:var(--gold-glow);border:1px solid rgba(200,155,60,0.1);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--gold);margin-bottom:18px}
+.feat h3{font-size:15px;font-weight:600;margin-bottom:8px}
+.feat p{font-size:13px;color:var(--text-2);line-height:1.7;font-weight:300}
+
+/* ── Comparison ── */
+.comp-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:14px;background:var(--surface)}
+table.comp{width:100%;border-collapse:collapse;font-size:13px;min-width:600px}
+table.comp th{padding:14px 16px;font-weight:500;color:var(--text-3);border-bottom:1px solid var(--border);text-align:right;font-size:12px;background:var(--surface)}
+table.comp th.hl{color:var(--gold);background:var(--gold-glow)}
+table.comp td{padding:12px 16px;border-bottom:1px solid var(--border);color:var(--text-2);text-align:right;transition:background 0.2s}
+table.comp td:first-child{color:var(--text);font-weight:400}
+table.comp td.hl{background:rgba(200,155,60,0.04)}
+table.comp tr:last-child td{border-bottom:none}
+table.comp tr:hover td{background:rgba(255,255,255,0.015)}
+table.comp tr:hover td.hl{background:rgba(200,155,60,0.06)}
+.y{color:var(--green)}.n{color:#333}
+
+/* ── Install ── */
+.tabs{display:flex;gap:6px;justify-content:center;margin-bottom:36px;flex-wrap:wrap}
+.tab-btn{padding:10px 24px;font-size:13px;font-family:var(--sans);background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text-3);cursor:pointer;transition:all 0.2s}
+.tab-btn:hover{color:var(--text);border-color:var(--border-2)}
+.tab-btn.active{background:var(--gold-glow);border-color:rgba(200,155,60,0.25);color:var(--gold)}
+.tab-btn.detected::after{content:"متصفحك";font-size:9px;background:var(--gold);color:var(--bg);padding:1px 6px;border-radius:3px;margin-right:6px;font-weight:600}
+.tab-panel{display:none;max-width:620px;margin:0 auto}
+.tab-panel.active{display:block}
+.steps{counter-reset:step}
+.step{display:flex;gap:20px;padding:22px 0;border-bottom:1px solid var(--border)}
+.step:last-child{border-bottom:none}
+.step::before{counter-increment:step;content:counter(step);font-family:var(--mono);font-size:13px;color:var(--gold);font-weight:500;flex-shrink:0;width:32px;height:32px;border:1px solid rgba(200,155,60,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--gold-glow)}
+.step h4{font-size:14px;font-weight:500;margin-bottom:4px}
+.step p{font-size:13px;color:var(--text-2);font-weight:300}
+.step code{font-family:var(--mono);font-size:12px;background:var(--surface-2);padding:2px 8px;border-radius:4px;direction:ltr;unicode-bidi:isolate;color:var(--gold-dim);border:1px solid var(--border)}
+
+/* ── CTA ── */
+.final-cta{padding:100px 0;text-align:center;position:relative}
+.final-cta::before{content:"";position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(ellipse,var(--gold-glow) 0%,transparent 70%);pointer-events:none}
+.final-cta h2{font-family:var(--display);font-size:clamp(32px,6vw,52px);font-weight:700;color:#fff;margin-bottom:16px}
+.final-cta p{font-size:15px;color:var(--text-2);margin-bottom:36px;font-weight:300}
+
+/* ── Footer ── */
+footer{padding:40px 0;text-align:center;border-top:1px solid var(--border)}
+footer p{font-size:12px;color:var(--text-4)}
+footer a{color:var(--text-3);transition:color 0.2s}
+footer a:hover{color:var(--gold)}
+
+/* ── Responsive ── */
+@media(max-width:768px){
+  .wrap{padding:0 20px}
+  nav{padding:12px 20px}
+  .nav-links{display:none}
+  .hero{padding:100px 20px 60px;min-height:auto}
+  .stats-grid{gap:32px}
+  .feat-grid{grid-template-columns:1fr}
+  .slider-wrap{cursor:default}
+  .hero-actions{flex-direction:column;align-items:center}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#" class="brand">
+    <div class="brand-ico">يـ</div>
+    <span>يمين</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#demo">التجربة</a></li>
+    <li><a href="#features">المميزات</a></li>
+    <li><a href="#compare">المقارنة</a></li>
+    <li><a href="#install">التثبيت</a></li>
+  </ul>
+  <a href="#install" class="nav-cta">حمّل الآن</a>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="geo-pattern"></div>
+  <div class="hero-badge">v1.0.0 &mdash; متاح الآن على Chrome · Firefox · Safari</div>
+  <h1>اقرأ العربية<br>بشكلها <em>الصحيح</em></h1>
+  <p class="hero-sub">إضافة متصفح تكتشف العربية تلقائياً وتعيد الاتجاه. تدعم كل منصات الذكاء الاصطناعي والإنتاجية. ثبّت وانسَ.</p>
+  <div class="hero-actions">
+    <a href="#install" class="btn-primary">حمّل يمين مجاناً &larr;</a>
+    <a href="#demo" class="btn-ghost">شاهد الفرق &darr;</a>
+  </div>
+  <p class="hero-note"><span>&#9679;</span> مجاني ومفتوح المصدر &middot; بدون تتبع &middot; بدون إعدادات</p>
+</section>
+
+<!-- ═══ STATS BAR ═══ -->
+<div class="stats-bar">
+  <div class="wrap">
+    <div class="stats-grid">
+      <div class="stat sr"><div class="num" data-count="20">0</div><div class="label">منصة مدعومة</div></div>
+      <div class="stat sr sr-d1"><div class="num" data-count="3">0</div><div class="label">متصفحات رئيسية</div></div>
+      <div class="stat sr sr-d2"><div class="num">0</div><div class="label">بيانات مُرسلة</div></div>
+      <div class="stat sr sr-d3"><div class="num">&lt;10</div><div class="label">KB حجم الإضافة</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PLATFORMS ═══ -->
+<section class="platforms">
+  <div class="wrap">
+    <div class="label sr">يعمل على كل هذه المنصات</div>
+    <div class="platform-grid sr sr-d1">
+      <span class="ptag"><span class="d"></span>Claude</span>
+      <span class="ptag"><span class="d"></span>ChatGPT</span>
+      <span class="ptag"><span class="d"></span>Gemini</span>
+      <span class="ptag"><span class="d"></span>Grok</span>
+      <span class="ptag"><span class="d"></span>DeepSeek</span>
+      <span class="ptag"><span class="d"></span>Perplexity</span>
+      <span class="ptag"><span class="d"></span>Mistral</span>
+      <span class="ptag"><span class="d"></span>Copilot</span>
+      <span class="ptag"><span class="d"></span>Poe</span>
+      <span class="ptag"><span class="d"></span>HuggingChat</span>
+      <span class="ptag"><span class="d"></span>AI Studio</span>
+      <span class="ptag"><span class="d"></span>LM Arena</span>
+      <span class="ptag new"><span class="d"></span>Notion</span>
+      <span class="ptag new"><span class="d"></span>Coda</span>
+      <span class="ptag new"><span class="d"></span>Google Docs</span>
+      <span class="ptag"><span class="d"></span>Linear</span>
+      <span class="ptag"><span class="d"></span>ClickUp</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DEMO ═══ -->
+<section class="section" id="demo">
+  <div class="wrap">
+    <div class="sec-head sr">
+      <div class="sec-num">01</div>
+      <div class="divider"></div>
+      <h2>اسحب وقارن</h2>
+      <p>اسحب الخط الذهبي لترى الفرق بين قبل وبعد يمين.</p>
+    </div>
+    <div class="demo-frame sr sr-d2">
+      <div class="demo-chrome">
+        <div class="demo-dots"><span style="background:#ff5f57"></span><span style="background:#ffbd2e"></span><span style="background:#28c840"></span></div>
+        <div class="demo-url-bar"><span>claude.ai/chat</span></div>
+      </div>
+      <div class="slider-area" id="slider">
+
+        <!-- BEFORE (broken LTR) -->
+        <div class="sl-layer sl-before">
+          <div class="sl-msg-row"><div class="sl-avatar sl-av-user">Y</div><span class="sl-msg-name">You</span></div>
+          <div class="sl-q">اشرح لي مبادئ SOLID بالعربي مع مثال كود</div>
+          <div class="sl-msg-row"><div class="sl-avatar sl-av-ai">C</div><span class="sl-msg-name">Claude</span></div>
+          <div class="sl-a broken">
+            مبادئ SOLID هي 5 قواعد أساسية في البرمجة الكائنية. ظهرت أول مرة سنة 2000 على يد Robert C. Martin وتساعدك تكتب كود نظيف:
+            <span class="bullet">1. مبدأ المسؤولية الواحدة (SRP): كل كلاس يسوّي شي واحد بس.</span>
+            <span class="bullet">2. مبدأ الفتح/الإغلاق (OCP): الكود مفتوح للتوسعة، مقفل للتعديل.</span>
+            <span class="bullet">3. مبدأ استبدال ليسكوف (LSP): أي subclass لازم يشتغل مكان الـ parent بنسبة 100%.</span>
+          </div>
+          <div class="sl-code">
+            <div class="sl-code-hdr"><span class="sl-code-lang">python</span><span class="sl-code-cp">Copy</span></div>
+            <div class="sl-code-body"><span class="cm"># SRP: each class has 1 job</span>
+<span class="kw">class</span> <span class="fn">InvoiceCalculator</span>:
+    <span class="kw">def</span> <span class="fn">calculate</span>(self, items):
+        <span class="kw">return</span> <span class="fn">sum</span>(i.price <span class="kw">for</span> i <span class="kw">in</span> items)
+
+<span class="kw">class</span> <span class="fn">InvoicePrinter</span>:
+    <span class="kw">def</span> <span class="fn">print_invoice</span>(self, inv):
+        <span class="fn">print</span>(<span class="str">f"Total: {inv.total}"</span>)</div>
+          </div>
+        </div>
+
+        <!-- AFTER (fixed RTL) -->
+        <div class="sl-layer sl-after" id="slider-after">
+          <div class="sl-msg-row" style="direction:ltr;text-align:left"><div class="sl-avatar sl-av-user">Y</div><span class="sl-msg-name">You</span></div>
+          <div class="sl-q">اشرح لي مبادئ SOLID بالعربي مع مثال كود</div>
+          <div class="sl-msg-row" style="direction:rtl"><div class="sl-avatar sl-av-ai">C</div><span class="sl-msg-name">Claude</span></div>
+          <div class="sl-a fixed">
+            مبادئ <span class="en">SOLID</span> هي <span class="num">5</span> قواعد أساسية في البرمجة الكائنية. ظهرت أول مرة سنة <span class="num">2000</span> على يد <span class="en">Robert C. Martin</span> وتساعدك تكتب كود نظيف:
+            <span class="bullet"><span class="num">1.</span> <strong>مبدأ المسؤولية الواحدة</strong> (<span class="en">SRP</span>): كل كلاس يسوّي شي واحد بس.</span>
+            <span class="bullet"><span class="num">2.</span> <strong>مبدأ الفتح/الإغلاق</strong> (<span class="en">OCP</span>): الكود مفتوح للتوسعة، مقفل للتعديل.</span>
+            <span class="bullet"><span class="num">3.</span> <strong>مبدأ استبدال ليسكوف</strong> (<span class="en">LSP</span>): أي <span class="en">subclass</span> لازم يشتغل مكان الـ <span class="en">parent</span> بنسبة <span class="num">100%</span>.</span>
+          </div>
+          <div class="sl-code">
+            <div class="sl-code-hdr"><span class="sl-code-lang">python</span><span class="sl-code-cp">Copy</span></div>
+            <div class="sl-code-body"><span class="cm"># SRP: each class has 1 job</span>
+<span class="kw">class</span> <span class="fn">InvoiceCalculator</span>:
+    <span class="kw">def</span> <span class="fn">calculate</span>(self, items):
+        <span class="kw">return</span> <span class="fn">sum</span>(i.price <span class="kw">for</span> i <span class="kw">in</span> items)
+
+<span class="kw">class</span> <span class="fn">InvoicePrinter</span>:
+    <span class="kw">def</span> <span class="fn">print_invoice</span>(self, inv):
+        <span class="fn">print</span>(<span class="str">f"Total: {inv.total}"</span>)</div>
+          </div>
+        </div>
+
+        <!-- Handle -->
+        <div class="sl-handle" id="slider-handle">
+          <div class="sl-knob"><svg viewBox="0 0 12 12" fill="none"><path d="M4 2L1.5 6L4 10" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 2L10.5 6L8 10" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+
+        <!-- Bottom bar -->
+        <div class="sl-wm-bar">
+          <div class="sl-wm-side sl-wm-before">بدون يمين</div>
+          <div class="sl-wm-sep" id="slider-sep"></div>
+          <div class="sl-wm-side sl-wm-after">&#10003; مع يمين</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FEATURES ═══ -->
+<section class="section" id="features">
+  <div class="wrap">
+    <div class="sec-head sr">
+      <div class="sec-num">02</div>
+      <div class="divider"></div>
+      <h2>صُمم ليختفي</h2>
+      <p>ثبّت مرة واحدة. الباقي يحدث بصمت.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat sr"><div class="feat-icon">&#x2192;</div><h3>كشف تلقائي</h3><p>يفحص كل فقرة وعنوان وخلية جدول. إذا تجاوزت نسبة العربية 12% — ينقلب الاتجاه فوراً.</p></div>
+      <div class="feat sr sr-d1"><div class="feat-icon">&lt;/&gt;</div><h3>الكود في مكانه</h3><p>كتل الكود والرياضيات تبقى LTR حتى لو كان النص العربي يحيط بها من كل جانب.</p></div>
+      <div class="feat sr sr-d2"><div class="feat-icon">123</div><h3>اختيار الأرقام</h3><p>أرقام عربية (1, 2, 3) أو هندية (١, ٢, ٣). أنت تختار، يمين ينفّذ.</p></div>
+      <div class="feat sr sr-d3"><div class="feat-icon">&#x25ce;</div><h3>ثلاث مستويات</h3><p>Off لإيقاف يمين. Auto للكشف الذكي. Force لتحويل الصفحة بالكامل.</p></div>
+      <div class="feat sr sr-d4"><div class="feat-icon">&#x21bb;</div><h3>بث مباشر</h3><p>يتابع النص أثناء كتابة الرد ويحدّث الاتجاه لحظة بلحظة.</p></div>
+      <div class="feat sr sr-d5"><div class="feat-icon">&#x1f512;</div><h3>بدون تتبع</h3><p>لا تحليلات. لا اتصال خارجي. كل شيء يعمل محلياً في متصفحك.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ COMPARE ═══ -->
+<section class="section" id="compare">
+  <div class="wrap">
+    <div class="sec-head sr">
+      <div class="sec-num">03</div>
+      <div class="divider"></div>
+      <h2>لماذا يمين؟</h2>
+    </div>
+    <div class="comp-wrap sr sr-d1">
+    <table class="comp">
+      <thead><tr><th></th><th class="hl">يمين</th><th>اتجاه</th><th>RTL Responder</th><th>AI Chat RTL</th></tr></thead>
+      <tbody>
+        <tr><td>Claude</td><td class="hl y">&#10003;</td><td class="y">&#10003;</td><td class="y">&#10003;</td><td class="y">&#10003;</td></tr>
+        <tr><td>ChatGPT</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="y">&#10003;</td></tr>
+        <tr><td>Gemini + Grok</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="n">&#10007;</td></tr>
+        <tr><td>Perplexity + DeepSeek</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="y">&#10003;</td></tr>
+        <tr><td>Notion · Coda · Google Docs</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="n">&#10007;</td></tr>
+        <tr><td>Firefox</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="y">&#10003;</td></tr>
+        <tr><td>Safari</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="n">&#10007;</td></tr>
+        <tr><td>خيار الأرقام</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="n">&#10007;</td></tr>
+        <tr><td>وضع Force</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="n">&#10007;</td></tr>
+        <tr><td>متاح في المتاجر الرسمية</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="y">&#10003;</td><td class="y">&#10003;</td></tr>
+        <tr><td>عربية أولاً</td><td class="hl y">&#10003;</td><td class="y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ INSTALL ═══ -->
+<section class="section" id="install">
+  <div class="wrap">
+    <div class="sec-head sr">
+      <div class="sec-num">04</div>
+      <div class="divider"></div>
+      <h2>ثبّت في دقيقة</h2>
+      <p>اختر متصفحك. الإضافة تشتغل تلقائياً بعد التثبيت.</p>
+    </div>
+    <div class="tabs sr sr-d1" id="tabs"></div>
+    <div class="tab-panel active" id="tab-chrome">
+      <div class="steps">
+        <div class="step sr"><div class="step-text"><h4>افتح صفحة يمين في المتجر</h4><p>ابحث عن "يمين" في <code>Chrome Web Store</code> أو اضغط الرابط المباشر.</p></div></div>
+        <div class="step sr"><div class="step-text"><h4>اضغط "Add to Chrome"</h4><p>وافق على الأذونات المطلوبة — يمين يطلب فقط <code>storage</code> و <code>activeTab</code>.</p></div></div>
+        <div class="step sr"><div class="step-text"><h4>افتح أي منصة وابدأ</h4><p>الإضافة تشتغل تلقائياً. اضغط أيقونة يمين في شريط الأدوات لتعديل الإعدادات.</p></div></div>
+      </div>
+    </div>
+    <div class="tab-panel" id="tab-firefox">
+      <div class="steps">
+        <div class="step sr"><div class="step-text"><h4>افتح صفحة يمين في المتجر</h4><p>ابحث عن "يمين" في <code>Firefox Add-ons</code> أو اضغط الرابط المباشر.</p></div></div>
+        <div class="step sr"><div class="step-text"><h4>اضغط "Add to Firefox"</h4><p>وافق على الأذونات. يمين لا يحتاج صلاحيات حساسة.</p></div></div>
+        <div class="step sr"><div class="step-text"><h4>ابدأ مباشرة</h4><p>يمين يعمل فوراً على كل المنصات المدعومة.</p></div></div>
+      </div>
+    </div>
+    <div class="tab-panel" id="tab-safari">
+      <div class="steps">
+        <div class="step sr"><div class="step-text"><h4>حمّل من Mac App Store</h4><p>ابحث عن "يمين" في <code>App Store</code> وثبّته كتطبيق macOS.</p></div></div>
+        <div class="step sr"><div class="step-text"><h4>فعّل في Safari</h4><p>Safari &rarr; Settings &rarr; Extensions &rarr; فعّل يمين.</p></div></div>
+        <div class="step sr"><div class="step-text"><h4>ابدأ مباشرة</h4><p>الإضافة تعمل تلقائياً على كل المنصات المدعومة.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FINAL CTA ═══ -->
+<section class="final-cta">
+  <div class="wrap sr">
+    <h2>جاهز تقرأ بشكل <em style="font-style:normal;color:var(--gold)">صحيح</em>؟</h2>
+    <p>حمّل يمين الآن. مجاني ويشتغل في أقل من دقيقة.</p>
+    <a href="#install" class="btn-primary">حمّل يمين &larr;</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>يمين v1.0.0 &middot; MIT License &middot; <a href="privacy.html">سياسة الخصوصية</a> &middot; صُنع للقارئ العربي</p>
+  </div>
+</footer>
+
+<script>
+// ── Nav scroll effect ──
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ── Scroll reveal (IntersectionObserver) ──
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.sr').forEach(el => obs.observe(el));
+
+// ── Counter animation ──
+const cObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const target = parseInt(el.dataset.count);
+    if (!target) return;
+    let current = 0;
+    const step = Math.ceil(target / 30);
+    const timer = setInterval(() => {
+      current += step;
+      if (current >= target) { current = target; clearInterval(timer); }
+      el.textContent = current + '+';
+    }, 40);
+    cObs.unobserve(el);
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-count]').forEach(el => cObs.observe(el));
+
+// ── Before/After Slider ──
+const slider = document.getElementById('slider');
+const handle = document.getElementById('slider-handle');
+const after = document.getElementById('slider-after');
+const slSep = document.getElementById('slider-sep');
+let dragging = false;
+
+function setPos(x) {
+  const rect = slider.getBoundingClientRect();
+  let pct = ((x - rect.left) / rect.width) * 100;
+  pct = Math.max(10, Math.min(90, pct));
+  handle.style.left = pct + '%';
+  after.style.clipPath = `inset(0 0 0 ${pct}%)`;
+  slSep.style.position = 'absolute';
+  slSep.style.left = pct + '%';
+  slSep.style.transform = 'translateX(-50%)';
+}
+
+slider.addEventListener('mousedown', (e) => { dragging = true; setPos(e.clientX); });
+document.addEventListener('mousemove', (e) => { if (dragging) { e.preventDefault(); setPos(e.clientX); }});
+document.addEventListener('mouseup', () => { dragging = false; });
+slider.addEventListener('touchstart', (e) => { dragging = true; setPos(e.touches[0].clientX); }, { passive: true });
+document.addEventListener('touchmove', (e) => { if (dragging) setPos(e.touches[0].clientX); }, { passive: true });
+document.addEventListener('touchend', () => { dragging = false; });
+
+// ── Browser detection for tabs ──
+const tabContainer = document.getElementById('tabs');
+const ua = navigator.userAgent;
+let detected = 'chrome';
+if (/Firefox/i.test(ua)) detected = 'firefox';
+else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) detected = 'safari';
+
+const browsers = [
+  { id: 'chrome', label: 'Chrome / Arc / Edge' },
+  { id: 'firefox', label: 'Firefox' },
+  { id: 'safari', label: 'Safari' },
+];
+
+browsers.forEach(b => {
+  const btn = document.createElement('button');
+  btn.className = 'tab-btn' + (b.id === detected ? ' active detected' : '');
+  btn.textContent = b.label;
+  btn.onclick = () => {
+    document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + b.id).classList.add('active');
+  };
+  tabContainer.appendChild(btn);
+});
+
+// Show detected browser tab
+document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+document.getElementById('tab-' + detected).classList.add('active');
+</script>
+
+</body>
+</html>
