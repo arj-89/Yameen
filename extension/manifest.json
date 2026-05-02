@@ -3,7 +3,7 @@
   "name": "يمين — Arabic RTL for AI & Productivity",
   "short_name": "يمين",
   "version": "1.0.0",
-  "description": "Automatic Arabic RTL for Claude, ChatGPT, Gemini, Grok, DeepSeek, Perplexity, Notion, Coda, and more. Zero config — install and read.",
+  "description": "Arabic RTL for Claude, ChatGPT, Gemini, Grok, DeepSeek, Perplexity, Notion, Coda and more. Zero config — install and read.",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
