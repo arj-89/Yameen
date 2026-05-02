@@ -5,7 +5,7 @@ Thanks for wanting to help Arabic (and RTL) speakers read the web properly.
 ## Quick Start
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/yameen.git
+git clone https://github.com/arj-89/yameen.git
 cd yameen/extension
 ```
 

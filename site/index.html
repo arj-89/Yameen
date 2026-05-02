@@ -12,22 +12,21 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+Arabic:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --gold: #c89b3c;
-  --gold-light: #e0b95c;
-  --gold-dim: #9a7a2e;
-  --gold-glow: rgba(200,155,60,0.12);
-  --gold-glow-strong: rgba(200,155,60,0.25);
-  --bg: #080808;
-  --bg-2: #0e0e0e;
-  --surface: #131313;
-  --surface-2: #1a1a1a;
-  --border: rgba(255,255,255,0.05);
-  --border-2: rgba(255,255,255,0.08);
-  --text: #e8e4db;
-  --text-2: #9a9590;
-  --text-3: #5a5652;
-  --text-4: #3a3835;
-  --green: #4ade80;
+  --gold: #4f46e5;
+  --gold-light: #6366f1;
+  --gold-dim: #4338ca;
+  --gold-glow: rgba(79,70,229,0.12);
+  --gold-glow-strong: rgba(79,70,229,0.25);
+  --navy: #002253;
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --text: #1a1a1a;
+  --text-2: #64748b;
+  --text-3: #94a3b8;
+  --text-4: #cbd5e1;
+  --border: rgba(0,0,0,0.06);
+  --border-2: rgba(0,0,0,0.10);
+  --green: #22c55e;
   --red: #ef4444;
   --mono: 'IBM Plex Mono', monospace;
   --sans: 'Noto Sans Arabic', -apple-system, sans-serif;
@@ -35,81 +34,76 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-::selection{background:var(--gold);color:var(--bg)}
+body{font-family:var(--sans);background:linear-gradient(to top,#ffffff,#c6e6fa);background-attachment:fixed;min-height:100vh;color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--gold);color:#fff}
 img{max-width:100%}
 a{text-decoration:none}
-
-/* ── Grain ── */
-body::after{content:"";position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:9999}
-
-/* ── Geometric Pattern ── */
-.geo-pattern{position:absolute;width:100%;height:100%;opacity:0.03;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 0L80 40L40 80L0 40Z' fill='none' stroke='%23c89b3c' stroke-width='0.5'/%3E%3Cpath d='M40 10L70 40L40 70L10 40Z' fill='none' stroke='%23c89b3c' stroke-width='0.3'/%3E%3C/svg%3E")}
 
 .wrap{max-width:1000px;margin:0 auto;padding:0 32px}
 
 /* ── Scroll Animations ── */
-.sr{opacity:0;transform:translateY(32px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1)}
+.sr{opacity:0;transform:translateY(32px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1)}
 .sr.visible{opacity:1;transform:translateY(0)}
 .sr-d1{transition-delay:0.1s}.sr-d2{transition-delay:0.2s}.sr-d3{transition-delay:0.3s}.sr-d4{transition-delay:0.4s}.sr-d5{transition-delay:0.5s}
 
 /* ── Nav ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(8,8,8,0.75);border-bottom:1px solid var(--border);transition:padding 0.3s}
-nav.scrolled{padding:10px 32px;background:rgba(8,8,8,0.92)}
-.brand{display:flex;align-items:center;gap:10px;color:var(--text)}
-.brand-ico{width:30px;height:30px;background:var(--gold);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:var(--bg)}
-.brand span{font-size:16px;font-weight:600}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(255,255,255,0.85);border-bottom:1px solid var(--border);transition:padding 0.3s,box-shadow 0.3s}
+nav.scrolled{padding:10px 32px;background:rgba(255,255,255,0.95);box-shadow:0 2px 16px rgba(0,0,0,0.06)}
+.brand{display:flex;align-items:center;gap:10px;color:var(--navy)}
+.brand-ico{width:30px;height:30px;background:var(--gold);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#fff}
+.brand span{font-size:16px;font-weight:600;color:var(--navy)}
 .nav-links{display:flex;gap:24px;list-style:none}
-.nav-links a{color:var(--text-3);font-size:13px;transition:color 0.2s;font-weight:400}
-.nav-links a:hover{color:var(--text)}
-.nav-cta{background:var(--gold);color:var(--bg);padding:7px 20px;border-radius:6px;font-size:13px;font-weight:600;transition:all 0.2s;border:none;cursor:pointer}
-.nav-cta:hover{background:var(--gold-light)}
+.nav-links a{color:var(--text-2);font-size:13px;transition:color 0.2s;font-weight:400}
+.nav-links a:hover{color:var(--navy)}
+.nav-cta{background:var(--gold);color:#fff;padding:7px 20px;border-radius:12px;font-size:13px;font-weight:600;transition:all 0.2s;border:none;cursor:pointer}
+.nav-cta:hover{background:var(--gold-light);transform:translateY(-1px)}
 
 /* ── Hero ── */
 .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;padding:120px 32px 80px;overflow:hidden}
-.hero-glow{position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(ellipse, var(--gold-glow) 0%, transparent 65%);pointer-events:none;animation:pulse 6s ease-in-out infinite}
+.hero-glow{position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(ellipse,rgba(79,70,229,0.07) 0%,transparent 65%);pointer-events:none;animation:pulse 6s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:0.6;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.08)}}
-.hero-badge{display:inline-block;font-family:var(--mono);font-size:12px;color:var(--gold);border:1px solid rgba(200,155,60,0.25);padding:5px 16px;border-radius:100px;margin-bottom:32px;letter-spacing:0.3px;opacity:0;animation:fadeIn 0.6s 0.3s forwards}
+.hero-badge{display:inline-block;font-family:var(--mono);font-size:12px;color:var(--gold);border:1px solid rgba(79,70,229,0.30);background:rgba(79,70,229,0.06);padding:5px 16px;border-radius:100px;margin-bottom:32px;letter-spacing:0.3px;opacity:0;animation:fadeIn 0.6s 0.3s forwards}
 @keyframes fadeIn{to{opacity:1}}
-.hero h1{font-family:var(--display);font-size:clamp(44px,9vw,88px);font-weight:700;line-height:1.15;margin-bottom:28px;color:#fff;opacity:0;animation:heroIn 1s 0.5s cubic-bezier(0.16,1,0.3,1) forwards}
+.hero h1{font-family:var(--display);font-size:clamp(44px,9vw,88px);font-weight:700;line-height:1.2;margin-bottom:28px;color:var(--navy);opacity:0;animation:heroIn 1s 0.5s cubic-bezier(0.16,1,0.3,1) forwards}
 @keyframes heroIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 .hero h1 em{font-style:normal;color:var(--gold);position:relative}
 .hero h1 em::after{content:"";position:absolute;bottom:4px;right:0;width:100%;height:3px;background:var(--gold);opacity:0.3;border-radius:2px}
 .hero-sub{font-size:18px;color:var(--text-2);max-width:520px;margin:0 auto 44px;line-height:1.9;font-weight:300;opacity:0;animation:fadeIn 0.8s 0.8s forwards}
 .hero-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;opacity:0;animation:fadeIn 0.8s 1s forwards}
-.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:var(--bg);padding:15px 40px;border-radius:8px;font-size:16px;font-weight:600;font-family:var(--sans);transition:all 0.25s;border:none;cursor:pointer}
-.btn-primary:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 32px rgba(200,155,60,0.25)}
-.btn-ghost{display:inline-flex;align-items:center;gap:6px;color:var(--text-2);padding:15px 28px;border:1px solid var(--border-2);border-radius:8px;font-size:14px;font-family:var(--sans);transition:all 0.2s}
-.btn-ghost:hover{color:var(--text);border-color:var(--gold-dim)}
-.hero-note{margin-top:28px;font-size:12px;color:var(--text-4);opacity:0;animation:fadeIn 0.8s 1.2s forwards}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#fff;padding:15px 40px;border-radius:12px;font-size:16px;font-weight:600;font-family:var(--sans);transition:all 0.25s;border:none;cursor:pointer}
+.btn-primary:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 32px rgba(79,70,229,0.25)}
+.btn-ghost{display:inline-flex;align-items:center;gap:6px;color:var(--text-2);padding:15px 28px;border:1px solid var(--border-2);border-radius:12px;font-size:14px;font-family:var(--sans);transition:all 0.2s;background:rgba(255,255,255,0.8)}
+.btn-ghost:hover{color:var(--navy);border-color:var(--gold);background:#fff}
+.hero-note{margin-top:28px;font-size:12px;color:var(--text-3);opacity:0;animation:fadeIn 0.8s 1.2s forwards}
 .hero-note span{color:var(--green);font-weight:500}
 
 /* ── Stats Bar ── */
-.stats-bar{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:32px 0;background:var(--bg-2)}
+.stats-bar{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:32px 0;background:rgba(255,255,255,0.90);backdrop-filter:blur(8px)}
 .stats-grid{display:flex;justify-content:center;gap:64px;flex-wrap:wrap}
 .stat{text-align:center}
 .stat .num{font-family:var(--mono);font-size:36px;font-weight:500;color:var(--gold);line-height:1}
-.stat .label{font-size:12px;color:var(--text-3);margin-top:6px}
+.stat .label{font-size:12px;color:var(--text-2);margin-top:6px}
 
 /* ── Platforms ── */
 .platforms{padding:80px 0;text-align:center}
-.platforms .label{font-family:var(--mono);font-size:11px;color:var(--text-4);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:28px}
+.platforms .label{font-family:var(--mono);font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:28px}
 .platform-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:780px;margin:0 auto}
-.ptag{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;background:var(--surface);border:1px solid var(--border);border-radius:100px;font-size:13px;color:var(--text-2);transition:all 0.25s;cursor:default}
-.ptag:hover{border-color:rgba(200,155,60,0.3);color:var(--text);background:var(--surface-2)}
+.ptag{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;background:#ffffff;border:1px solid var(--border);border-radius:100px;font-size:13px;color:var(--text-2);transition:all 0.25s;cursor:default;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.ptag:hover{border-color:rgba(79,70,229,0.40);color:var(--navy);background:#fff;transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.10)}
 .ptag .d{width:5px;height:5px;border-radius:50%;background:var(--gold)}
 .ptag.new::after{content:"جديد";font-size:9px;background:var(--gold-glow);color:var(--gold);padding:1px 6px;border-radius:4px;margin-right:4px}
 
 /* ── Section ── */
-.section{padding:100px 0}
+.section{padding:120px 0}
 .sec-head{text-align:center;margin-bottom:60px}
 .sec-num{font-family:var(--mono);font-size:11px;color:var(--gold-dim);letter-spacing:1px;margin-bottom:10px}
-.sec-head h2{font-family:var(--display);font-size:clamp(28px,5vw,40px);font-weight:700;color:#fff;margin-bottom:14px}
+.sec-head h2{font-family:var(--display);font-size:clamp(28px,5vw,40px);font-weight:700;color:var(--navy);margin-bottom:14px}
 .sec-head p{font-size:15px;color:var(--text-2);max-width:480px;margin:0 auto;font-weight:300}
 .divider{width:48px;height:1px;background:var(--gold-dim);margin:0 auto 14px;opacity:0.5}
 
 /* ── Interactive Demo / Before-After Slider ── */
-.demo-frame{max-width:680px;margin:0 auto;background:#111;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.06);box-shadow:0 24px 80px rgba(0,0,0,0.5)}
+/* The demo frame stays dark — it simulates a browser window. The dark/light contrast is intentional. */
+.demo-frame{max-width:680px;margin:0 auto;background:#111;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.06);box-shadow:0 24px 80px rgba(0,0,0,0.18)}
 .demo-chrome{display:flex;align-items:center;padding:11px 16px;background:#181818;border-bottom:1px solid rgba(255,255,255,0.06);gap:8px}
 .demo-dots{display:flex;gap:6px}
 .demo-dots span{width:11px;height:11px;border-radius:50%;display:block}
@@ -139,7 +133,7 @@ nav.scrolled{padding:10px 32px;background:rgba(8,8,8,0.92)}
 .sl-code-body{padding:12px 14px;font-family:var(--mono);font-size:11.5px;line-height:1.75;color:rgba(255,255,255,0.4);direction:ltr;text-align:left;white-space:pre}
 .sl-code-body .kw{color:#c586c0}.sl-code-body .fn{color:#dcdcaa}.sl-code-body .str{color:#ce9178}.sl-code-body .cm{color:rgba(255,255,255,0.18)}
 .sl-handle{position:absolute;top:0;left:50%;width:2px;height:100%;background:rgba(200,155,60,0.5);z-index:20;transform:translateX(-50%)}
-.sl-knob{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:28px;height:28px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;cursor:col-resize;box-shadow:0 2px 12px rgba(200,155,60,0.3)}
+.sl-knob{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:28px;height:28px;border-radius:50%;background:#c89b3c;display:flex;align-items:center;justify-content:center;cursor:col-resize;box-shadow:0 2px 12px rgba(200,155,60,0.3)}
 .sl-knob svg{width:12px;height:12px}
 .sl-wm-bar{position:absolute;bottom:0;left:0;right:0;height:32px;display:flex;z-index:25;pointer-events:none;border-top:1px solid rgba(255,255,255,0.04);background:rgba(17,17,17,0.95)}
 .sl-wm-side{flex:1;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;letter-spacing:0.3px;gap:5px}
@@ -149,53 +143,56 @@ nav.scrolled{padding:10px 32px;background:rgba(8,8,8,0.92)}
 
 /* ── Features ── */
 .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.feat{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:32px 24px;transition:all 0.3s;position:relative;overflow:hidden}
-.feat:hover{border-color:rgba(200,155,60,0.15);transform:translateY(-2px)}
+.feat{background:#ffffff;border:1px solid var(--border);border-radius:12px;padding:32px 24px;transition:all 0.3s;position:relative;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.06)}
+.feat:hover{border-color:rgba(79,70,229,0.20);transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,0.10)}
 .feat::before{content:"";position:absolute;top:0;right:0;width:100%;height:2px;background:linear-gradient(to left,var(--gold),transparent);opacity:0;transition:opacity 0.3s}
 .feat:hover::before{opacity:1}
-.feat-icon{width:40px;height:40px;border-radius:10px;background:var(--gold-glow);border:1px solid rgba(200,155,60,0.1);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--gold);margin-bottom:18px}
-.feat h3{font-size:15px;font-weight:600;margin-bottom:8px}
+.feat-icon{width:40px;height:40px;border-radius:10px;background:var(--gold-glow);border:1px solid rgba(79,70,229,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--gold);margin-bottom:18px}
+.feat h3{font-size:15px;font-weight:600;margin-bottom:8px;color:var(--navy)}
 .feat p{font-size:13px;color:var(--text-2);line-height:1.7;font-weight:300}
 
 /* ── Comparison ── */
-.comp-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:14px;background:var(--surface)}
+.comp-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:12px;background:#ffffff;box-shadow:0 2px 16px rgba(0,0,0,0.06)}
 table.comp{width:100%;border-collapse:collapse;font-size:13px;min-width:600px}
-table.comp th{padding:14px 16px;font-weight:500;color:var(--text-3);border-bottom:1px solid var(--border);text-align:right;font-size:12px;background:var(--surface)}
-table.comp th.hl{color:var(--gold);background:var(--gold-glow)}
+table.comp th{padding:14px 16px;font-weight:500;color:var(--text-2);border-bottom:1px solid var(--border);text-align:right;font-size:12px;background:#f8fafc}
+table.comp th.hl{color:var(--gold);background:rgba(79,70,229,0.07)}
 table.comp td{padding:12px 16px;border-bottom:1px solid var(--border);color:var(--text-2);text-align:right;transition:background 0.2s}
 table.comp td:first-child{color:var(--text);font-weight:400}
-table.comp td.hl{background:rgba(200,155,60,0.04)}
+table.comp td.hl{background:rgba(79,70,229,0.04)}
 table.comp tr:last-child td{border-bottom:none}
-table.comp tr:hover td{background:rgba(255,255,255,0.015)}
-table.comp tr:hover td.hl{background:rgba(200,155,60,0.06)}
-.y{color:var(--green)}.n{color:#333}
+table.comp tbody tr:nth-child(even) td{background:#f8fafc}
+table.comp tbody tr:nth-child(even) td.hl{background:rgba(79,70,229,0.06)}
+table.comp tr:hover td{background:rgba(79,70,229,0.03)}
+table.comp tr:hover td.hl{background:rgba(79,70,229,0.08)}
+.y{color:var(--green);font-weight:600}.n{color:#d1d5db}
 
 /* ── Install ── */
 .tabs{display:flex;gap:6px;justify-content:center;margin-bottom:36px;flex-wrap:wrap}
-.tab-btn{padding:10px 24px;font-size:13px;font-family:var(--sans);background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text-3);cursor:pointer;transition:all 0.2s}
-.tab-btn:hover{color:var(--text);border-color:var(--border-2)}
-.tab-btn.active{background:var(--gold-glow);border-color:rgba(200,155,60,0.25);color:var(--gold)}
-.tab-btn.detected::after{content:"متصفحك";font-size:9px;background:var(--gold);color:var(--bg);padding:1px 6px;border-radius:3px;margin-right:6px;font-weight:600}
+.tab-btn{padding:10px 24px;font-size:13px;font-family:var(--sans);background:#ffffff;border:1px solid var(--border);border-radius:12px;color:var(--text-2);cursor:pointer;transition:all 0.2s;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.tab-btn:hover{color:var(--navy);border-color:var(--border-2);box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.tab-btn.active{background:var(--gold-glow);border-color:rgba(79,70,229,0.30);color:var(--gold)}
+.tab-btn.detected::after{content:"متصفحك";font-size:9px;background:var(--gold);color:#fff;padding:1px 6px;border-radius:3px;margin-right:6px;font-weight:600}
 .tab-panel{display:none;max-width:620px;margin:0 auto}
 .tab-panel.active{display:block}
-.steps{counter-reset:step}
-.step{display:flex;gap:20px;padding:22px 0;border-bottom:1px solid var(--border)}
-.step:last-child{border-bottom:none}
-.step::before{counter-increment:step;content:counter(step);font-family:var(--mono);font-size:13px;color:var(--gold);font-weight:500;flex-shrink:0;width:32px;height:32px;border:1px solid rgba(200,155,60,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--gold-glow)}
-.step h4{font-size:14px;font-weight:500;margin-bottom:4px}
+.steps{counter-reset:step;display:flex;flex-direction:column;gap:12px}
+.step{display:flex;gap:20px;padding:22px 24px;background:#ffffff;border:1px solid var(--border);border-radius:12px;box-shadow:0 2px 16px rgba(0,0,0,0.06);align-items:flex-start}
+.step::before{counter-increment:step;content:counter(step);font-family:var(--mono);font-size:13px;color:var(--gold);font-weight:500;flex-shrink:0;width:32px;height:32px;border:2px solid rgba(79,70,229,0.30);border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--gold-glow)}
+.step-text{flex:1}
+.step h4{font-size:14px;font-weight:600;margin-bottom:4px;color:var(--navy)}
 .step p{font-size:13px;color:var(--text-2);font-weight:300}
-.step code{font-family:var(--mono);font-size:12px;background:var(--surface-2);padding:2px 8px;border-radius:4px;direction:ltr;unicode-bidi:isolate;color:var(--gold-dim);border:1px solid var(--border)}
+.step code{font-family:var(--mono);font-size:12px;background:#f1f5f9;padding:2px 8px;border-radius:4px;direction:ltr;unicode-bidi:isolate;color:var(--gold-dim);border:1px solid var(--border)}
+.step a{color:var(--gold);text-decoration:underline;text-underline-offset:2px}
 
 /* ── CTA ── */
-.final-cta{padding:100px 0;text-align:center;position:relative}
-.final-cta::before{content:"";position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(ellipse,var(--gold-glow) 0%,transparent 70%);pointer-events:none}
-.final-cta h2{font-family:var(--display);font-size:clamp(32px,6vw,52px);font-weight:700;color:#fff;margin-bottom:16px}
+.final-cta{padding:120px 0;text-align:center;position:relative}
+.final-cta::before{content:"";position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(79,70,229,0.09) 0%,transparent 70%);pointer-events:none}
+.final-cta h2{font-family:var(--display);font-size:clamp(32px,6vw,52px);font-weight:700;color:var(--navy);margin-bottom:16px}
 .final-cta p{font-size:15px;color:var(--text-2);margin-bottom:36px;font-weight:300}
 
 /* ── Footer ── */
-footer{padding:40px 0;text-align:center;border-top:1px solid var(--border)}
-footer p{font-size:12px;color:var(--text-4)}
-footer a{color:var(--text-3);transition:color 0.2s}
+footer{padding:40px 0;text-align:center;border-top:1px solid var(--border);background:rgba(255,255,255,0.90)}
+footer p{font-size:12px;color:var(--text-3)}
+footer a{color:var(--text-2);transition:color 0.2s}
 footer a:hover{color:var(--gold)}
 
 /* ── Responsive ── */
@@ -230,7 +227,6 @@ footer a:hover{color:var(--gold)}
 <!-- ═══ HERO ═══ -->
 <section class="hero">
   <div class="hero-glow"></div>
-  <div class="geo-pattern"></div>
   <div class="hero-badge">v1.0.0 &mdash; متاح الآن على Chrome · Firefox · Safari</div>
   <h1>اقرأ العربية<br>بشكلها <em>الصحيح</em></h1>
   <p class="hero-sub">إضافة متصفح تكتشف العربية تلقائياً وتعيد الاتجاه. تدعم كل منصات الذكاء الاصطناعي والإنتاجية. ثبّت وانسَ.</p>
@@ -420,21 +416,21 @@ footer a:hover{color:var(--gold)}
     <div class="tabs sr sr-d1" id="tabs"></div>
     <div class="tab-panel active" id="tab-chrome">
       <div class="steps">
-        <div class="step sr"><div class="step-text"><h4>افتح صفحة يمين في المتجر</h4><p>ابحث عن "يمين" في <code>Chrome Web Store</code> أو اضغط الرابط المباشر.</p></div></div>
+        <div class="step sr"><div class="step-text"><h4>افتح صفحة يمين في المتجر</h4><p>ابحث عن "يمين" في <code>Chrome Web Store</code> أو اضغط <a href="#" title="TODO: add Chrome Web Store link after approval">الرابط المباشر</a>.</p></div></div><!-- TODO: add Chrome Web Store link after approval -->
         <div class="step sr"><div class="step-text"><h4>اضغط "Add to Chrome"</h4><p>وافق على الأذونات المطلوبة — يمين يطلب فقط <code>storage</code> و <code>activeTab</code>.</p></div></div>
         <div class="step sr"><div class="step-text"><h4>افتح أي منصة وابدأ</h4><p>الإضافة تشتغل تلقائياً. اضغط أيقونة يمين في شريط الأدوات لتعديل الإعدادات.</p></div></div>
       </div>
     </div>
     <div class="tab-panel" id="tab-firefox">
       <div class="steps">
-        <div class="step sr"><div class="step-text"><h4>افتح صفحة يمين في المتجر</h4><p>ابحث عن "يمين" في <code>Firefox Add-ons</code> أو اضغط الرابط المباشر.</p></div></div>
+        <div class="step sr"><div class="step-text"><h4>افتح صفحة يمين في المتجر</h4><p>ابحث عن "يمين" في <code>Firefox Add-ons</code> أو اضغط <a href="#" title="TODO: add Firefox link after approval">الرابط المباشر</a>.</p></div></div><!-- TODO: add Firefox link after approval -->
         <div class="step sr"><div class="step-text"><h4>اضغط "Add to Firefox"</h4><p>وافق على الأذونات. يمين لا يحتاج صلاحيات حساسة.</p></div></div>
         <div class="step sr"><div class="step-text"><h4>ابدأ مباشرة</h4><p>يمين يعمل فوراً على كل المنصات المدعومة.</p></div></div>
       </div>
     </div>
     <div class="tab-panel" id="tab-safari">
       <div class="steps">
-        <div class="step sr"><div class="step-text"><h4>حمّل من Mac App Store</h4><p>ابحث عن "يمين" في <code>App Store</code> وثبّته كتطبيق macOS.</p></div></div>
+        <div class="step sr"><div class="step-text"><h4>حمّل من Mac App Store</h4><p>ابحث عن "يمين" في <code>App Store</code> أو اضغط <a href="#" title="TODO: add Safari link after approval">الرابط المباشر</a> وثبّته كتطبيق macOS.</p></div></div><!-- TODO: add Safari link after approval -->
         <div class="step sr"><div class="step-text"><h4>فعّل في Safari</h4><p>Safari &rarr; Settings &rarr; Extensions &rarr; فعّل يمين.</p></div></div>
         <div class="step sr"><div class="step-text"><h4>ابدأ مباشرة</h4><p>الإضافة تعمل تلقائياً على كل المنصات المدعومة.</p></div></div>
       </div>
@@ -453,7 +449,7 @@ footer a:hover{color:var(--gold)}
 
 <footer>
   <div class="wrap">
-    <p>يمين v1.0.0 &middot; MIT License &middot; <a href="privacy.html">سياسة الخصوصية</a> &middot; صُنع للقارئ العربي</p>
+    <p>يمين v1.0.0 &middot; MIT License &middot; <a href="https://github.com/arj-89/yameen">GitHub</a> &middot; <a href="https://yameen.bixet.tech/privacy.html">سياسة الخصوصية</a> &middot; صُنع للقارئ العربي</p>
   </div>
 </footer>
 

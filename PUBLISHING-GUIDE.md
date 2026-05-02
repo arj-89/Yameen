@@ -14,24 +14,19 @@ Before submitting to any store, you need:
 - [ ] Apple Developer account ($99/year — you may already have one)
 - [ ] Screenshots: 1280x800px (at least 1, up to 5)
 - [ ] Small promo tile: 440x280px
-- [ ] Privacy policy URL (host privacy.html somewhere public)
-- [ ] Landing page URL (host index.html somewhere public)
+- [x] Privacy policy URL: https://yameen.bixet.tech/privacy.html
+- [x] Landing page URL: https://yameen.bixet.tech
 
 ---
 
-## 1. Host the Privacy Policy & Landing Page
+## 1. Site Hosting
 
-Before submitting to any store, host these two files at public URLs:
+The landing page and privacy policy are hosted at **https://yameen.bixet.tech** via Coolify.
 
-**Option A: GitHub Pages (free, easiest)**
-1. Create a repo: `github.com/YOUR_USERNAME/yameen`
-2. Push the `site/` folder contents to the repo
-3. Go to Settings → Pages → Source: main branch → `/` root
-4. Your URLs will be: `https://YOUR_USERNAME.github.io/yameen/` and `https://YOUR_USERNAME.github.io/yameen/privacy.html`
+- Landing page: https://yameen.bixet.tech
+- Privacy policy: https://yameen.bixet.tech/privacy.html
 
-**Option B: Netlify/Vercel (free)**
-1. Drag and drop the `site/` folder
-2. Get instant URLs
+Deployment happens automatically — git push to GitHub, Coolify picks it up.
 
 ---
 
@@ -126,7 +121,7 @@ On the "Privacy practices" tab:
 - **Are you using remote code?** No
 - **Does your extension collect any data?** No — select nothing
 
-**Privacy policy URL:** Your hosted privacy.html URL
+**Privacy policy URL:** https://yameen.bixet.tech/privacy.html
 
 ### Step 7: Distribution
 - Visibility: Public
@@ -204,7 +199,7 @@ The converter opens Xcode automatically. If not:
    - Category: Utilities
    - Description: Use the same Arabic copy
    - Screenshots: 1280x800 macOS screenshots
-   - Privacy URL: Your hosted privacy.html
+   - Privacy URL: https://yameen.bixet.tech/privacy.html
 4. Submit for review
 
 Apple reviews typically take 1-3 days.

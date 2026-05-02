@@ -61,7 +61,7 @@ Install from [Mac App Store](#) — one click, then enable in Safari Settings �
 
 ### Manual (Development)
 ```bash
-git clone https://github.com/YOUR_USERNAME/yameen.git
+git clone https://github.com/arj-89/yameen.git
 cd yameen/extension
 ```
 1. Open `chrome://extensions`
@@ -137,7 +137,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Privacy
 
-يمين does not collect, store, or transmit any data. All processing happens locally in your browser. See [Privacy Policy](site/privacy.html).
+يمين does not collect, store, or transmit any data. All processing happens locally in your browser. See [Privacy Policy](https://yameen.bixet.tech/privacy.html).
 
 ## License
 
@@ -149,6 +149,6 @@ MIT — see [LICENSE](LICENSE).
 
 **صُنع للقارئ العربي**
 
-[Website](#) · [Chrome Web Store](#) · [Firefox Add-ons](#) · [Product Hunt](#)
+[Website](https://yameen.bixet.tech) · [Chrome Web Store](#) · [Firefox Add-ons](#) · [Product Hunt](#)
 
 </div>
