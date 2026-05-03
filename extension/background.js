@@ -1,15 +1,16 @@
 /**
- * يمين — Background Service Worker
+ * يمين — Background Service Worker / Background Page
  *
  * Handles "Any Website" mode by dynamically registering/unregistering
- * content scripts via chrome.scripting API. The broad <all_urls>
+ * content scripts via the scripting API. The broad <all_urls>
  * permission is optional — requested only when user enables this mode.
  */
 
+const browserAPI = typeof browser !== "undefined" ? browser : chrome;
 const DYNAMIC_SCRIPT_ID = "yameen-everywhere";
 
 // Listen for setting changes from popup
-chrome.storage.onChanged.addListener(async (changes) => {
+browserAPI.storage.onChanged.addListener(async (changes) => {
   if (changes.everywhere) {
     if (changes.everywhere.newValue) {
       await registerEverywhere();
@@ -20,27 +21,25 @@ chrome.storage.onChanged.addListener(async (changes) => {
 });
 
 // On install/update, restore state
-chrome.runtime.onInstalled.addListener(async () => {
-  const { everywhere } = await chrome.storage.sync.get({ everywhere: false });
+browserAPI.runtime.onInstalled.addListener(async () => {
+  const { everywhere } = await browserAPI.storage.sync.get({ everywhere: false });
   if (everywhere) {
-    // Verify we still have the permission
-    const granted = await chrome.permissions.contains({ origins: ["<all_urls>"] });
+    const granted = await browserAPI.permissions.contains({ origins: ["<all_urls>"] });
     if (granted) {
       await registerEverywhere();
     } else {
       // Permission was revoked externally — flip the setting off
-      await chrome.storage.sync.set({ everywhere: false });
+      await browserAPI.storage.sync.set({ everywhere: false });
     }
   }
 });
 
 async function registerEverywhere() {
   try {
-    // Check if already registered
-    const existing = await chrome.scripting.getRegisteredContentScripts({ ids: [DYNAMIC_SCRIPT_ID] });
+    const existing = await browserAPI.scripting.getRegisteredContentScripts({ ids: [DYNAMIC_SCRIPT_ID] });
     if (existing.length > 0) return;
 
-    await chrome.scripting.registerContentScripts([{
+    await browserAPI.scripting.registerContentScripts([{
       id: DYNAMIC_SCRIPT_ID,
       matches: ["<all_urls>"],
       js: ["content.js"],
@@ -54,8 +53,8 @@ async function registerEverywhere() {
 
 async function unregisterEverywhere() {
   try {
-    await chrome.scripting.unregisterContentScripts({ ids: [DYNAMIC_SCRIPT_ID] });
-  } catch (e) {
+    await browserAPI.scripting.unregisterContentScripts({ ids: [DYNAMIC_SCRIPT_ID] });
+  } catch {
     // Not registered — that's fine
   }
 }

@@ -1,4 +1,4 @@
-const browserAPI = (typeof browser !== "undefined") ? browser : chrome;
+const browserAPI = typeof browser !== "undefined" ? browser : chrome;
 
 const PLATFORMS = {
   "claude.ai":"Claude","chat.openai.com":"ChatGPT","chatgpt.com":"ChatGPT",
@@ -13,8 +13,10 @@ const PLATFORMS = {
 };
 
 const everywhereEl = document.getElementById("everywhere");
+const dot = document.getElementById("p-dot");
+const nm = document.getElementById("p-name");
 
-// ── Load settings ──
+// ── Load settings + detect platform in one pass ──
 browserAPI.storage.sync.get(
   { mode: "auto", numerals: "western", everywhere: false },
   (s) => {
@@ -31,32 +33,29 @@ browserAPI.storage.sync.get(
 
     // Everywhere
     everywhereEl.checked = s.everywhere;
+
+    // Platform indicator — uses the already-loaded `s.everywhere`
+    browserAPI.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      try {
+        const host = new URL(tabs[0]?.url).hostname;
+        const name = PLATFORMS[host];
+        if (name) {
+          dot.classList.add("on");
+          nm.textContent = name + " · نشط";
+        } else if (s.everywhere) {
+          dot.classList.add("all");
+          nm.textContent = host + " · كل المواقع";
+        } else {
+          dot.classList.add("off");
+          nm.textContent = "غير مدعوم — فعّل \"كل المواقع\"";
+        }
+      } catch {}
+    });
+
+    // Reveal UI now that settings are applied
+    document.body.classList.remove("loading");
   }
 );
-
-// ── Detect platform ──
-browserAPI.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-  if (!tabs[0]?.url) return;
-  try {
-    const host = new URL(tabs[0].url).hostname;
-    const dot = document.getElementById("p-dot");
-    const nm = document.getElementById("p-name");
-
-    browserAPI.storage.sync.get({ everywhere: false }, (s) => {
-      const name = PLATFORMS[host];
-      if (name) {
-        dot.classList.add("on");
-        nm.textContent = name + " · نشط";
-      } else if (s.everywhere) {
-        dot.classList.add("all");
-        nm.textContent = host + " · كل المواقع";
-      } else {
-        dot.classList.add("off");
-        nm.textContent = "غير مدعوم — فعّل \"كل المواقع\"";
-      }
-    });
-  } catch {}
-});
 
 // ── Mode ──
 document.querySelectorAll('input[name="mode"]').forEach((r) => {
@@ -77,23 +76,21 @@ document.querySelectorAll('input[name="numerals"]').forEach((r) => {
 everywhereEl.addEventListener("change", async () => {
   if (everywhereEl.checked) {
     try {
-      const granted = await browserAPI.permissions.request({
-        origins: ["<all_urls>"],
-      });
+      const granted = await browserAPI.permissions.request({ origins: ["<all_urls>"] });
       if (granted) {
         browserAPI.storage.sync.set({ everywhere: true });
       } else {
         everywhereEl.checked = false;
       }
     } catch {
-      // Safari doesn't support optional permissions — treat as granted
-      browserAPI.storage.sync.set({ everywhere: true });
+      // permissions.request() unavailable — revert
+      everywhereEl.checked = false;
     }
   } else {
     try {
       await browserAPI.permissions.remove({ origins: ["<all_urls>"] });
     } catch {
-      // Safari doesn't support optional permissions — ignore
+      // ignore — permission may not have been granted
     }
     browserAPI.storage.sync.set({ everywhere: false });
   }

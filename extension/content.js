@@ -62,8 +62,8 @@
     if (mode === "force") document.body.setAttribute("data-ymn-mode", "force");
     if (numerals === "western") document.body.setAttribute("data-ymn-numerals", "western");
 
-    if (mode === "auto") scan();
-    handleInputs();
+    if (mode === "auto") scan(); // scan() calls handleInputs() internally
+    else handleInputs();         // force mode needs it directly
   }
 
   // ─── Detection ──────────────────────────────────────────────────

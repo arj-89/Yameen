@@ -57,7 +57,7 @@ code,
 [class*="hljs"],
 [data-ymn="rtl"] pre,
 [data-ymn="rtl"] pre *,
-[data-ymn="rtl"] code:not(:only-child),
+[data-ymn="rtl"] code,
 body[data-ymn-mode="force"] pre,
 body[data-ymn-mode="force"] pre *,
 body[data-ymn-mode="force"] code,
@@ -67,18 +67,6 @@ body[data-ymn-mode="force"] [class*="CodeBlock"],
 body[data-ymn-mode="force"] [class*="hljs"] {
   direction: ltr !important;
   text-align: left !important;
-  unicode-bidi: isolate !important;
-}
-
-/* ── Inline code: isolate ── */
-[data-ymn="rtl"] code:only-child,
-[data-ymn="rtl"] p > code,
-[data-ymn="rtl"] li > code,
-[data-ymn="rtl"] span > code,
-body[data-ymn-mode="force"] p > code,
-body[data-ymn-mode="force"] li > code,
-body[data-ymn-mode="force"] span > code {
-  direction: ltr !important;
   unicode-bidi: isolate !important;
 }
 

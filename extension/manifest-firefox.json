@@ -17,6 +17,10 @@
     }
   },
   "permissions": ["storage", "activeTab"],
+  "optional_permissions": ["<all_urls>"],
+  "background": {
+    "scripts": ["background.js"]
+  },
   "content_scripts": [
     {
       "matches": [
