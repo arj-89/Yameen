@@ -15,6 +15,8 @@
 (function () {
   "use strict";
 
+  const browserAPI = (typeof browser !== "undefined") ? browser : chrome;
+
   const AR = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
 
   // ─── Settings ────────────────────────────────────────────────────
@@ -23,8 +25,8 @@
   let threshold = 0.12;
 
   function loadSettings() {
-    if (typeof chrome !== "undefined" && chrome.storage) {
-      chrome.storage.sync.get(
+    if (typeof browserAPI !== "undefined" && browserAPI.storage) {
+      browserAPI.storage.sync.get(
         { mode: "auto", numerals: "western", threshold: 0.12 },
         (s) => {
           mode = s.mode;
@@ -34,7 +36,7 @@
         }
       );
 
-      chrome.storage.onChanged.addListener((changes) => {
+      browserAPI.storage.onChanged.addListener((changes) => {
         if (changes.mode) mode = changes.mode.newValue;
         if (changes.numerals) numerals = changes.numerals.newValue;
         if (changes.threshold) threshold = changes.threshold.newValue;

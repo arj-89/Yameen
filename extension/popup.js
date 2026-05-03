@@ -1,3 +1,5 @@
+const browserAPI = (typeof browser !== "undefined") ? browser : chrome;
+
 const PLATFORMS = {
   "claude.ai":"Claude","chat.openai.com":"ChatGPT","chatgpt.com":"ChatGPT",
   "gemini.google.com":"Gemini","grok.com":"Grok","chat.deepseek.com":"DeepSeek",
@@ -13,7 +15,7 @@ const PLATFORMS = {
 const everywhereEl = document.getElementById("everywhere");
 
 // ── Load settings ──
-chrome.storage.sync.get(
+browserAPI.storage.sync.get(
   { mode: "auto", numerals: "western", everywhere: false },
   (s) => {
     // Mode
@@ -33,14 +35,14 @@ chrome.storage.sync.get(
 );
 
 // ── Detect platform ──
-chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+browserAPI.tabs.query({ active: true, currentWindow: true }, (tabs) => {
   if (!tabs[0]?.url) return;
   try {
     const host = new URL(tabs[0].url).hostname;
     const dot = document.getElementById("p-dot");
     const nm = document.getElementById("p-name");
 
-    chrome.storage.sync.get({ everywhere: false }, (s) => {
+    browserAPI.storage.sync.get({ everywhere: false }, (s) => {
       const name = PLATFORMS[host];
       if (name) {
         dot.classList.add("on");
@@ -58,13 +60,13 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
 
 // ── Mode ──
 document.querySelectorAll('input[name="mode"]').forEach((r) => {
-  r.addEventListener("change", () => chrome.storage.sync.set({ mode: r.value }));
+  r.addEventListener("change", () => browserAPI.storage.sync.set({ mode: r.value }));
 });
 
 // ── Numerals ──
 document.querySelectorAll('input[name="numerals"]').forEach((r) => {
   r.addEventListener("change", () => {
-    chrome.storage.sync.set({ numerals: r.value });
+    browserAPI.storage.sync.set({ numerals: r.value });
     document.querySelectorAll("#num-cards .card").forEach((c) => {
       c.classList.toggle("active", c.dataset.val === r.value);
     });
@@ -75,24 +77,24 @@ document.querySelectorAll('input[name="numerals"]').forEach((r) => {
 everywhereEl.addEventListener("change", async () => {
   if (everywhereEl.checked) {
     try {
-      const granted = await chrome.permissions.request({
+      const granted = await browserAPI.permissions.request({
         origins: ["<all_urls>"],
       });
       if (granted) {
-        chrome.storage.sync.set({ everywhere: true });
+        browserAPI.storage.sync.set({ everywhere: true });
       } else {
         everywhereEl.checked = false;
       }
     } catch {
       // Safari doesn't support optional permissions — treat as granted
-      chrome.storage.sync.set({ everywhere: true });
+      browserAPI.storage.sync.set({ everywhere: true });
     }
   } else {
     try {
-      await chrome.permissions.remove({ origins: ["<all_urls>"] });
+      await browserAPI.permissions.remove({ origins: ["<all_urls>"] });
     } catch {
       // Safari doesn't support optional permissions — ignore
     }
-    chrome.storage.sync.set({ everywhere: false });
+    browserAPI.storage.sync.set({ everywhere: false });
   }
 });
