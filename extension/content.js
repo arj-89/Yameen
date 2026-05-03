@@ -1,55 +1,36 @@
-/**
- * يمين — Arabic RTL for AI & Productivity
- * Core content script
- *
- * Modes:
- *   off   — Extension disabled, no modifications
- *   auto  — Detect Arabic per-element, flip only what's Arabic (default)
- *   force — Flip entire page to RTL, protect code/math/nav
- *
- * Numerals:
- *   western — Enforce 1,2,3 via font-feature-settings (default)
- *   hindi   — Allow ١,٢,٣ (no override)
- */
-
 (function () {
   "use strict";
 
-  const browserAPI = (typeof browser !== "undefined") ? browser : chrome;
+  const storage = (typeof browser !== 'undefined' ? browser : chrome).storage;
 
-  const AR = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
+  const AR = /[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]/;
 
-  const EASTERN_TO_WESTERN = {'\u0660':'0','\u0661':'1','\u0662':'2','\u0663':'3','\u0664':'4','\u0665':'5','\u0666':'6','\u0667':'7','\u0668':'8','\u0669':'9'};
-  const WESTERN_TO_EASTERN = {'0':'\u0660','1':'\u0661','2':'\u0662','3':'\u0663','4':'\u0664','5':'\u0665','6':'\u0666','7':'\u0667','8':'\u0668','9':'\u0669'};
+  const EASTERN_TO_WESTERN = {'٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9'};
+  const WESTERN_TO_EASTERN = {'0':'٠','1':'١','2':'٢','3':'٣','4':'٤','5':'٥','6':'٦','7':'٧','8':'٨','9':'٩'};
   const originalTextNodes = new WeakMap();
 
-  // ─── Settings ────────────────────────────────────────────────────
-  let mode = "auto";       // "off" | "auto" | "force"
-  let numerals = "western"; // "western" | "hindi"
+  let mode = "auto";
+  let numerals = "western";
   let threshold = 0.12;
 
   function loadSettings() {
-    if (typeof browserAPI !== "undefined" && browserAPI.storage) {
-      browserAPI.storage.sync.get(
-        { mode: "auto", numerals: "western", threshold: 0.12 },
-        (s) => {
-          mode = s.mode;
-          numerals = s.numerals;
-          threshold = s.threshold;
-          applyMode();
-        }
-      );
-
-      browserAPI.storage.onChanged.addListener((changes) => {
-        if (changes.mode) mode = changes.mode.newValue;
-        if (changes.numerals) numerals = changes.numerals.newValue;
-        if (changes.threshold) threshold = changes.threshold.newValue;
+    storage.sync.get(
+      { mode: "auto", numerals: "western", threshold: 0.12 },
+      (s) => {
+        mode = s.mode;
+        numerals = s.numerals;
+        threshold = s.threshold;
         applyMode();
-      });
-    }
-  }
+      }
+    );
 
-  // ─── Mode Application ───────────────────────────────────────────
+    storage.onChanged.addListener((changes) => {
+      if (changes.mode) mode = changes.mode.newValue;
+      if (changes.numerals) numerals = changes.numerals.newValue;
+      if (changes.threshold) threshold = changes.threshold.newValue;
+      applyMode();
+    });
+  }
 
   function applyMode() {
     obs.disconnect();
@@ -62,11 +43,9 @@
     if (mode === "force") document.body.setAttribute("data-ymn-mode", "force");
     if (numerals === "western") document.body.setAttribute("data-ymn-numerals", "western");
 
-    if (mode === "auto") scan(); // scan() calls handleInputs() internally
-    else handleInputs();         // force mode needs it directly
+    if (mode === "auto") scan();
+    else handleInputs();
   }
-
-  // ─── Detection ──────────────────────────────────────────────────
 
   function hasArabic(text) {
     return AR.test(text);
@@ -109,8 +88,6 @@
     return t;
   }
 
-  // ─── Tag Sets ───────────────────────────────────────────────────
-
   const LEAF_TAGS = new Set([
     "P", "LI", "H1", "H2", "H3", "H4", "H5", "H6",
     "BLOCKQUOTE", "TD", "TH", "DT", "DD", "FIGCAPTION",
@@ -129,8 +106,6 @@
   const ALL_SELECTOR = [
     ...LEAF_TAGS, ...CONTAINER_TAGS, "DIV", "SPAN",
   ].join(",");
-
-  // ─── Process Element ────────────────────────────────────────────
 
   function processEl(el) {
     if (isCode(el)) return;
@@ -170,8 +145,6 @@
     }
   }
 
-  // ─── Input Handling ─────────────────────────────────────────────
-
   function handleInputs() {
     const inputs = document.querySelectorAll(
       '[contenteditable="true"], textarea, .ProseMirror, [role="textbox"]'
@@ -191,8 +164,6 @@
       }
     }
   }
-
-  // ─── Scan ───────────────────────────────────────────────────────
 
   function scan() {
     if (mode !== "auto") return;
@@ -214,8 +185,6 @@
     handleInputs();
     applyNumerals();
   }
-
-  // ─── Clear ──────────────────────────────────────────────────────
 
   function clearAll() {
     restoreAllNumerals();
@@ -243,8 +212,8 @@
 
   function convertNumeralsInRTLElements(map) {
     const isEastern = map === EASTERN_TO_WESTERN;
-    const pattern = isEastern ? /[٠١٢٣٤٥٦٧٨٩]/ : /[0-9]/;
-    const replaceRE = isEastern ? /[٠١٢٣٤٥٦٧٨٩]/g : /[0-9]/g;
+    const pattern = isEastern ? /[٠-٩]/ : /[0-9]/;
+    const replaceRE = isEastern ? /[٠-٩]/g : /[0-9]/g;
 
     document.querySelectorAll('[data-ymn="rtl"]').forEach((rtlEl) => {
       if (isCode(rtlEl)) return;
@@ -275,8 +244,6 @@
     else if (numerals === "hindi") convertNumeralsInRTLElements(WESTERN_TO_EASTERN);
   }
 
-  // ─── Live Typing ────────────────────────────────────────────────
-
   document.addEventListener("input", (e) => {
     if (mode === "off") return;
     const t = e.target;
@@ -285,8 +252,6 @@
     }
   }, true);
 
-  // ─── SPA Navigation ────────────────────────────────────────────
-
   let lastUrl = location.href;
   setInterval(() => {
     if (location.href !== lastUrl) {
@@ -294,8 +259,6 @@
       setTimeout(() => { if (mode !== "off") applyMode(); }, 500);
     }
   }, 1000);
-
-  // ─── Observer ───────────────────────────────────────────────────
 
   let timer = null;
   const obs = new MutationObserver((mutations) => {
@@ -312,12 +275,8 @@
     }
   });
 
-  // ─── Init ───────────────────────────────────────────────────────
-
   function init() {
     loadSettings();
-    obs.observe(document.body, { childList: true, subtree: true, characterData: true });
-    setTimeout(() => { if (mode !== "off") applyMode(); }, 400);
     setInterval(() => { if (mode === "auto") scan(); }, 700);
   }
 

@@ -54,17 +54,7 @@ code,
 .code-block__code,
 [class*="code-block"],
 [class*="CodeBlock"],
-[class*="hljs"],
-[data-ymn="rtl"] pre,
-[data-ymn="rtl"] pre *,
-[data-ymn="rtl"] code,
-body[data-ymn-mode="force"] pre,
-body[data-ymn-mode="force"] pre *,
-body[data-ymn-mode="force"] code,
-body[data-ymn-mode="force"] .code-block__code,
-body[data-ymn-mode="force"] [class*="code-block"],
-body[data-ymn-mode="force"] [class*="CodeBlock"],
-body[data-ymn-mode="force"] [class*="hljs"] {
+[class*="hljs"] {
   direction: ltr !important;
   text-align: left !important;
   unicode-bidi: isolate !important;
