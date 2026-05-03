@@ -94,7 +94,7 @@ nav.scrolled{padding:10px 32px;background:rgba(255,255,255,0.95);box-shadow:0 2p
 .platforms{padding:80px 0;text-align:center}
 .platforms .label{font-family:var(--mono);font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:28px}
 .platform-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:780px;margin:0 auto}
-.ptag{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;background:#ffffff;border:1px solid var(--border);border-radius:100px;font-size:13px;color:var(--text-2);transition:all 0.25s;cursor:default;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.ptag{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;background:#ffffff;border:1px solid var(--border);border-radius:100px;font-size:13px;font-weight:500;color:var(--text-2);transition:all 0.25s;cursor:default;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
 .ptag:hover{border-color:rgba(79,70,229,0.40);color:var(--navy);background:#fff;transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.10)}
 .ptag .d{width:5px;height:5px;border-radius:50%;background:var(--gold)}
 .ptag.new::after{content:"جديد";font-size:9px;background:var(--gold-glow);color:var(--gold);padding:1px 6px;border-radius:4px;margin-right:4px}
@@ -122,15 +122,15 @@ nav.scrolled{padding:10px 32px;background:rgba(255,255,255,0.95);box-shadow:0 2p
 .sl-msg-row{display:flex;align-items:center;gap:7px;margin-bottom:12px}
 .sl-avatar{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
 .sl-av-user{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.4)}
-.sl-av-ai{background:rgba(200,155,60,0.15);color:rgba(200,155,60,0.8)}
+.sl-av-ai{background:rgba(79,70,229,0.15);color:rgba(79,70,229,0.8)}
 .sl-msg-name{font-size:11px;color:rgba(255,255,255,0.3);font-weight:500;letter-spacing:0.3px}
 .sl-q{background:rgba(255,255,255,0.04);border-radius:10px;padding:11px 15px;margin-bottom:18px;font-size:13px;color:rgba(255,255,255,0.65);line-height:1.7;direction:ltr;text-align:left;border:1px solid rgba(255,255,255,0.04)}
 .sl-a{font-size:13.5px;line-height:1.85;color:rgba(255,255,255,0.72)}
 .sl-a.broken{direction:ltr;text-align:left}
 .sl-a.fixed{direction:rtl;text-align:right}
 .sl-a strong{color:rgba(255,255,255,0.9);font-weight:600}
-.sl-a .en{direction:ltr;unicode-bidi:isolate;color:rgba(200,155,60,0.7);font-family:var(--mono);font-size:12px}
-.sl-a .num{color:rgba(200,155,60,0.8);font-weight:600;font-feature-settings:"lnum"}
+.sl-a .en{direction:ltr;unicode-bidi:isolate;color:rgba(79,70,229,0.7);font-family:var(--mono);font-size:12px}
+.sl-a .num{color:rgba(79,70,229,0.8);font-weight:600;font-feature-settings:"lnum"}
 .sl-a .bullet{display:block;margin:5px 0}
 .sl-code{background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);border-radius:8px;margin-top:14px;overflow:hidden}
 .sl-code-hdr{display:flex;align-items:center;justify-content:space-between;padding:7px 14px;border-bottom:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02)}
@@ -138,14 +138,14 @@ nav.scrolled{padding:10px 32px;background:rgba(255,255,255,0.95);box-shadow:0 2p
 .sl-code-cp{font-size:10px;color:rgba(255,255,255,0.2);padding:2px 8px;border:1px solid rgba(255,255,255,0.06);border-radius:4px}
 .sl-code-body{padding:12px 14px;font-family:var(--mono);font-size:11.5px;line-height:1.75;color:rgba(255,255,255,0.4);direction:ltr;text-align:left;white-space:pre}
 .sl-code-body .kw{color:#c586c0}.sl-code-body .fn{color:#dcdcaa}.sl-code-body .str{color:#ce9178}.sl-code-body .cm{color:rgba(255,255,255,0.18)}
-.sl-handle{position:absolute;top:0;left:50%;width:2px;height:100%;background:rgba(200,155,60,0.5);z-index:20;transform:translateX(-50%)}
-.sl-knob{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:28px;height:28px;border-radius:50%;background:#c89b3c;display:flex;align-items:center;justify-content:center;cursor:col-resize;box-shadow:0 2px 12px rgba(200,155,60,0.3)}
+.sl-handle{position:absolute;top:0;left:50%;width:2px;height:100%;background:rgba(79,70,229,0.5);z-index:20;transform:translateX(-50%)}
+.sl-knob{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:28px;height:28px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;cursor:col-resize;box-shadow:0 2px 12px rgba(79,70,229,0.3)}
 .sl-knob svg{width:12px;height:12px}
 .sl-wm-bar{position:absolute;bottom:0;left:0;right:0;height:32px;display:flex;z-index:25;pointer-events:none;border-top:1px solid rgba(255,255,255,0.04);background:rgba(17,17,17,0.95)}
 .sl-wm-side{flex:1;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;letter-spacing:0.3px;gap:5px}
 .sl-wm-before{color:rgba(239,68,68,0.5)}
-.sl-wm-after{color:rgba(74,222,128,0.55)}
-.sl-wm-sep{width:2px;background:rgba(200,155,60,0.5);align-self:stretch}
+.sl-wm-after{color:rgba(79,70,229,0.75)}
+.sl-wm-sep{width:2px;background:rgba(79,70,229,0.5);align-self:stretch}
 
 /* ── Features ── */
 .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
@@ -234,7 +234,7 @@ footer a:hover{color:var(--gold)}
 <section class="hero">
   <div class="hero-glow"></div>
   <div class="hero-badge">v1.0.0 &mdash; متاح الآن على Chrome · Firefox · Safari</div>
-  <h1>اقرأ العربية<br>بشكلها <em>الصحيح</em></h1>
+  <h1>اقرأ العربية<br>باتجاهها <em>الصحيح</em></h1>
   <p class="hero-sub">إضافة متصفح تكتشف العربية تلقائياً وتعيد الاتجاه. تدعم كل منصات الذكاء الاصطناعي والإنتاجية. ثبّت وانسَ.</p>
   <div class="hero-actions">
     <a href="#install" class="btn-primary">حمّل يمين مجاناً &larr;</a>
@@ -371,12 +371,12 @@ footer a:hover{color:var(--gold)}
       <p>ثبّت مرة واحدة. الباقي يحدث بصمت.</p>
     </div>
     <div class="feat-grid">
-      <div class="feat sr"><div class="feat-icon">&#x2192;</div><h3>كشف تلقائي</h3><p>يفحص كل فقرة وعنوان وخلية جدول. إذا تجاوزت نسبة العربية 12% — ينقلب الاتجاه فوراً.</p></div>
-      <div class="feat sr sr-d1"><div class="feat-icon">&lt;/&gt;</div><h3>الكود في مكانه</h3><p>كتل الكود والرياضيات تبقى LTR حتى لو كان النص العربي يحيط بها من كل جانب.</p></div>
-      <div class="feat sr sr-d2"><div class="feat-icon">123</div><h3>اختيار الأرقام</h3><p>أرقام عربية (1, 2, 3) أو هندية (١, ٢, ٣). أنت تختار، يمين ينفّذ.</p></div>
-      <div class="feat sr sr-d3"><div class="feat-icon">&#x25ce;</div><h3>ثلاث مستويات</h3><p>Off لإيقاف يمين. Auto للكشف الذكي. Force لتحويل الصفحة بالكامل.</p></div>
-      <div class="feat sr sr-d4"><div class="feat-icon">&#x21bb;</div><h3>بث مباشر</h3><p>يتابع النص أثناء كتابة الرد ويحدّث الاتجاه لحظة بلحظة.</p></div>
-      <div class="feat sr sr-d5"><div class="feat-icon">&#x1f512;</div><h3>بدون تتبع</h3><p>لا تحليلات. لا اتصال خارجي. كل شيء يعمل محلياً في متصفحك.</p></div>
+      <div class="feat sr"><div class="feat-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.5" cy="8.5" r="5"/><path d="M13 13l3.5 3.5"/></svg></div><h3>كشف تلقائي</h3><p>يفحص كل فقرة وعنوان وخلية جدول. إذا تجاوزت نسبة العربية 12% — ينقلب الاتجاه فوراً.</p></div>
+      <div class="feat sr sr-d1"><div class="feat-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5L3 10l4 5"/><path d="M13 5l4 5-4 5"/></svg></div><h3>الكود في مكانه</h3><p>كتل الكود والرياضيات تبقى LTR حتى لو كان النص العربي يحيط بها من كل جانب.</p></div>
+      <div class="feat sr sr-d2"><div class="feat-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="7" y1="4" x2="7" y2="16"/><line x1="13" y1="4" x2="13" y2="16"/><line x1="4" y1="8" x2="16" y2="8"/><line x1="4" y1="12" x2="16" y2="12"/></svg></div><h3>اختيار الأرقام</h3><p>أرقام عربية (1, 2, 3) أو هندية (١, ٢, ٣). أنت تختار، يمين ينفّذ.</p></div>
+      <div class="feat sr sr-d3"><div class="feat-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="4" y1="6" x2="16" y2="6"/><line x1="4" y1="10" x2="16" y2="10"/><line x1="4" y1="14" x2="16" y2="14"/><circle cx="8" cy="6" r="2"/><circle cx="13" cy="10" r="2"/><circle cx="7" cy="14" r="2"/></svg></div><h3>ثلاث مستويات</h3><p>Off لإيقاف يمين. Auto للكشف الذكي. Force لتحويل الصفحة بالكامل.</p></div>
+      <div class="feat sr sr-d4"><div class="feat-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="2"/><path d="M5.8 5.8a6 6 0 0 0 0 8.4"/><path d="M14.2 5.8a6 6 0 0 1 0 8.4"/></svg></div><h3>بث مباشر</h3><p>يتابع النص أثناء كتابة الرد ويحدّث الاتجاه لحظة بلحظة.</p></div>
+      <div class="feat sr sr-d5"><div class="feat-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2l7 3v5c0 4.4-3.3 7.4-7 8.5C6.3 17.4 3 14.4 3 10V5z"/></svg></div><h3>بدون تتبع</h3><p>لا تحليلات. لا اتصال خارجي. كل شيء يعمل محلياً في متصفحك.</p></div>
     </div>
   </div>
 </section>
@@ -391,7 +391,7 @@ footer a:hover{color:var(--gold)}
     </div>
     <div class="comp-wrap sr sr-d1">
     <table class="comp">
-      <thead><tr><th></th><th class="hl">يمين</th><th>اتجاه</th><th>RTL Responder</th><th>AI Chat RTL</th></tr></thead>
+      <thead><tr><th></th><th class="hl">يمين</th><th><a href="https://ittijah.engmohammed.net/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px">اتجاه</a></th><th>RTL Responder</th><th>AI Chat RTL</th></tr></thead>
       <tbody>
         <tr><td>Claude</td><td class="hl y">&#10003;</td><td class="y">&#10003;</td><td class="y">&#10003;</td><td class="y">&#10003;</td></tr>
         <tr><td>ChatGPT</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="y">&#10003;</td></tr>
@@ -523,6 +523,12 @@ let detected = 'chrome';
 if (/Firefox/i.test(ua)) detected = 'firefox';
 else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) detected = 'safari';
 
+const browserIcons = {
+  chrome: '<svg width="16" height="16" viewBox="0 0 16 16" style="vertical-align:middle;flex-shrink:0"><path fill="#EA4335" d="M8 8L8 .5A7.5 7.5 0 0 1 14.495 11.75Z"/><path fill="#FBBC05" d="M8 8L14.495 11.75A7.5 7.5 0 0 1 1.505 11.75Z"/><path fill="#34A853" d="M8 8L1.505 11.75A7.5 7.5 0 0 1 8 .5Z"/><circle cx="8" cy="8" r="3.5" fill="white"/><circle cx="8" cy="8" r="2.5" fill="#4285F4"/></svg>',
+  firefox: '<svg width="16" height="16" viewBox="0 0 16 16" style="vertical-align:middle;flex-shrink:0"><circle cx="8" cy="8" r="7.5" fill="#FF9400"/><circle cx="8" cy="8" r="5" fill="#0060DF"/><circle cx="8" cy="8" r="2.5" fill="#00CFFF"/></svg>',
+  safari: '<svg width="16" height="16" viewBox="0 0 16 16" style="vertical-align:middle;flex-shrink:0"><circle cx="8" cy="8" r="7.5" fill="#1C8EF9"/><path d="M8 1.5L10 8L6 8Z" fill="white"/><path d="M8 14.5L6 8L10 8Z" fill="#FF3B30"/><circle cx="8" cy="8" r="1.2" fill="white"/></svg>',
+};
+
 const browsers = [
   { id: 'chrome', label: 'Chrome / Arc / Edge' },
   { id: 'firefox', label: 'Firefox' },
@@ -532,7 +538,7 @@ const browsers = [
 browsers.forEach(b => {
   const btn = document.createElement('button');
   btn.className = 'tab-btn' + (b.id === detected ? ' active detected' : '');
-  btn.textContent = b.label;
+  btn.innerHTML = '<span style="display:inline-flex;align-items:center;gap:6px">' + browserIcons[b.id] + '<span>' + b.label + '</span></span>';
   btn.onclick = () => {
     document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
