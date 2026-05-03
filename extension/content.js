@@ -19,6 +19,10 @@
 
   const AR = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
 
+  const EASTERN_TO_WESTERN = {'\u0660':'0','\u0661':'1','\u0662':'2','\u0663':'3','\u0664':'4','\u0665':'5','\u0666':'6','\u0667':'7','\u0668':'8','\u0669':'9'};
+  const WESTERN_TO_EASTERN = {'0':'\u0660','1':'\u0661','2':'\u0662','3':'\u0663','4':'\u0664','5':'\u0665','6':'\u0666','7':'\u0667','8':'\u0668','9':'\u0669'};
+  const originalTextNodes = new WeakMap();
+
   // ─── Settings ────────────────────────────────────────────────────
   let mode = "auto";       // "off" | "auto" | "force"
   let numerals = "western"; // "western" | "hindi"
@@ -48,28 +52,18 @@
   // ─── Mode Application ───────────────────────────────────────────
 
   function applyMode() {
-    // Clear previous state
+    obs.disconnect();
     clearAll();
 
-    // Set body-level attributes for CSS
-    if (mode === "force") {
-      document.body.setAttribute("data-ymn-mode", "force");
-    } else {
-      document.body.removeAttribute("data-ymn-mode");
-    }
+    if (mode === "off") return;
 
-    // Numerals
-    if (numerals === "western") {
-      document.body.setAttribute("data-ymn-numerals", "western");
-    } else {
-      document.body.removeAttribute("data-ymn-numerals");
-    }
+    obs.observe(document.body, { childList: true, subtree: true, characterData: true });
 
-    // Scan if auto mode
+    if (mode === "force") document.body.setAttribute("data-ymn-mode", "force");
+    if (numerals === "western") document.body.setAttribute("data-ymn-numerals", "western");
+
     if (mode === "auto") scan();
-
-    // Handle inputs
-    if (mode !== "off") handleInputs();
+    handleInputs();
   }
 
   // ─── Detection ──────────────────────────────────────────────────
@@ -218,14 +212,67 @@
     }
 
     handleInputs();
+    applyNumerals();
   }
 
   // ─── Clear ──────────────────────────────────────────────────────
 
   function clearAll() {
+    restoreAllNumerals();
     document.querySelectorAll("[data-ymn]").forEach((e) => e.removeAttribute("data-ymn"));
     document.querySelectorAll("[data-ymn-input]").forEach((e) => e.removeAttribute("data-ymn-input"));
     document.body.removeAttribute("data-ymn-mode");
+    document.body.removeAttribute("data-ymn-numerals");
+  }
+
+  function restoreAllNumerals() {
+    const modified = document.querySelectorAll("[data-ymn-original]");
+    if (!modified.length) return;
+    modified.forEach((el) => {
+      const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+      let node;
+      while ((node = walker.nextNode())) {
+        if (originalTextNodes.has(node)) {
+          node.textContent = originalTextNodes.get(node);
+          originalTextNodes.delete(node);
+        }
+      }
+      el.removeAttribute("data-ymn-original");
+    });
+  }
+
+  function convertNumeralsInRTLElements(map) {
+    const isEastern = map === EASTERN_TO_WESTERN;
+    const pattern = isEastern ? /[٠١٢٣٤٥٦٧٨٩]/ : /[0-9]/;
+    const replaceRE = isEastern ? /[٠١٢٣٤٥٦٧٨٩]/g : /[0-9]/g;
+
+    document.querySelectorAll('[data-ymn="rtl"]').forEach((rtlEl) => {
+      if (isCode(rtlEl)) return;
+      const walker = document.createTreeWalker(rtlEl, NodeFilter.SHOW_TEXT, {
+        acceptNode(node) {
+          const parent = node.parentElement;
+          if (!parent) return NodeFilter.FILTER_SKIP;
+          if (parent.closest("pre, code")) return NodeFilter.FILTER_SKIP;
+          if (/code/i.test(parent.className || "")) return NodeFilter.FILTER_SKIP;
+          const text = originalTextNodes.has(node) ? originalTextNodes.get(node) : node.textContent;
+          return pattern.test(text) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+        },
+      });
+      let node;
+      while ((node = walker.nextNode())) {
+        if (!originalTextNodes.has(node)) originalTextNodes.set(node, node.textContent);
+        const converted = originalTextNodes.get(node).replace(replaceRE, (c) => map[c]);
+        if (node.textContent !== converted) node.textContent = converted;
+        if (node.parentElement && !node.parentElement.hasAttribute("data-ymn-original")) {
+          node.parentElement.setAttribute("data-ymn-original", "1");
+        }
+      }
+    });
+  }
+
+  function applyNumerals() {
+    if (numerals === "western") convertNumeralsInRTLElements(EASTERN_TO_WESTERN);
+    else if (numerals === "hindi") convertNumeralsInRTLElements(WESTERN_TO_EASTERN);
   }
 
   // ─── Live Typing ────────────────────────────────────────────────
