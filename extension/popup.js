@@ -74,20 +74,25 @@ document.querySelectorAll('input[name="numerals"]').forEach((r) => {
 // ── Everywhere toggle (optional permission) ──
 everywhereEl.addEventListener("change", async () => {
   if (everywhereEl.checked) {
-    // Request the broad permission — Chrome shows a native prompt
-    const granted = await chrome.permissions.request({
-      origins: ["<all_urls>"],
-    });
-
-    if (granted) {
+    try {
+      const granted = await chrome.permissions.request({
+        origins: ["<all_urls>"],
+      });
+      if (granted) {
+        chrome.storage.sync.set({ everywhere: true });
+      } else {
+        everywhereEl.checked = false;
+      }
+    } catch {
+      // Safari doesn't support optional permissions — treat as granted
       chrome.storage.sync.set({ everywhere: true });
-    } else {
-      // User denied — flip toggle back
-      everywhereEl.checked = false;
     }
   } else {
-    // Revoke the permission
-    await chrome.permissions.remove({ origins: ["<all_urls>"] });
+    try {
+      await chrome.permissions.remove({ origins: ["<all_urls>"] });
+    } catch {
+      // Safari doesn't support optional permissions — ignore
+    }
     chrome.storage.sync.set({ everywhere: false });
   }
 });
