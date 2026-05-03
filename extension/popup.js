@@ -1,5 +1,4 @@
-const storage = (typeof browser !== 'undefined' ? browser : chrome).storage;
-const tabs = (typeof browser !== 'undefined' ? browser : chrome).tabs;
+const api = (typeof browser !== 'undefined') ? browser : chrome;
 
 const PLATFORMS = {
   "claude.ai":"Claude","chat.openai.com":"ChatGPT","chatgpt.com":"ChatGPT",
@@ -21,7 +20,7 @@ const everywhereEl = document.getElementById("everywhere");
 const dot = document.getElementById("p-dot");
 const nm = document.getElementById("p-name");
 
-storage.sync.get(
+api.storage.sync.get(
   { mode: "auto", numerals: "western", everywhere: false },
   (s) => {
     const modeR = document.querySelector(`input[name="mode"][value="${s.mode}"]`);
@@ -35,7 +34,7 @@ storage.sync.get(
 
     everywhereEl.checked = s.everywhere;
 
-    tabs.query({ active: true, currentWindow: true }, (tabList) => {
+    api.tabs.query({ active: true, currentWindow: true }, (tabList) => {
       try {
         const host = new URL(tabList[0]?.url).hostname;
         const name = PLATFORMS[host];
@@ -55,12 +54,12 @@ storage.sync.get(
 );
 
 document.querySelectorAll('input[name="mode"]').forEach((r) => {
-  r.addEventListener("change", () => storage.sync.set({ mode: r.value }));
+  r.addEventListener("change", () => api.storage.sync.set({ mode: r.value }));
 });
 
 document.querySelectorAll('input[name="numerals"]').forEach((r) => {
   r.addEventListener("change", () => {
-    storage.sync.set({ numerals: r.value });
+    api.storage.sync.set({ numerals: r.value });
     document.querySelectorAll("#num-cards .card").forEach((c) => {
       c.classList.toggle("active", c.dataset.val === r.value);
     });
@@ -72,7 +71,7 @@ everywhereEl.addEventListener("change", async () => {
   if (everywhereEl.checked) {
     const granted = await chrome.permissions.request({ origins: ["<all_urls>"] });
     if (granted) {
-      storage.sync.set({ everywhere: true });
+      api.storage.sync.set({ everywhere: true });
     } else {
       everywhereEl.checked = false;
     }
@@ -80,6 +79,6 @@ everywhereEl.addEventListener("change", async () => {
     try {
       await chrome.permissions.remove({ origins: ["<all_urls>"] });
     } catch {}
-    storage.sync.set({ everywhere: false });
+    api.storage.sync.set({ everywhere: false });
   }
 });

@@ -183,21 +183,11 @@
     }
 
     handleInputs();
-    applyNumerals();
+    convertNumerals();
   }
 
-  function clearAll() {
-    restoreAllNumerals();
-    document.querySelectorAll("[data-ymn]").forEach((e) => e.removeAttribute("data-ymn"));
-    document.querySelectorAll("[data-ymn-input]").forEach((e) => e.removeAttribute("data-ymn-input"));
-    document.body.removeAttribute("data-ymn-mode");
-    document.body.removeAttribute("data-ymn-numerals");
-  }
-
-  function restoreAllNumerals() {
-    const modified = document.querySelectorAll("[data-ymn-original]");
-    if (!modified.length) return;
-    modified.forEach((el) => {
+  function restoreNumerals() {
+    document.querySelectorAll("[data-ymn-original]").forEach((el) => {
       const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
       let node;
       while ((node = walker.nextNode())) {
@@ -210,10 +200,20 @@
     });
   }
 
-  function convertNumeralsInRTLElements(map) {
-    const isEastern = map === EASTERN_TO_WESTERN;
-    const pattern = isEastern ? /[٠-٩]/ : /[0-9]/;
-    const replaceRE = isEastern ? /[٠-٩]/g : /[0-9]/g;
+  function clearAll() {
+    restoreNumerals();
+    document.querySelectorAll("[data-ymn]").forEach((e) => e.removeAttribute("data-ymn"));
+    document.querySelectorAll("[data-ymn-input]").forEach((e) => e.removeAttribute("data-ymn-input"));
+    document.querySelectorAll("[data-ymn-original]").forEach((e) => e.removeAttribute("data-ymn-original"));
+    document.body.removeAttribute("data-ymn-mode");
+    document.body.removeAttribute("data-ymn-numerals");
+  }
+
+  function convertNumerals() {
+    const toWestern = numerals === "western";
+    const pattern = toWestern ? /[٠-٩]/ : /[0-9]/;
+    const replaceRE = toWestern ? /[٠-٩]/g : /[0-9]/g;
+    const map = toWestern ? EASTERN_TO_WESTERN : WESTERN_TO_EASTERN;
 
     document.querySelectorAll('[data-ymn="rtl"]').forEach((rtlEl) => {
       if (isCode(rtlEl)) return;
@@ -222,7 +222,7 @@
           const parent = node.parentElement;
           if (!parent) return NodeFilter.FILTER_SKIP;
           if (parent.closest("pre, code")) return NodeFilter.FILTER_SKIP;
-          if (/code/i.test(parent.className || "")) return NodeFilter.FILTER_SKIP;
+          if (/code|CodeBlock|hljs|syntax|prism/i.test(parent.className || "")) return NodeFilter.FILTER_SKIP;
           const text = originalTextNodes.has(node) ? originalTextNodes.get(node) : node.textContent;
           return pattern.test(text) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
         },
@@ -237,11 +237,6 @@
         }
       }
     });
-  }
-
-  function applyNumerals() {
-    if (numerals === "western") convertNumeralsInRTLElements(EASTERN_TO_WESTERN);
-    else if (numerals === "hindi") convertNumeralsInRTLElements(WESTERN_TO_EASTERN);
   }
 
   document.addEventListener("input", (e) => {
@@ -277,7 +272,10 @@
 
   function init() {
     loadSettings();
-    setInterval(() => { if (mode === "auto") scan(); }, 700);
+    setInterval(() => {
+      if (mode === "off") return;
+      if (mode === "auto") scan();
+    }, 700);
   }
 
   if (document.readyState === "complete" || document.readyState === "interactive") {
