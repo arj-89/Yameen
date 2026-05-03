@@ -52,9 +52,7 @@
       "id": "yameen@arj.dev",
       "strict_min_version": "142.0",
       "data_collection_permissions": {
-        "required": [],
-        "is_exempt": true,
-        "data_usage_disclosure_url": "https://yameen.bixet.tech/privacy.html"
+        "required": ["none"]
       }
     }
   }
