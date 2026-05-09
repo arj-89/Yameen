@@ -69,15 +69,19 @@ document.querySelectorAll('input[name="numerals"]').forEach((r) => {
 // Chrome-only — section is hidden on Firefox/Safari
 everywhereEl.addEventListener("change", async () => {
   if (everywhereEl.checked) {
-    const granted = await chrome.permissions.request({ origins: ["<all_urls>"] });
-    if (granted) {
-      api.storage.sync.set({ everywhere: true });
-    } else {
+    try {
+      const granted = await api.permissions.request({ origins: ["<all_urls>"] });
+      if (granted) {
+        api.storage.sync.set({ everywhere: true });
+      } else {
+        everywhereEl.checked = false;
+      }
+    } catch {
       everywhereEl.checked = false;
     }
   } else {
     try {
-      await chrome.permissions.remove({ origins: ["<all_urls>"] });
+      await api.permissions.remove({ origins: ["<all_urls>"] });
     } catch {}
     api.storage.sync.set({ everywhere: false });
   }
