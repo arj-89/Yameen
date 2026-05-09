@@ -97,6 +97,7 @@ nav.scrolled{padding:10px 32px;background:rgba(255,255,255,0.95);box-shadow:0 2p
 .ptag{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;background:#ffffff;border:1px solid var(--border);border-radius:100px;font-size:13px;font-weight:500;color:var(--text-2);transition:all 0.25s;cursor:default;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
 .ptag:hover{border-color:rgba(79,70,229,0.40);color:var(--navy);background:#fff;transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.10)}
 .ptag .d{width:5px;height:5px;border-radius:50%;background:var(--gold)}
+.ptag img{border-radius:3px;vertical-align:middle;flex-shrink:0}
 .ptag.new::after{content:"جديد";font-size:9px;background:var(--gold-glow);color:var(--gold);padding:1px 6px;border-radius:4px;margin-right:4px}
 
 /* ── Section ── */
@@ -171,6 +172,8 @@ table.comp tbody tr:nth-child(even) td.hl{background:rgba(79,70,229,0.06)}
 table.comp tr:hover td{background:rgba(79,70,229,0.03)}
 table.comp tr:hover td.hl{background:rgba(79,70,229,0.08)}
 .y{color:var(--green);font-weight:600}.n{color:#d1d5db}
+table.comp tr.group-hdr td{background:#f1f5f9;font-size:10px;color:var(--text-3);padding:5px 16px;font-weight:500;letter-spacing:0.6px;border-bottom:1px solid var(--border)}
+table.comp td .fav{border-radius:3px;vertical-align:middle;margin-left:6px}
 
 /* ── Install ── */
 .tabs{display:flex;gap:6px;justify-content:center;margin-bottom:36px;flex-wrap:wrap}
@@ -260,23 +263,23 @@ footer a:hover{color:var(--gold)}
   <div class="wrap">
     <div class="label sr">يعمل على كل هذه المنصات</div>
     <div class="platform-grid sr sr-d1">
-      <span class="ptag"><span class="d"></span>Claude</span>
-      <span class="ptag"><span class="d"></span>ChatGPT</span>
-      <span class="ptag"><span class="d"></span>Gemini</span>
-      <span class="ptag"><span class="d"></span>Grok</span>
-      <span class="ptag"><span class="d"></span>DeepSeek</span>
-      <span class="ptag"><span class="d"></span>Perplexity</span>
-      <span class="ptag"><span class="d"></span>Mistral</span>
-      <span class="ptag"><span class="d"></span>Copilot</span>
-      <span class="ptag"><span class="d"></span>Poe</span>
-      <span class="ptag"><span class="d"></span>HuggingChat</span>
-      <span class="ptag"><span class="d"></span>AI Studio</span>
-      <span class="ptag"><span class="d"></span>LM Arena</span>
-      <span class="ptag new"><span class="d"></span>Notion</span>
-      <span class="ptag new"><span class="d"></span>Coda</span>
-      <span class="ptag new"><span class="d"></span>Google Docs</span>
-      <span class="ptag"><span class="d"></span>Linear</span>
-      <span class="ptag"><span class="d"></span>ClickUp</span>
+      <span class="ptag"><img src="https://www.google.com/s2/favicons?domain=claude.ai&sz=32" width="16" height="16" alt="">Claude</span>
+      <span class="ptag"><img src="https://www.google.com/s2/favicons?domain=chatgpt.com&sz=32" width="16" height="16" alt="">ChatGPT</span>
+      <span class="ptag"><img src="https://www.google.com/s2/favicons?domain=gemini.google.com&sz=32" width="16" height="16" alt="">Gemini</span>
+      <span class="ptag"><img src="https://www.google.com/s2/favicons?domain=grok.com&sz=32" width="16" height="16" alt="">Grok</span>
+      <span class="ptag"><img src="https://www.google.com/s2/favicons?domain=chat.deepseek.com&sz=32" width="16" height="16" alt="">DeepSeek</span>
+      <span class="ptag"><img src="https://www.google.com/s2/favicons?domain=perplexity.ai&sz=32" width="16" height="16" alt="">Perplexity</span>
+      <span class="ptag"><img src="https://www.google.com/s2/favicons?domain=chat.mistral.ai&sz=32" width="16" height="16" alt="">Mistral</span>
+      <span class="ptag"><img src="https://www.google.com/s2/favicons?domain=copilot.microsoft.com&sz=32" width="16" height="16" alt="">Copilot</span>
+      <span class="ptag"><img src="https://www.google.com/s2/favicons?domain=poe.com&sz=32" width="16" height="16" alt="">Poe</span>
+      <span class="ptag"><img src="https://www.google.com/s2/favicons?domain=huggingface.co&sz=32" width="16" height="16" alt="">HuggingChat</span>
+      <span class="ptag"><img src="https://www.google.com/s2/favicons?domain=aistudio.google.com&sz=32" width="16" height="16" alt="">AI Studio</span>
+      <span class="ptag"><img src="https://www.google.com/s2/favicons?domain=lmarena.ai&sz=32" width="16" height="16" alt="">LM Arena</span>
+      <span class="ptag new"><img src="https://www.google.com/s2/favicons?domain=notion.so&sz=32" width="16" height="16" alt="">Notion</span>
+      <span class="ptag new"><img src="https://www.google.com/s2/favicons?domain=coda.io&sz=32" width="16" height="16" alt="">Coda</span>
+      <span class="ptag new"><img src="https://www.google.com/s2/favicons?domain=docs.google.com&sz=32" width="16" height="16" alt="">Google Docs</span>
+      <span class="ptag"><img src="https://www.google.com/s2/favicons?domain=linear.app&sz=32" width="16" height="16" alt="">Linear</span>
+      <span class="ptag"><img src="https://www.google.com/s2/favicons?domain=clickup.com&sz=32" width="16" height="16" alt="">ClickUp</span>
     </div>
   </div>
 </section>
@@ -393,13 +396,18 @@ footer a:hover{color:var(--gold)}
     <table class="comp">
       <thead><tr><th></th><th class="hl">يمين</th><th><a href="https://ittijah.engmohammed.net/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px">اتجاه</a></th><th>RTL Responder</th><th>AI Chat RTL</th></tr></thead>
       <tbody>
-        <tr><td>Claude</td><td class="hl y">&#10003;</td><td class="y">&#10003;</td><td class="y">&#10003;</td><td class="y">&#10003;</td></tr>
-        <tr><td>ChatGPT</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="y">&#10003;</td></tr>
-        <tr><td>Gemini + Grok</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="n">&#10007;</td></tr>
-        <tr><td>Perplexity + DeepSeek</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="y">&#10003;</td></tr>
-        <tr><td>Notion · Coda · Google Docs</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="n">&#10007;</td></tr>
-        <tr><td>Firefox</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="y">&#10003;</td></tr>
-        <tr><td>Safari</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="n">&#10007;</td></tr>
+        <tr class="group-hdr"><td colspan="5">منصات الذكاء الاصطناعي</td></tr>
+        <tr><td><img src="https://www.google.com/s2/favicons?domain=claude.ai&sz=32" width="14" height="14" class="fav" alt="">Claude</td><td class="hl y">&#10003;</td><td class="y">&#10003;</td><td class="y">&#10003;</td><td class="y">&#10003;</td></tr>
+        <tr><td><img src="https://www.google.com/s2/favicons?domain=chatgpt.com&sz=32" width="14" height="14" class="fav" alt="">ChatGPT</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="y">&#10003;</td></tr>
+        <tr><td><img src="https://www.google.com/s2/favicons?domain=gemini.google.com&sz=32" width="14" height="14" class="fav" alt=""><img src="https://www.google.com/s2/favicons?domain=grok.com&sz=32" width="14" height="14" class="fav" alt="" style="margin-left:2px">Gemini + Grok</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="n">&#10007;</td></tr>
+        <tr><td><img src="https://www.google.com/s2/favicons?domain=perplexity.ai&sz=32" width="14" height="14" class="fav" alt=""><img src="https://www.google.com/s2/favicons?domain=chat.deepseek.com&sz=32" width="14" height="14" class="fav" alt="" style="margin-left:2px">Perplexity + DeepSeek</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="y">&#10003;</td></tr>
+        <tr class="group-hdr"><td colspan="5">أدوات الإنتاجية</td></tr>
+        <tr><td><img src="https://www.google.com/s2/favicons?domain=notion.so&sz=32" width="14" height="14" class="fav" alt=""><img src="https://www.google.com/s2/favicons?domain=coda.io&sz=32" width="14" height="14" class="fav" alt="" style="margin-left:2px"><img src="https://www.google.com/s2/favicons?domain=docs.google.com&sz=32" width="14" height="14" class="fav" alt="" style="margin-left:2px">Notion · Coda · Google Docs</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="n">&#10007;</td></tr>
+        <tr class="group-hdr"><td colspan="5">المتصفحات</td></tr>
+        <tr><td><img src="https://www.google.com/s2/favicons?domain=google.com&sz=32" width="14" height="14" class="fav" alt="">Chrome / Edge / Arc</td><td class="hl y">&#10003;</td><td class="y">&#10003;</td><td class="y">&#10003;</td><td class="y">&#10003;</td></tr>
+        <tr><td><img src="https://www.google.com/s2/favicons?domain=mozilla.org&sz=32" width="14" height="14" class="fav" alt="">Firefox</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="y">&#10003;</td></tr>
+        <tr><td><img src="https://www.google.com/s2/favicons?domain=apple.com&sz=32" width="14" height="14" class="fav" alt="">Safari</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="n">&#10007;</td></tr>
+        <tr class="group-hdr"><td colspan="5">المميزات</td></tr>
         <tr><td>خيار الأرقام</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="n">&#10007;</td></tr>
         <tr><td>وضع Force</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="n">&#10007;</td></tr>
         <tr><td>متاح في المتاجر الرسمية</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="y">&#10003;</td><td class="y">&#10003;</td></tr>
@@ -426,6 +434,7 @@ footer a:hover{color:var(--gold)}
         <div class="step sr"><div class="step-text"><h4>اضغط "Add to Chrome"</h4><p>وافق على الأذونات المطلوبة — يمين يطلب فقط <code>storage</code> و <code>activeTab</code>.</p></div></div>
         <div class="step sr"><div class="step-text"><h4>افتح أي منصة وابدأ</h4><p>الإضافة تشتغل تلقائياً. اضغط أيقونة يمين في شريط الأدوات لتعديل الإعدادات.</p></div></div>
       </div>
+      <p style="font-size:12px;color:#94a3b8;margin-top:20px;text-align:center">يعمل أيضاً على المتصفحات المبنية على Chromium:<br>Arc · Brave · Microsoft Edge · Opera · Dia · DuckDuckGo · ChatGPT Atlas</p>
     </div>
     <div class="tab-panel" id="tab-firefox">
       <div class="steps">
@@ -524,9 +533,9 @@ if (/Firefox/i.test(ua)) detected = 'firefox';
 else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) detected = 'safari';
 
 const browserIcons = {
-  chrome: '<svg width="16" height="16" viewBox="0 0 16 16" style="vertical-align:middle;flex-shrink:0"><path fill="#EA4335" d="M8 8L8 .5A7.5 7.5 0 0 1 14.495 11.75Z"/><path fill="#FBBC05" d="M8 8L14.495 11.75A7.5 7.5 0 0 1 1.505 11.75Z"/><path fill="#34A853" d="M8 8L1.505 11.75A7.5 7.5 0 0 1 8 .5Z"/><circle cx="8" cy="8" r="3.5" fill="white"/><circle cx="8" cy="8" r="2.5" fill="#4285F4"/></svg>',
-  firefox: '<svg width="16" height="16" viewBox="0 0 16 16" style="vertical-align:middle;flex-shrink:0"><circle cx="8" cy="8" r="7.5" fill="#FF9400"/><circle cx="8" cy="8" r="5" fill="#0060DF"/><circle cx="8" cy="8" r="2.5" fill="#00CFFF"/></svg>',
-  safari: '<svg width="16" height="16" viewBox="0 0 16 16" style="vertical-align:middle;flex-shrink:0"><circle cx="8" cy="8" r="7.5" fill="#1C8EF9"/><path d="M8 1.5L10 8L6 8Z" fill="white"/><path d="M8 14.5L6 8L10 8Z" fill="#FF3B30"/><circle cx="8" cy="8" r="1.2" fill="white"/></svg>',
+  chrome: '<img src="https://www.google.com/s2/favicons?domain=google.com&sz=32" width="16" height="16" style="border-radius:3px;vertical-align:middle;flex-shrink:0" alt="">',
+  firefox: '<img src="https://www.google.com/s2/favicons?domain=mozilla.org&sz=32" width="16" height="16" style="border-radius:3px;vertical-align:middle;flex-shrink:0" alt="">',
+  safari: '<img src="https://www.google.com/s2/favicons?domain=apple.com&sz=32" width="16" height="16" style="border-radius:3px;vertical-align:middle;flex-shrink:0" alt="">',
 };
 
 const browsers = [
