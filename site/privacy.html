@@ -4,64 +4,117 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>يمين — سياسة الخصوصية</title>
+<meta name="description" content="سياسة خصوصية يمين — إضافة متصفح للقراءة العربية الصحيحة. لا بيانات. لا تتبع.">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="icon32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="icon16.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+Arabic:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <style>
+:root{
+  --gold:#4f46e5;--gold-light:#6366f1;--gold-dim:#4338ca;
+  --gold-glow:rgba(79,70,229,0.12);
+  --navy:#002253;
+  --text:#1a1a1a;--text-2:#64748b;--text-3:#94a3b8;
+  --border:rgba(0,0,0,0.06);--border-2:rgba(0,0,0,0.10);
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'Noto Sans Arabic',-apple-system,sans-serif;
+  --display:'Amiri',serif;
+}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Noto Sans Arabic',sans-serif;background:#080808;color:#e8e4db;padding:60px 24px;line-height:1.9}
-.wrap{max-width:640px;margin:0 auto}
-h1{font-size:28px;font-weight:600;margin-bottom:8px;color:#fff}
-.sub{font-size:14px;color:#9a9590;margin-bottom:40px}
-h2{font-size:18px;font-weight:600;color:#c89b3c;margin:32px 0 12px}
-p{font-size:14px;color:#9a9590;margin-bottom:16px;font-weight:300}
-p strong{color:#e8e4db;font-weight:500}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:linear-gradient(to top,#ffffff,#c6e6fa);background-attachment:fixed;min-height:100vh;color:var(--text);line-height:1.8;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{text-decoration:none}
+
+.wrap{max-width:720px;margin:0 auto;padding:0 32px}
+
+/* Nav */
+nav{position:sticky;top:0;z-index:100;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(255,255,255,0.85);border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:10px;color:var(--navy)}
+.brand span{font-size:16px;font-weight:600;color:var(--navy)}
+.back-link{font-size:13px;color:var(--text-2);transition:color 0.2s}
+.back-link:hover{color:var(--navy)}
+
+/* Page */
+.page-content{padding:80px 0 80px}
+.page-head{margin-bottom:48px}
+.page-head h1{font-family:var(--display);font-size:clamp(28px,5vw,42px);font-weight:700;color:var(--navy);margin-bottom:10px}
+.page-head p{font-size:14px;color:var(--text-3)}
+
+h2{font-size:15px;font-weight:600;color:var(--navy);margin:36px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+p{font-size:14px;color:var(--text-2);margin-bottom:14px;font-weight:300;line-height:1.9}
+p strong{color:var(--text);font-weight:600}
 ul{padding-right:20px;margin-bottom:16px}
-li{font-size:14px;color:#9a9590;margin-bottom:6px;font-weight:300}
-a{color:#c89b3c;text-decoration:none}
-.footer{margin-top:48px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.05);font-size:12px;color:#3a3835}
+li{font-size:14px;color:var(--text-2);margin-bottom:7px;font-weight:300;line-height:1.8}
+.inline-link{color:var(--gold);transition:color 0.2s}
+.inline-link:hover{color:var(--gold-light)}
+
+/* Footer */
+footer{padding:40px 0;text-align:center;border-top:1px solid var(--border);background:rgba(255,255,255,0.90)}
+footer p{font-size:12px;color:var(--text-3)}
+footer a{color:var(--text-2);transition:color 0.2s}
+footer a:hover{color:var(--gold)}
+
+@media(max-width:768px){.wrap{padding:0 20px}nav{padding:12px 20px}}
 </style>
 </head>
 <body>
-<div class="wrap">
-<h1>سياسة الخصوصية</h1>
-<p class="sub">يمين — Arabic RTL for AI & Productivity &middot; آخر تحديث: May 2026</p>
 
-<h2>ملخص</h2>
-<p><strong>يمين لا يجمع أي بيانات. لا يرسل أي شيء. لا يتتبع أي مستخدم.</strong></p>
-<p>كل عمليات الإضافة تحدث محلياً في متصفحك بالكامل. لا يوجد خادم خارجي، ولا تحليلات، ولا أي اتصال بالإنترنت.</p>
+<nav>
+  <a href="/" class="brand">
+    <img src="icon48.png" width="28" height="28" style="border-radius:7px" alt="يمين">
+    <span>يمين</span>
+  </a>
+  <a href="/" class="back-link">&#8594; العودة للرئيسية</a>
+</nav>
 
-<h2>ما البيانات التي يجمعها يمين؟</h2>
-<p><strong>لا شيء.</strong> يمين لا يجمع ولا يخزّن ولا يرسل أي بيانات شخصية أو غير شخصية.</p>
+<section class="page-content">
+  <div class="wrap">
+    <div class="page-head">
+      <h1>سياسة الخصوصية</h1>
+      <p>يمين — Arabic RTL for AI &amp; Productivity &middot; آخر تحديث: May 2026</p>
+    </div>
 
-<h2>كيف يعمل يمين؟</h2>
-<p>يمين يعمل كإضافة محتوى (content script) تقرأ النص المعروض في صفحة المتصفح وتحدد اتجاهه بناءً على وجود أحرف عربية. كل هذا يحدث محلياً في جهازك.</p>
-<ul>
-  <li>لا يقرأ يمين أي محتوى من صفحات خارج المواقع المدعومة.</li>
-  <li>لا يرسل يمين أي نص أو بيانات إلى أي خادم خارجي.</li>
-  <li>لا يستخدم يمين أي خدمات تحليلات أو تتبع.</li>
-  <li>لا يخزّن يمين أي محتوى من المحادثات أو الصفحات.</li>
-</ul>
+    <h2>ملخص</h2>
+    <p><strong>يمين لا يجمع أي بيانات. لا يرسل أي شيء. لا يتتبع أي مستخدم.</strong></p>
+    <p>كل عمليات الإضافة تحدث محلياً في متصفحك بالكامل. لا يوجد خادم خارجي، ولا تحليلات، ولا أي اتصال بالإنترنت.</p>
 
-<h2>الأذونات المطلوبة</h2>
-<p><strong>storage</strong> — لحفظ إعداداتك المفضلة (مستوى RTL ونوع الأرقام) محلياً في متصفحك فقط.</p>
-<p><strong>activeTab</strong> — لتحديد ما إذا كانت الصفحة الحالية من المواقع المدعومة وعرض اسم المنصة في نافذة الإعدادات.</p>
+    <h2>ما البيانات التي يجمعها يمين؟</h2>
+    <p><strong>لا شيء.</strong> يمين لا يجمع ولا يخزّن ولا يرسل أي بيانات شخصية أو غير شخصية.</p>
 
-<h2>content_scripts</h2>
-<p>يمين ينفّذ كود محتوى على المواقع المدعومة فقط (مثل claude.ai, chatgpt.com, gemini.google.com وغيرها). هذا الكود يقرأ النص المعروض ويطبّق أنماط CSS لتغيير اتجاه النص. لا يتم إرسال أي شيء خارج المتصفح.</p>
+    <h2>كيف يعمل يمين؟</h2>
+    <p>يمين يعمل كإضافة محتوى (content script) تقرأ النص المعروض في صفحة المتصفح وتحدد اتجاهه بناءً على وجود أحرف عربية. كل هذا يحدث محلياً في جهازك.</p>
+    <ul>
+      <li>لا يقرأ يمين أي محتوى من صفحات خارج المواقع المدعومة.</li>
+      <li>لا يرسل يمين أي نص أو بيانات إلى أي خادم خارجي.</li>
+      <li>لا يستخدم يمين أي خدمات تحليلات أو تتبع.</li>
+      <li>لا يخزّن يمين أي محتوى من المحادثات أو الصفحات.</li>
+    </ul>
 
-<h2>مشاركة البيانات مع أطراف ثالثة</h2>
-<p><strong>لا يشارك يمين أي بيانات مع أي طرف ثالث.</strong> لا توجد بيانات لمشاركتها أصلاً.</p>
+    <h2>الأذونات المطلوبة</h2>
+    <p><strong>storage</strong> — لحفظ إعداداتك المفضلة (مستوى RTL ونوع الأرقام) محلياً في متصفحك فقط.</p>
+    <p><strong>activeTab</strong> — لتحديد ما إذا كانت الصفحة الحالية من المواقع المدعومة وعرض اسم المنصة في نافذة الإعدادات.</p>
 
-<h2>التغييرات على هذه السياسة</h2>
-<p>في حال تحديث هذه السياسة، سيتم نشر النسخة المحدثة على هذه الصفحة مع تحديث تاريخ "آخر تحديث".</p>
+    <h2>content_scripts</h2>
+    <p>يمين ينفّذ كود محتوى على المواقع المدعومة فقط (مثل claude.ai, chatgpt.com, gemini.google.com وغيرها). هذا الكود يقرأ النص المعروض ويطبّق أنماط CSS لتغيير اتجاه النص. لا يتم إرسال أي شيء خارج المتصفح.</p>
 
-<h2>التواصل</h2>
-<p>لأي استفسارات حول هذه السياسة، يمكنك التواصل عبر صفحة المشروع على GitHub.</p>
+    <h2>مشاركة البيانات مع أطراف ثالثة</h2>
+    <p><strong>لا يشارك يمين أي بيانات مع أي طرف ثالث.</strong> لا توجد بيانات لمشاركتها أصلاً.</p>
 
-<div class="footer">يمين v1.0.0 &middot; MIT License</div>
-</div>
+    <h2>التغييرات على هذه السياسة</h2>
+    <p>في حال تحديث هذه السياسة، سيتم نشر النسخة المحدثة على هذه الصفحة مع تحديث تاريخ "آخر تحديث".</p>
+
+    <h2>التواصل</h2>
+    <p>لأي استفسارات حول هذه السياسة، يمكنك التواصل عبر <a href="https://github.com/arj-89/yameen" class="inline-link">صفحة المشروع على GitHub</a>.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="max-width:1000px;margin:0 auto;padding:0 32px">
+    <p>يمين v1.1.0 &middot; MIT License &middot; <a href="https://github.com/arj-89/yameen">GitHub</a> &middot; <a href="/">الرئيسية</a> &middot; صُنع للقارئ العربي</p>
+  </div>
+</footer>
+
 </body>
 </html>

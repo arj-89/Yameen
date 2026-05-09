@@ -4,13 +4,14 @@
 
 **Arabic RTL for AI & Productivity**
 
-Automatic right-to-left text direction for Claude, ChatGPT, Gemini, Grok, DeepSeek, Perplexity, Notion, and 13+ more platforms.
+Automatic right-to-left text direction for Claude, ChatGPT, Gemini, Grok, DeepSeek, Perplexity, Notion, and 17+ more platforms.
 
 Install once. Read naturally.
 
 [![Chrome Web Store](https://img.shields.io/badge/Chrome-Web%20Store-blue?logo=googlechrome&logoColor=white)](#)
 [![Firefox Add-ons](https://img.shields.io/badge/Firefox-Add--ons-orange?logo=firefox&logoColor=white)](#)
 [![Safari](https://img.shields.io/badge/Safari-App%20Store-black?logo=safari&logoColor=white)](#)
+[![Version](https://img.shields.io/badge/version-1.1.0-indigo)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-gold.svg)](LICENSE)
 
 </div>
@@ -50,8 +51,8 @@ Every AI chat and most productivity tools render Arabic text left-to-right. Para
 
 ## Install
 
-### Chrome / Edge / Arc / Brave / Opera
-Install from [Chrome Web Store](#) — one click.
+### Chrome / Arc / Edge / Brave / Opera / Dia / DuckDuckGo
+Install from [Chrome Web Store](#) — one click. Works on all Chromium-based browsers.
 
 ### Firefox
 Install from [Firefox Add-ons](#) — one click.
@@ -95,6 +96,7 @@ yameen/
 ├── extension/
 │   ├── manifest.json          # Chrome Manifest V3
 │   ├── manifest-firefox.json  # Firefox Manifest V2
+│   ├── manifest-safari.json   # Safari Manifest V2
 │   ├── background.js          # Service worker (Any Website mode)
 │   ├── content.js             # RTL detection engine
 │   ├── content.css            # RTL styles

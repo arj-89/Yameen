@@ -94,10 +94,10 @@ nav.scrolled{padding:10px 32px;background:rgba(255,255,255,0.95);box-shadow:0 2p
 .platforms{padding:80px 0;text-align:center}
 .platforms .label{font-family:var(--mono);font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:28px}
 .platform-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:780px;margin:0 auto}
-.ptag{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;background:#ffffff;border:1px solid var(--border);border-radius:100px;font-size:13px;font-weight:500;color:var(--text-2);transition:all 0.25s;cursor:default;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.ptag{display:inline-flex;align-items:center;gap:0;padding:9px 18px;background:#ffffff;border:1px solid var(--border);border-radius:100px;font-size:13px;font-weight:500;color:var(--text-2);transition:all 0.25s;cursor:default;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
 .ptag:hover{border-color:rgba(79,70,229,0.40);color:var(--navy);background:#fff;transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.10)}
 .ptag .d{width:5px;height:5px;border-radius:50%;background:var(--gold)}
-.ptag img{border-radius:3px;vertical-align:middle;flex-shrink:0}
+.ptag img{border-radius:3px;vertical-align:middle;flex-shrink:0;margin-left:6px}
 .ptag.new::after{content:"جديد";font-size:9px;background:var(--gold-glow);color:var(--gold);padding:1px 6px;border-radius:4px;margin-right:4px}
 
 /* ── Section ── */
@@ -109,44 +109,43 @@ nav.scrolled{padding:10px 32px;background:rgba(255,255,255,0.95);box-shadow:0 2p
 .divider{width:48px;height:1px;background:var(--gold-dim);margin:0 auto 14px;opacity:0.5}
 
 /* ── Interactive Demo / Before-After Slider ── */
-/* The demo frame stays dark — it simulates a browser window. The dark/light contrast is intentional. */
-.demo-frame{max-width:680px;margin:0 auto;background:#111;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.06);box-shadow:0 24px 80px rgba(0,0,0,0.18)}
-.demo-chrome{display:flex;align-items:center;padding:11px 16px;background:#181818;border-bottom:1px solid rgba(255,255,255,0.06);gap:8px}
+.demo-frame{max-width:680px;margin:0 auto;background:#ffffff;border-radius:14px;overflow:hidden;border:1px solid #e2e8f0;box-shadow:0 24px 80px rgba(0,0,0,0.10)}
+.demo-chrome{display:flex;align-items:center;padding:11px 16px;background:#f5f5f5;border-bottom:1px solid #e5e5e5;gap:8px}
 .demo-dots{display:flex;gap:6px}
 .demo-dots span{width:11px;height:11px;border-radius:50%;display:block}
-.demo-url-bar{flex:1;margin:0 12px;background:rgba(255,255,255,0.05);border-radius:6px;padding:5px 12px}
-.demo-url-bar span{font-family:var(--mono);font-size:11px;color:rgba(255,255,255,0.3);letter-spacing:0.2px}
+.demo-url-bar{flex:1;margin:0 12px;background:#ebebeb;border-radius:6px;padding:5px 12px}
+.demo-url-bar span{font-family:var(--mono);font-size:11px;color:#94a3b8;letter-spacing:0.2px}
 .slider-area{position:relative;min-height:400px;cursor:col-resize;user-select:none;-webkit-user-select:none;overflow:hidden}
 .sl-layer{padding:28px 28px 48px;position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden}
-.sl-before{position:relative;background:#111}
-.sl-after{background:#111;clip-path:inset(0 0 0 50%);z-index:2}
+.sl-before{position:relative;background:#ffffff}
+.sl-after{background:#ffffff;clip-path:inset(0 0 0 50%);z-index:2}
 .sl-msg-row{display:flex;align-items:center;gap:7px;margin-bottom:12px}
 .sl-avatar{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
-.sl-av-user{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.4)}
-.sl-av-ai{background:rgba(79,70,229,0.15);color:rgba(79,70,229,0.8)}
-.sl-msg-name{font-size:11px;color:rgba(255,255,255,0.3);font-weight:500;letter-spacing:0.3px}
-.sl-q{background:rgba(255,255,255,0.04);border-radius:10px;padding:11px 15px;margin-bottom:18px;font-size:13px;color:rgba(255,255,255,0.65);line-height:1.7;direction:ltr;text-align:left;border:1px solid rgba(255,255,255,0.04)}
-.sl-a{font-size:13.5px;line-height:1.85;color:rgba(255,255,255,0.72)}
+.sl-av-user{background:#e8eaf0;color:#64748b}
+.sl-av-ai{background:rgba(79,70,229,0.10);color:#4f46e5}
+.sl-msg-name{font-size:11px;color:#94a3b8;font-weight:500;letter-spacing:0.3px}
+.sl-q{background:#f0f0f0;border-radius:10px;padding:11px 15px;margin-bottom:18px;font-size:13px;color:#334155;line-height:1.7;direction:ltr;text-align:left;border:1px solid #e2e8f0}
+.sl-a{font-size:13.5px;line-height:1.85;color:#334155}
 .sl-a.broken{direction:ltr;text-align:left}
 .sl-a.fixed{direction:rtl;text-align:right}
-.sl-a strong{color:rgba(255,255,255,0.9);font-weight:600}
-.sl-a .en{direction:ltr;unicode-bidi:isolate;color:rgba(79,70,229,0.7);font-family:var(--mono);font-size:12px}
-.sl-a .num{color:rgba(79,70,229,0.8);font-weight:600;font-feature-settings:"lnum"}
+.sl-a strong{color:#1a1a1a;font-weight:600}
+.sl-a .en{direction:ltr;unicode-bidi:isolate;color:#4f46e5;font-family:var(--mono);font-size:12px}
+.sl-a .num{color:#4f46e5;font-weight:600;font-feature-settings:"lnum"}
 .sl-a .bullet{display:block;margin:5px 0}
-.sl-code{background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);border-radius:8px;margin-top:14px;overflow:hidden}
-.sl-code-hdr{display:flex;align-items:center;justify-content:space-between;padding:7px 14px;border-bottom:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02)}
-.sl-code-lang{font-family:var(--mono);font-size:10px;color:rgba(255,255,255,0.2);letter-spacing:0.5px;text-transform:uppercase}
-.sl-code-cp{font-size:10px;color:rgba(255,255,255,0.2);padding:2px 8px;border:1px solid rgba(255,255,255,0.06);border-radius:4px}
-.sl-code-body{padding:12px 14px;font-family:var(--mono);font-size:11.5px;line-height:1.75;color:rgba(255,255,255,0.4);direction:ltr;text-align:left;white-space:pre}
-.sl-code-body .kw{color:#c586c0}.sl-code-body .fn{color:#dcdcaa}.sl-code-body .str{color:#ce9178}.sl-code-body .cm{color:rgba(255,255,255,0.18)}
-.sl-handle{position:absolute;top:0;left:50%;width:2px;height:100%;background:rgba(79,70,229,0.5);z-index:20;transform:translateX(-50%)}
-.sl-knob{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:28px;height:28px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;cursor:col-resize;box-shadow:0 2px 12px rgba(79,70,229,0.3)}
+.sl-code{background:#f8f9fa;border:1px solid #e2e8f0;border-radius:8px;margin-top:14px;overflow:hidden}
+.sl-code-hdr{display:flex;align-items:center;justify-content:space-between;padding:7px 14px;border-bottom:1px solid #e2e8f0;background:#f1f5f9}
+.sl-code-lang{font-family:var(--mono);font-size:10px;color:#94a3b8;letter-spacing:0.5px;text-transform:uppercase}
+.sl-code-cp{font-size:10px;color:#94a3b8;padding:2px 8px;border:1px solid #e2e8f0;border-radius:4px}
+.sl-code-body{padding:12px 14px;font-family:var(--mono);font-size:11.5px;line-height:1.75;color:#334155;direction:ltr;text-align:left;white-space:pre}
+.sl-code-body .kw{color:#7c3aed}.sl-code-body .fn{color:#0369a1}.sl-code-body .str{color:#15803d}.sl-code-body .cm{color:#94a3b8}
+.sl-handle{position:absolute;top:0;left:50%;width:2px;height:100%;background:#4f46e5;z-index:20;transform:translateX(-50%)}
+.sl-knob{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:28px;height:28px;border-radius:50%;background:#4f46e5;display:flex;align-items:center;justify-content:center;cursor:col-resize;box-shadow:0 2px 12px rgba(79,70,229,0.30)}
 .sl-knob svg{width:12px;height:12px}
-.sl-wm-bar{position:absolute;bottom:0;left:0;right:0;height:32px;display:flex;z-index:25;pointer-events:none;border-top:1px solid rgba(255,255,255,0.04);background:rgba(17,17,17,0.95)}
+.sl-wm-bar{position:absolute;bottom:0;left:0;right:0;height:32px;display:flex;direction:ltr;z-index:25;pointer-events:none;border-top:1px solid #e2e8f0;background:rgba(248,250,252,0.98)}
 .sl-wm-side{flex:1;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;letter-spacing:0.3px;gap:5px}
-.sl-wm-before{color:rgba(239,68,68,0.5)}
-.sl-wm-after{color:rgba(79,70,229,0.75)}
-.sl-wm-sep{width:2px;background:rgba(79,70,229,0.5);align-self:stretch}
+.sl-wm-before{color:rgba(239,68,68,0.75)}
+.sl-wm-after{color:rgba(34,197,94,0.85)}
+.sl-wm-sep{width:2px;background:#4f46e5;align-self:stretch}
 
 /* ── Features ── */
 .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
@@ -236,7 +235,7 @@ footer a:hover{color:var(--gold)}
 <!-- ═══ HERO ═══ -->
 <section class="hero">
   <div class="hero-glow"></div>
-  <div class="hero-badge">v1.0.0 &mdash; متاح الآن على Chrome · Firefox · Safari</div>
+  <div class="hero-badge">v1.1.0 &mdash; متاح الآن على Chrome · Firefox · Safari</div>
   <h1>اقرأ العربية<br>باتجاهها <em>الصحيح</em></h1>
   <p class="hero-sub">إضافة متصفح تكتشف العربية تلقائياً وتعيد الاتجاه. تدعم كل منصات الذكاء الاصطناعي والإنتاجية. ثبّت وانسَ.</p>
   <div class="hero-actions">
@@ -292,7 +291,7 @@ footer a:hover{color:var(--gold)}
       <div class="sec-num">01</div>
       <div class="divider"></div>
       <h2>اسحب وقارن</h2>
-      <p>اسحب الخط الذهبي لترى الفرق بين قبل وبعد يمين.</p>
+      <p>اسحب الخط الأزرق لترى الفرق بين قبل وبعد يمين.</p>
     </div>
     <div class="demo-frame sr sr-d2">
       <div class="demo-chrome">
@@ -304,7 +303,7 @@ footer a:hover{color:var(--gold)}
         <!-- BEFORE (broken LTR) -->
         <div class="sl-layer sl-before">
           <div class="sl-msg-row"><div class="sl-avatar sl-av-user">Y</div><span class="sl-msg-name">You</span></div>
-          <div class="sl-q">اشرح لي مبادئ SOLID بالعربي مع مثال كود</div>
+          <div class="sl-q">اشرح لي مبادئ SOLID الـ 5 بالعربي مع كود مختصر كمثال</div>
           <div class="sl-msg-row"><div class="sl-avatar sl-av-ai">C</div><span class="sl-msg-name">Claude</span></div>
           <div class="sl-a broken">
             مبادئ SOLID هي 5 قواعد أساسية في البرمجة الكائنية. ظهرت أول مرة سنة 2000 على يد Robert C. Martin وتساعدك تكتب كود نظيف:
@@ -327,8 +326,8 @@ footer a:hover{color:var(--gold)}
 
         <!-- AFTER (fixed RTL) -->
         <div class="sl-layer sl-after" id="slider-after">
-          <div class="sl-msg-row" style="direction:ltr;text-align:left"><div class="sl-avatar sl-av-user">Y</div><span class="sl-msg-name">You</span></div>
-          <div class="sl-q">اشرح لي مبادئ SOLID بالعربي مع مثال كود</div>
+          <div class="sl-msg-row" style="direction:rtl"><div class="sl-avatar sl-av-user">Y</div><span class="sl-msg-name">You</span></div>
+          <div class="sl-q" style="direction:rtl;text-align:right">اشرح لي مبادئ <span class="en">SOLID</span> الـ <span class="num">5</span> بالعربي مع كود مختصر كمثال</div>
           <div class="sl-msg-row" style="direction:rtl"><div class="sl-avatar sl-av-ai">C</div><span class="sl-msg-name">Claude</span></div>
           <div class="sl-a fixed">
             مبادئ <span class="en">SOLID</span> هي <span class="num">5</span> قواعد أساسية في البرمجة الكائنية. ظهرت أول مرة سنة <span class="num">2000</span> على يد <span class="en">Robert C. Martin</span> وتساعدك تكتب كود نظيف:
@@ -351,7 +350,7 @@ footer a:hover{color:var(--gold)}
 
         <!-- Handle -->
         <div class="sl-handle" id="slider-handle">
-          <div class="sl-knob"><svg viewBox="0 0 12 12" fill="none"><path d="M4 2L1.5 6L4 10" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 2L10.5 6L8 10" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="sl-knob"><svg viewBox="0 0 12 12" fill="none"><path d="M4 2L1.5 6L4 10" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 2L10.5 6L8 10" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
 
         <!-- Bottom bar -->
@@ -405,8 +404,8 @@ footer a:hover{color:var(--gold)}
         <tr class="group-hdr"><td colspan="5">أدوات الإنتاجية</td></tr>
         <tr><td><img src="https://www.google.com/s2/favicons?domain=notion.so&sz=32" width="14" height="14" class="fav" alt=""><img src="https://www.google.com/s2/favicons?domain=coda.io&sz=32" width="14" height="14" class="fav" alt="" style="margin-left:2px"><img src="https://www.google.com/s2/favicons?domain=docs.google.com&sz=32" width="14" height="14" class="fav" alt="" style="margin-left:2px">Notion · Coda · Google Docs</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="n">&#10007;</td></tr>
         <tr class="group-hdr"><td colspan="5">المتصفحات</td></tr>
-        <tr><td><img src="https://www.google.com/s2/favicons?domain=google.com&sz=32" width="14" height="14" class="fav" alt="">Chrome / Edge / Arc</td><td class="hl y">&#10003;</td><td class="y">&#10003;</td><td class="y">&#10003;</td><td class="y">&#10003;</td></tr>
-        <tr><td><img src="https://www.google.com/s2/favicons?domain=mozilla.org&sz=32" width="14" height="14" class="fav" alt="">Firefox</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="y">&#10003;</td></tr>
+        <tr><td><img src="https://www.google.com/s2/favicons?domain=chrome.google.com&sz=32" width="14" height="14" class="fav" alt="">Chrome</td><td class="hl y">&#10003;</td><td class="y">&#10003;</td><td class="y">&#10003;</td><td class="y">&#10003;</td></tr>
+        <tr><td><img src="https://www.google.com/s2/favicons?domain=firefox.com&sz=32" width="14" height="14" class="fav" alt="">Firefox</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="y">&#10003;</td></tr>
         <tr><td><img src="https://www.google.com/s2/favicons?domain=apple.com&sz=32" width="14" height="14" class="fav" alt="">Safari</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="n">&#10007;</td></tr>
         <tr class="group-hdr"><td colspan="5">المميزات</td></tr>
         <tr><td>خيار الأرقام</td><td class="hl y">&#10003;</td><td class="n">&#10007;</td><td class="n">&#10007;</td><td class="n">&#10007;</td></tr>
@@ -426,16 +425,16 @@ footer a:hover{color:var(--gold)}
       <div class="sec-num">04</div>
       <div class="divider"></div>
       <h2>ثبّت في دقيقة</h2>
-      <p>اختر متصفحك. الإضافة تشتغل تلقائياً بعد التثبيت.</p>
+      <p>اختر متصفحك. الإضافة تعمل تلقائياً بعد التثبيت.</p>
     </div>
     <div class="tabs sr sr-d1" id="tabs"></div>
     <div class="tab-panel active" id="tab-chrome">
       <div class="steps">
         <div class="step sr"><div class="step-text"><h4>افتح صفحة يمين في المتجر</h4><p>ابحث عن "يمين" في <code>Chrome Web Store</code> أو اضغط <a href="#" title="TODO: add Chrome Web Store link after approval">الرابط المباشر</a>.</p></div></div><!-- TODO: add Chrome Web Store link after approval -->
         <div class="step sr"><div class="step-text"><h4>اضغط "Add to Chrome"</h4><p>وافق على الأذونات المطلوبة — يمين يطلب فقط <code>storage</code> و <code>activeTab</code>.</p></div></div>
-        <div class="step sr"><div class="step-text"><h4>افتح أي منصة وابدأ</h4><p>الإضافة تشتغل تلقائياً. اضغط أيقونة يمين في شريط الأدوات لتعديل الإعدادات.</p></div></div>
+        <div class="step sr"><div class="step-text"><h4>افتح أي منصة وابدأ</h4><p>الإضافة تعمل تلقائياً. اضغط أيقونة يمين في شريط الأدوات لتعديل الإعدادات.</p></div></div>
       </div>
-      <p style="font-size:13px;color:#64748b;margin-top:24px;line-height:1.9;text-align:center">يعمل أيضاً على جميع المتصفحات المبنية على Chromium:<br><span style="font-weight:500;color:#334155">Arc · Brave · Microsoft Edge · Opera · Dia · DuckDuckGo · ChatGPT Atlas</span></p>
+      <p style="font-size:13px;color:#64748b;margin-top:24px;line-height:2.4;text-align:center">يعمل أيضاً على جميع المتصفحات المبنية على Chromium:<br><span style="font-weight:500;color:#334155"><img src="https://www.google.com/s2/favicons?domain=arc.net&sz=32" width="14" height="14" style="border-radius:3px;vertical-align:middle"> Arc · <img src="https://www.google.com/s2/favicons?domain=brave.com&sz=32" width="14" height="14" style="border-radius:3px;vertical-align:middle"> Brave · <img src="https://www.google.com/s2/favicons?domain=microsoft.com&sz=32" width="14" height="14" style="border-radius:3px;vertical-align:middle"> Microsoft Edge · <img src="https://www.google.com/s2/favicons?domain=opera.com&sz=32" width="14" height="14" style="border-radius:3px;vertical-align:middle"> Opera · <img src="https://www.google.com/s2/favicons?domain=dia.so&sz=32" width="14" height="14" style="border-radius:3px;vertical-align:middle"> Dia · <img src="https://www.google.com/s2/favicons?domain=duckduckgo.com&sz=32" width="14" height="14" style="border-radius:3px;vertical-align:middle"> DuckDuckGo · ChatGPT Atlas</span></p>
     </div>
     <div class="tab-panel" id="tab-firefox">
       <div class="steps">
@@ -458,14 +457,14 @@ footer a:hover{color:var(--gold)}
 <section class="final-cta">
   <div class="wrap sr">
     <h2>جاهز تقرأ بشكل <em style="font-style:normal;color:var(--gold)">صحيح</em>؟</h2>
-    <p>حمّل يمين الآن. مجاني ويشتغل في أقل من دقيقة.</p>
+    <p>حمّل يمين الآن. مجاني ويعمل في أقل من دقيقة.</p>
     <a href="#install" class="btn-primary">حمّل يمين &larr;</a>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <p>يمين v1.0.0 &middot; MIT License &middot; <a href="https://github.com/arj-89/yameen">GitHub</a> &middot; <a href="https://yameen.bixet.tech/privacy.html">سياسة الخصوصية</a> &middot; صُنع للقارئ العربي</p>
+    <p>يمين v1.1.0 &middot; MIT License &middot; <a href="https://github.com/arj-89/yameen">GitHub</a> &middot; <a href="https://yameen.bixet.tech/privacy.html">سياسة الخصوصية</a> &middot; صُنع للقارئ العربي</p>
   </div>
 </footer>
 
@@ -511,7 +510,7 @@ let dragging = false;
 function setPos(x) {
   const rect = slider.getBoundingClientRect();
   let pct = ((x - rect.left) / rect.width) * 100;
-  pct = Math.max(10, Math.min(90, pct));
+  pct = Math.max(5, Math.min(95, pct));
   handle.style.left = pct + '%';
   after.style.clipPath = `inset(0 0 0 ${pct}%)`;
   slSep.style.position = 'absolute';
@@ -534,13 +533,13 @@ if (/Firefox/i.test(ua)) detected = 'firefox';
 else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) detected = 'safari';
 
 const browserIcons = {
-  chrome: '<img src="https://www.google.com/s2/favicons?domain=google.com&sz=32" width="16" height="16" style="border-radius:3px;vertical-align:middle;flex-shrink:0" alt="">',
-  firefox: '<img src="https://www.google.com/s2/favicons?domain=mozilla.org&sz=32" width="16" height="16" style="border-radius:3px;vertical-align:middle;flex-shrink:0" alt="">',
+  chrome: '<img src="https://www.google.com/s2/favicons?domain=chrome.google.com&sz=32" width="16" height="16" style="border-radius:3px;vertical-align:middle;flex-shrink:0" alt="">',
+  firefox: '<img src="https://www.google.com/s2/favicons?domain=firefox.com&sz=32" width="16" height="16" style="border-radius:3px;vertical-align:middle;flex-shrink:0" alt="">',
   safari: '<img src="https://www.google.com/s2/favicons?domain=apple.com&sz=32" width="16" height="16" style="border-radius:3px;vertical-align:middle;flex-shrink:0" alt="">',
 };
 
 const browsers = [
-  { id: 'chrome', label: 'Chrome / Arc / Edge' },
+  { id: 'chrome', label: 'Chrome' },
   { id: 'firefox', label: 'Firefox' },
   { id: 'safari', label: 'Safari' },
 ];
