@@ -3,7 +3,7 @@
   "name": "Yameen — Arabic RTL for AI",
   "short_name": "Yameen",
   "version": "1.1.0",
-  "description": "Arabic RTL for Claude, ChatGPT, Gemini, Grok, DeepSeek, Perplexity, Notion, Coda and more. Zero config — install and read.",
+  "description": "Auto-detects Arabic text and fixes RTL direction. Works on 20+ AI and productivity platforms.",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
