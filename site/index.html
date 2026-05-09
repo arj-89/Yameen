@@ -180,7 +180,7 @@ table.comp td .fav{border-radius:3px;vertical-align:middle;margin-left:4px}
 .tab-btn:hover{color:var(--navy);border-color:var(--border-2);box-shadow:0 2px 8px rgba(0,0,0,0.08)}
 .tab-btn.active{background:var(--gold-glow);border-color:rgba(79,70,229,0.30);color:var(--gold)}
 .tab-btn.detected::after{content:"متصفحك";display:inline-block;vertical-align:middle;font-size:10px;background:var(--gold);color:#fff;padding:2px 8px;border-radius:4px;margin-right:8px;font-weight:600}
-.tab-panel{display:none;max-width:620px;margin:0 auto}
+.tab-panel{display:none;max-width:900px;margin:0 auto}
 .tab-panel.active{display:block}
 .steps{counter-reset:step;display:flex;flex-direction:column;gap:12px}
 .step{display:flex;gap:20px;padding:22px 24px;background:#ffffff;border:1px solid var(--border);border-radius:12px;box-shadow:0 2px 16px rgba(0,0,0,0.06);align-items:flex-start}
@@ -190,6 +190,9 @@ table.comp td .fav{border-radius:3px;vertical-align:middle;margin-left:4px}
 .step p{font-size:13px;color:var(--text-2);font-weight:300}
 .step code{font-family:var(--mono);font-size:12px;background:#f1f5f9;padding:2px 8px;border-radius:4px;direction:ltr;unicode-bidi:isolate;color:var(--gold-dim);border:1px solid var(--border)}
 .step a{color:var(--gold);text-decoration:underline;text-underline-offset:2px}
+.install-layout{display:grid;grid-template-columns:1fr auto;gap:32px;align-items:start}
+.install-screenshot{width:200px;position:sticky;top:24px}
+.install-screenshot img{width:100%;border-radius:14px;border:1px solid var(--border);box-shadow:0 4px 24px rgba(0,0,0,0.10)}
 
 /* ── CTA ── */
 .final-cta{padding:120px 0;text-align:center;position:relative}
@@ -213,6 +216,8 @@ footer a:hover{color:var(--gold)}
   .feat-grid{grid-template-columns:1fr}
   .slider-wrap{cursor:default}
   .hero-actions{flex-direction:column;align-items:center}
+  .install-layout{grid-template-columns:1fr}
+  .install-screenshot{width:160px;margin:16px auto 0;position:static}
 }
 </style>
 </head>
@@ -429,12 +434,14 @@ footer a:hover{color:var(--gold)}
     </div>
     <div class="tabs sr sr-d1" id="tabs"></div>
     <div class="tab-panel active" id="tab-chrome">
-      <div class="steps">
-        <div class="step sr"><div class="step-text"><h4>افتح صفحة يمين في المتجر</h4><p>ابحث عن "يمين" في <a href="https://chrome.google.com/webstore/detail/nephalabmiodkhilmfcblhcfdebedbbp" target="_blank" rel="noopener"><code>Chrome Web Store</code></a> أو اضغط <a href="https://chrome.google.com/webstore/detail/nephalabmiodkhilmfcblhcfdebedbbp" target="_blank" rel="noopener">الرابط المباشر</a>.</p></div></div>
-        <div class="step sr"><div class="step-text"><h4>اضغط "Add to Chrome"</h4><p>وافق على الأذونات المطلوبة — يمين يطلب فقط <code>storage</code> و <code>activeTab</code>.</p></div></div>
-        <div class="step sr"><div class="step-text"><h4>افتح أي منصة وابدأ</h4><p>الإضافة تعمل تلقائياً. اضغط أيقونة يمين في شريط الأدوات لتعديل الإعدادات.</p></div></div>
-      </div>
-      <p style="font-size:13px;color:#64748b;margin-top:24px;line-height:2.2;text-align:center">
+      <div class="install-layout">
+        <div>
+          <div class="steps">
+            <div class="step sr"><div class="step-text"><h4>افتح صفحة يمين في المتجر</h4><p>ابحث عن "يمين" في <a href="https://chrome.google.com/webstore/detail/nephalabmiodkhilmfcblhcfdebedbbp" target="_blank" rel="noopener"><code>Chrome Web Store</code></a> أو اضغط <a href="https://chrome.google.com/webstore/detail/nephalabmiodkhilmfcblhcfdebedbbp" target="_blank" rel="noopener">الرابط المباشر</a>.</p></div></div>
+            <div class="step sr"><div class="step-text"><h4>اضغط "Add to Chrome"</h4><p>وافق على الأذونات المطلوبة — يمين يطلب فقط <code>storage</code> و <code>activeTab</code>.</p></div></div>
+            <div class="step sr"><div class="step-text"><h4>افتح أي منصة وابدأ</h4><p>الإضافة تعمل تلقائياً. اضغط أيقونة يمين في شريط الأدوات لتعديل الإعدادات.</p></div></div>
+          </div>
+          <p style="font-size:13px;color:#64748b;margin-top:24px;line-height:2.2;text-align:center">
   يعمل أيضاً على جميع المتصفحات المبنية على
   <img src="https://www.google.com/s2/favicons?domain=chromium.org&sz=32" width="14" height="14" style="vertical-align:middle;margin:0 2px" alt="Chromium">Chromium:<br>
   <span style="font-weight:500;color:#334155;display:inline-flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;margin-top:4px;direction:ltr">
@@ -453,19 +460,34 @@ footer a:hover{color:var(--gold)}
     <span style="display:inline-flex;align-items:center;gap:3px"><img src="https://logosenvector.com/logo/img/logo-chatgpt-atlas-38545.png" width="14" height="14" style="vertical-align:middle;border-radius:2px" alt="ChatGPT Atlas">ChatGPT Atlas</span>
   </span>
 </p>
+        </div>
+        <div class="install-screenshot">
+          <img src="screenshot-chrome.png" alt="واجهة إضافة يمين في Chrome" loading="lazy">
+        </div>
+      </div>
     </div>
     <div class="tab-panel" id="tab-firefox">
-      <div class="steps">
-        <div class="step sr"><div class="step-text"><h4>افتح صفحة يمين في المتجر</h4><p>ابحث عن "يمين" في <a href="https://addons.mozilla.org/en-US/firefox/addon/yameen-rtl/" target="_blank" rel="noopener"><code>Firefox Add-ons</code></a> أو اضغط <a href="https://addons.mozilla.org/en-US/firefox/addon/yameen-rtl/" target="_blank" rel="noopener">الرابط المباشر</a>.</p></div></div>
-        <div class="step sr"><div class="step-text"><h4>اضغط "Add to Firefox"</h4><p>وافق على الأذونات. يمين لا يحتاج صلاحيات حساسة.</p></div></div>
-        <div class="step sr"><div class="step-text"><h4>ابدأ مباشرة</h4><p>يمين يعمل فوراً على كل المنصات المدعومة.</p></div></div>
+      <div class="install-layout">
+        <div class="steps">
+          <div class="step sr"><div class="step-text"><h4>افتح صفحة يمين في المتجر</h4><p>ابحث عن "يمين" في <a href="https://addons.mozilla.org/en-US/firefox/addon/yameen-rtl/" target="_blank" rel="noopener"><code>Firefox Add-ons</code></a> أو اضغط <a href="https://addons.mozilla.org/en-US/firefox/addon/yameen-rtl/" target="_blank" rel="noopener">الرابط المباشر</a>.</p></div></div>
+          <div class="step sr"><div class="step-text"><h4>اضغط "Add to Firefox"</h4><p>وافق على الأذونات. يمين لا يحتاج صلاحيات حساسة.</p></div></div>
+          <div class="step sr"><div class="step-text"><h4>ابدأ مباشرة</h4><p>يمين يعمل فوراً على كل المنصات المدعومة.</p></div></div>
+        </div>
+        <div class="install-screenshot">
+          <img src="screenshot-firefox.png" alt="واجهة إضافة يمين في Firefox" loading="lazy">
+        </div>
       </div>
     </div>
     <div class="tab-panel" id="tab-safari">
-      <div class="steps">
-        <div class="step sr"><div class="step-text"><h4>حمّل من Mac App Store</h4><p>ابحث عن "يمين" في <a href="https://apps.apple.com/app/yameen/id6767819611" target="_blank" rel="noopener"><code>App Store</code></a> أو اضغط <a href="https://apps.apple.com/app/yameen/id6767819611" target="_blank" rel="noopener">الرابط المباشر</a> وثبّته كتطبيق macOS.</p></div></div>
-        <div class="step sr"><div class="step-text"><h4>فعّل في Safari</h4><p>Safari &rarr; Settings &rarr; Extensions &rarr; فعّل يمين.</p></div></div>
-        <div class="step sr"><div class="step-text"><h4>ابدأ مباشرة</h4><p>الإضافة تعمل تلقائياً على كل المنصات المدعومة.</p></div></div>
+      <div class="install-layout">
+        <div class="steps">
+          <div class="step sr"><div class="step-text"><h4>حمّل من Mac App Store</h4><p>ابحث عن "يمين" في <a href="https://apps.apple.com/app/yameen/id6767819611" target="_blank" rel="noopener"><code>App Store</code></a> أو اضغط <a href="https://apps.apple.com/app/yameen/id6767819611" target="_blank" rel="noopener">الرابط المباشر</a> وثبّته كتطبيق macOS.</p></div></div>
+          <div class="step sr"><div class="step-text"><h4>فعّل في Safari</h4><p>Safari &rarr; Settings &rarr; Extensions &rarr; فعّل يمين.</p></div></div>
+          <div class="step sr"><div class="step-text"><h4>ابدأ مباشرة</h4><p>الإضافة تعمل تلقائياً على كل المنصات المدعومة.</p></div></div>
+        </div>
+        <div class="install-screenshot">
+          <img src="screenshot-safari.png" alt="واجهة إضافة يمين في Safari" loading="lazy">
+        </div>
       </div>
     </div>
   </div>
