@@ -257,7 +257,7 @@ footer a:hover{color:var(--gold)}
       <div class="stat sr"><div class="num" data-count="20">0</div><div class="label">منصة مدعومة</div></div>
       <div class="stat sr sr-d1"><div class="num" data-count="3">0</div><div class="label">متصفحات رئيسية</div></div>
       <div class="stat sr sr-d2"><div class="num">0</div><div class="label">بيانات مُرسلة</div></div>
-      <div class="stat sr sr-d3 visible"><div class="num" data-count="40">40</div><div class="label">حجم الإضافة بالـ KB</div></div>
+      <div class="stat sr sr-d3 visible"><div class="num" data-count="40" data-no-plus>40</div><div class="label">حجم الإضافة بالـ KB</div></div>
     </div>
   </div>
 </div>
@@ -547,7 +547,7 @@ const cObs = new IntersectionObserver((entries) => {
     const timer = setInterval(() => {
       current += step;
       if (current >= target) { current = target; clearInterval(timer); }
-      el.textContent = current + '+';
+      el.textContent = current + (el.dataset.noPlus !== undefined ? '' : '+');
     }, 40);
     cObs.unobserve(el);
   });
