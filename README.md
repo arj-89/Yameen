@@ -1,156 +1,98 @@
 <div align="center">
+  <img src="extension/icons/icon128.png" alt="Yameen logo" width="128" height="128" />
 
-# يمين
+  # يمين (Yameen)
 
-**Arabic RTL for AI & Productivity**
+  **Automatic right-to-left support for Arabic on Claude, ChatGPT, Gemini, and 20+ AI and productivity platforms.**
 
-Automatic right-to-left text direction for Claude, ChatGPT, Gemini, Grok, DeepSeek, Perplexity, Notion, and 17+ more platforms.
+  [![Chrome Web Store](https://img.shields.io/badge/Chrome-Web%20Store-blue?logo=googlechrome&logoColor=white)](https://yameen.bixet.tech)
+  [![Firefox Add-ons](https://img.shields.io/badge/Firefox-Add--ons-orange?logo=firefoxbrowser&logoColor=white)](https://yameen.bixet.tech)
+  [![Safari](https://img.shields.io/badge/Safari-App%20Store-lightgrey?logo=safari&logoColor=white)](https://yameen.bixet.tech)
+  [![License](https://img.shields.io/github/license/arj-89/Yameen)](LICENSE)
+  [![Version](https://img.shields.io/badge/version-1.2.0-green)](CHANGELOG.md)
 
-Install once. Read naturally.
-
-[![Chrome Web Store](https://img.shields.io/badge/Chrome-Web%20Store-blue?logo=googlechrome&logoColor=white)](https://chrome.google.com/webstore/detail/nephalabmiodkhilmfcblhcfdebedbbp)
-[![Firefox Add-ons](https://img.shields.io/badge/Firefox-Add--ons-orange?logo=firefox&logoColor=white)](https://addons.mozilla.org/en-US/firefox/addon/yameen-rtl/)
-[![Safari](https://img.shields.io/badge/Safari-App%20Store-black?logo=safari&logoColor=white)](https://apps.apple.com/app/yameen/id6767819611)
-[![Version](https://img.shields.io/badge/version-1.1.0-indigo)](CHANGELOG.md)
-[![License: MIT](https://img.shields.io/badge/License-MIT-gold.svg)](LICENSE)
-
+  [Website](https://yameen.bixet.tech) · [Changelog](CHANGELOG.md) · [Contributing](CONTRIBUTING.md) · [Publishing Guide](PUBLISHING-GUIDE.md)
 </div>
 
 ---
 
-## The Problem
+## What is Yameen?
 
-Every AI chat and most productivity tools render Arabic text left-to-right. Paragraphs are misaligned, bullet points face the wrong way, and mixed Arabic/English content becomes unreadable. Millions of Arabic speakers deal with this daily.
+When you type Arabic into AI chat platforms, the text often renders left-to-right with broken punctuation, misordered numbers, and mangled mixed-direction content. **Yameen fixes that automatically.**
 
-## The Fix
-
-يمين scans every text element on the page. If it detects Arabic above a configurable threshold, it flips that element to RTL — while keeping code blocks, math, and English content in LTR. No manual toggle. No configuration. Install and forget.
-
-## Supported Platforms
-
-| AI Chats | Productivity |
-|----------|-------------|
-| Claude · ChatGPT · Gemini · Grok | Notion · Coda · Google Docs |
-| DeepSeek · Perplexity · Mistral | Linear · ClickUp |
-| Copilot · Poe · HuggingChat | + any website (opt-in) |
-| AI Studio · LM Arena · Pi · You.com | |
-
-**"Any Website" mode** — toggle one switch and يمين works on every site. Uses optional permissions so Chrome doesn't require it at install.
+The moment you type Arabic, Yameen detects it and applies proper right-to-left formatting — `dir="rtl"`, correct text alignment, and bidirectional algorithm hints — so your input reads exactly the way it should. No keyboard shortcuts. No manual toggles per message. No friction.
 
 ## Features
 
-- **Auto-detect** — per-element Arabic detection, not full-page toggle
-- **Code protection** — `<pre>` and `<code>` always stay LTR
-- **Math protection** — KaTeX and MathJax stay LTR
-- **Numeral choice** — Western (1, 2, 3) or Eastern (١, ٢, ٣)
-- **Three modes** — Off / Auto / Force
-- **Live streaming** — updates direction as AI responses stream in
-- **SPA-aware** — detects navigation in single-page apps
-- **Zero tracking** — no analytics, no external connections, no data collection
-- **< 10KB** — the entire extension
+- **Automatic Arabic detection.** Type one Arabic character and Yameen flips the input to RTL. Switch back to English and it flips back.
+- **20+ supported platforms out of the box.** Including Claude, ChatGPT, Gemini, and other major AI and productivity tools.
+- **"Any Website" mode.** Enable Yameen on any site that isn't on the supported list.
+- **Real numeral conversion.** Eastern Arabic numerals (٠-٩) on page content are converted to Western (0-9) as actual text — copy-paste works, screen readers read correctly, and scripts see the right values. User input is left alone.
+- **Clean Off teardown.** Toggle off and Yameen fully restores the page to its original state. No reload required.
+- **Cross-browser.** Single codebase, three browsers, one consistent experience.
+- **Privacy-first.** No accounts. No analytics. No network calls. Everything runs locally in your browser.
 
 ## Install
 
-### Chrome / Arc / Edge / Brave / Opera / Dia / DuckDuckGo
-Install from [Chrome Web Store](https://chrome.google.com/webstore/detail/nephalabmiodkhilmfcblhcfdebedbbp) — one click. Works on all Chromium-based browsers.
+| Browser | Where |
+|--------|-------|
+| Chrome / Edge / Brave | [Chrome Web Store](https://yameen.bixet.tech) |
+| Firefox | [Firefox Add-ons](https://yameen.bixet.tech) |
+| Safari (macOS) | [Mac App Store](https://yameen.bixet.tech) |
 
-### Firefox
-Install from [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/yameen-rtl/) — one click.
+Or visit [yameen.bixet.tech](https://yameen.bixet.tech) for the full install guide.
 
-### Safari
-Install from [Mac App Store](https://apps.apple.com/app/yameen/id6767819611) — one click, then enable in Safari Settings → Extensions.
+## How it works
 
-### Manual (Development)
+1. Yameen runs as a content script on supported sites (or any site, in "Any Website" mode).
+2. It listens for input events on text fields and contenteditable elements.
+3. When Arabic characters are detected, it sets `dir="rtl"` and adjusts text alignment on the input.
+4. A separate pass walks page text nodes and converts displayed Eastern Arabic numerals to Western, with a MutationObserver catching dynamically loaded content.
+5. Toggle off, and Yameen disconnects all observers, removes all listeners, and restores every modified element to its original state.
+
+No data leaves your browser. Ever.
+
+## Development
+
 ```bash
 git clone https://github.com/arj-89/Yameen.git
-cd Yameen/extension
-```
-1. Open `chrome://extensions`
-2. Enable Developer Mode
-3. Click "Load unpacked" → select the `extension/` folder
-
-## Settings
-
-Click the يمين icon in your toolbar:
-
-| Setting | Options | Default |
-|---------|---------|---------|
-| مستوى RTL | Off · Auto · Force | Auto |
-| نظام الأرقام | أرقام عربية (1,2,3) · أرقام هندية (١,٢,٣) | أرقام عربية |
-| كل المواقع | On · Off | Off |
-
-## How It Works
-
-1. Content script runs on matched domains (or all domains if "Any Website" is enabled)
-2. `MutationObserver` watches for new/changed content (including streaming responses)
-3. Every text element (`p`, `li`, `h1`–`h6`, `blockquote`, `td`, `th`, `div`, `span`) is checked
-4. If 12%+ of characters are Arabic → `data-ymn="rtl"` attribute is added
-5. CSS rules apply `direction: rtl` and `text-align: right` with `unicode-bidi: plaintext`
-6. Code blocks, math, and UI chrome (nav, buttons) are explicitly protected as LTR
-7. Western numerals enforced via `font-feature-settings: "lnum"` when selected
-
-## Architecture
-
-```
-yameen/
-├── extension/
-│   ├── manifest.json          # Chrome Manifest V3
-│   ├── manifest-firefox.json  # Firefox Manifest V2
-│   ├── manifest-safari.json   # Safari Manifest V2
-│   ├── background.js          # Service worker (Any Website mode)
-│   ├── content.js             # RTL detection engine
-│   ├── content.css            # RTL styles
-│   ├── popup.html             # Settings UI
-│   ├── popup.js               # Settings logic + permission handling
-│   └── icons/
-├── site/                      # Landing page + privacy policy
-├── scripts/
-│   └── health-check.js        # Puppeteer DOM monitoring
-├── .github/workflows/
-│   ├── publish.yml            # Auto-publish on tag
-│   └── monitor.yml            # Daily platform health check
-└── README.md
+cd Yameen
+# See CONTRIBUTING.md for browser-specific build instructions
 ```
 
-## CI/CD
+For Safari, the Xcode project is in `extension/safari/`. Open the `.xcodeproj` file in Xcode. (Note: the inherited Xcode scheme name retains its original spelling intentionally to avoid project file conflicts.)
 
-**Automated publishing** — push a version tag and the extension ships:
+For publishing to stores, see [PUBLISHING-GUIDE.md](PUBLISHING-GUIDE.md).
 
-```bash
-# Bump version in manifest.json, then:
-git add -A && git commit -m "v1.0.1"
-git tag v1.0.1
-git push origin main --tags
-```
+## Tech
 
-The GitHub Action packages Chrome and Firefox zips separately and publishes to both stores.
+- **Manifest V3** across Chrome, Firefox, and Safari
+- **Vanilla JavaScript** — no build step required for the core extension
+- **TreeWalker + MutationObserver** for numeral conversion and dynamic content
+- **WeakSet/WeakMap** for tracking modified elements without leaking memory
 
-**Daily health check** — a Puppeteer script visits each platform, injects the content script, creates a test element with Arabic text, and verifies RTL is applied. Opens a GitHub Issue if anything breaks.
+## Comparison
+
+| Feature | Yameen | اتجاه |
+|---------|--------|-------|
+| Browsers | Chrome, Firefox, Safari | Chrome only |
+| AI platforms supported | 20+ | Claude only |
+| Distribution | Web stores (one click) | Manual zip install |
+| Numeral conversion | Real text replacement | — |
+| Open source | Yes (this repo) | — |
+
+## Roadmap
+
+See [CHANGELOG.md](CHANGELOG.md) for shipped versions. Open issues and discussions for what's next.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md).
-
-**Quick wins for contributors:**
-- Add a new platform: add the URL to `manifest.json` matches + `PLATFORMS` in `popup.js`
-- Improve detection: tune `content.js` threshold or add edge cases
-- Add a language: Farsi, Urdu, Pashto ranges in the Arabic regex
-- Fix a platform: when a site updates its DOM, update the root selectors in `content.js`
-
-## Privacy
-
-يمين does not collect, store, or transmit any data. All processing happens locally in your browser. See [Privacy Policy](https://yameen.bixet.tech/privacy.html).
+Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+See [LICENSE](LICENSE).
 
----
+## Built by
 
-<div align="center">
-
-**صُنع للقارئ العربي**
-
-[Website](https://yameen.bixet.tech) · [Chrome Web Store](https://chrome.google.com/webstore/detail/nephalabmiodkhilmfcblhcfdebedbbp) · [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/yameen-rtl/) · [Product Hunt](https://www.producthunt.com/products/yameen)
-
-</div>
+[ARJ](https://github.com/arj-89) under the [Bixet](https://bixet.tech) brand.

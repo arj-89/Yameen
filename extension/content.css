@@ -9,12 +9,6 @@
   unicode-bidi: plaintext !important;
 }
 
-/* ── Western numerals (default) ── */
-body[data-ymn-numerals="western"] [data-ymn="rtl"],
-body[data-ymn-numerals="western"] [data-ymn-input="rtl"] {
-  font-feature-settings: "lnum" !important;
-}
-
 /* ── Force mode: entire page RTL ── */
 body[data-ymn-mode="force"] {
   direction: rtl !important;
@@ -43,10 +37,6 @@ body[data-ymn-mode="force"] div {
   text-align: right !important;
   unicode-bidi: plaintext !important;
 }
-body[data-ymn-mode="force"][data-ymn-numerals="western"] {
-  font-feature-settings: "lnum" !important;
-}
-
 /* ── Code: ALWAYS LTR (all modes) ── */
 pre,
 pre *,

@@ -12,7 +12,7 @@ const PLATFORMS = {
   "clickup.com":"ClickUp","app.clickup.com":"ClickUp",
 };
 
-if (typeof chrome === 'undefined' || !chrome.scripting) {
+if (typeof chrome?.scripting?.registerContentScripts !== 'function') {
   document.getElementById('everywhere-sec').style.display = 'none';
 }
 
@@ -33,6 +33,14 @@ api.storage.sync.get(
     });
 
     everywhereEl.checked = s.everywhere;
+    if (s.everywhere) {
+      api.permissions.contains({ origins: ["<all_urls>"] }, (granted) => {
+        if (!granted) {
+          everywhereEl.checked = false;
+          api.storage.sync.set({ everywhere: false });
+        }
+      });
+    }
 
     api.tabs.query({ active: true, currentWindow: true }, (tabList) => {
       try {

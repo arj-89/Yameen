@@ -1,0 +1,592 @@
+# decisions.md — Yameen Engineering Notes
+
+## 1.2 Audit (2026-05-09)
+
+### Version confirmed
+
+All three manifests report `"version": "1.1.0"`:
+
+| File | Version |
+|------|---------|
+| `extension/manifest.json` (Chrome MV3) | 1.1.0 |
+| `extension/manifest-firefox.json` (Firefox MV2) | 1.1.0 |
+| `extension/manifest-safari.json` (Safari MV2) | 1.1.0 |
+
+`popup.html` line 14 also shows `v1.1.0` in the UI header.
+
+---
+
+### Bug #1 — Off mode teardown
+
+**Where the Off toggle is wired:**
+
+- `extension/popup.js` lines 56-58: mode radio inputs call `api.storage.sync.set({ mode: r.value })` on change.
+- `extension/content.js` lines 27-33 (`loadSettings`): `storage.onChanged` listener receives the change, updates the module-level `mode` variable, and immediately calls `applyMode()`.
+- `extension/content.js` lines 35-48 (`applyMode`): disconnects the MutationObserver (`obs.disconnect()`), calls `clearAll()`, then returns early if `mode === "off"`.
+- `extension/content.js` lines 203-210 (`clearAll`): removes `data-ymn`, `data-ymn-input`, `data-ymn-original` attributes via `querySelectorAll`, restores numeral text nodes from the `originalTextNodes` WeakMap, and removes `data-ymn-mode` / `data-ymn-numerals` from `document.body`.
+
+**Root cause — no element tracking:**
+
+The extension does **not** maintain a dedicated set of mutated elements. Instead it relies on `document.querySelectorAll("[data-ymn]")` at teardown time to discover what it previously changed.
+
+Consequences:
+1. If any element is removed from the DOM while still carrying `data-ymn`, it becomes invisible to `querySelectorAll` and can never be cleaned up.
+2. Original attribute values are not saved before mutation. The extension adds custom `data-ymn` attributes (RTL styling is applied entirely via CSS rules keyed on those attributes — see `content.css` lines 6-10, 94-98), but if an element already had a `dir` attribute set by the page, teardown would need to restore the original value, not just remove an attribute. Currently it does not save the original value.
+3. There is no WeakSet/WeakMap tracking modified elements. This is the structural gap flagged in the plan.
+
+**RTL mutation sites (where elements are marked):**
+
+| Location | What it does |
+|----------|-------------|
+| `content.js:119` (`processEl`) | `el.setAttribute("data-ymn", "rtl")` for LEAF_TAGS |
+| `content.js:129` (`processEl`) | `el.setAttribute("data-ymn", "rtl")` for CONTAINER_TAGS |
+| `content.js:141` (`processEl`) | `el.setAttribute("data-ymn", "rtl")` for DIV/SPAN |
+| `content.js:163` (`handleInputs`) | `el.setAttribute("data-ymn-input", "rtl")` for text inputs |
+
+**CSS that applies the visual RTL effect** (triggered by those attributes):
+
+- `content.css:6-10`: `[data-ymn="rtl"]` → `direction: rtl`, `text-align: right`, `unicode-bidi: plaintext`
+- `content.css:94-98`: `[data-ymn-input="rtl"]` → same three properties
+- `content.css:19-48`: `body[data-ymn-mode="force"]` rules (force mode)
+
+**Other event hooks that are active while On:**
+
+- `content.js:242-248`: `document.addEventListener("input", …)` — captures input events to re-run `handleInputs()`. Checks `if (mode === "off") return` but the listener itself is never removed; it persists forever.
+- `content.js:250-256`: URL-change `setInterval` (1000ms) — continues running after Off, correctly gated by `if (mode !== "off")`.
+- `content.js:273-279`: 700ms scan poll — correctly gated by `if (mode === "off") return`.
+- `content.js:259-271`: `MutationObserver obs` — disconnected in `applyMode()` before `clearAll()`. Correct.
+
+The `input` event listener (line 242) is never removed regardless of mode. It only guards internally with `if (mode === "off") return`, which is sufficient for correctness, but the Plan's `teardownAll()` should formally remove it.
+
+---
+
+### Bug #2 — Numeral conversion
+
+**CSS hack (current approach):**
+
+`content.css` lines 13-16:
+```css
+body[data-ymn-numerals="western"] [data-ymn="rtl"],
+body[data-ymn-numerals="western"] [data-ymn-input="rtl"] {
+  font-feature-settings: "lnum" !important;
+}
+```
+
+`content.css` line 47:
+```css
+body[data-ymn-mode="force"][data-ymn-numerals="western"] {
+  font-feature-settings: "lnum" !important;
+}
+```
+
+These rules use `font-feature-settings: "lnum"` (lining figures) to visually switch glyphs. This is the hack that must be removed. Note that `lnum` makes proportional/tabular glyphs but does NOT convert Eastern Arabic (٠-٩) to Western; the font must support the feature and the mapping. This approach is unreliable across fonts and does not change actual text content.
+
+**Text-node replacement (partially present):**
+
+`content.js` lines 8-9 define `EASTERN_TO_WESTERN` and `WESTERN_TO_EASTERN` maps. `content.js` lines 212-239 (`convertNumerals`) already implements a TreeWalker-based text replacement, storing original values in `originalTextNodes` WeakMap, and restoring them via `restoreNumerals()` in clearAll.
+
+**The gap:** `convertNumerals()` is only called from `scan()` (line 186), which means it only runs on elements already marked `data-ymn="rtl"`. It does not run a full-document pass on page load, and the MutationObserver does not re-run `convertNumerals` on newly inserted nodes independently of scan. Phase 3 will extend it to a full-document TreeWalker on load plus a dedicated MutationObserver pass.
+
+---
+
+### Bug #3 — "Any Website" mode over-unification
+
+**Location of "Any Website" logic:**
+
+| File | Role |
+|------|------|
+| `extension/background.js` lines 37-60 | `registerEverywhere()` / `unregisterEverywhere()` using `scripting.registerContentScripts()` (Chrome MV3 scripting API only) |
+| `extension/popup.js` lines 15-17, 70-88 | Shows/hides the toggle, requests `<all_urls>` optional permission, persists `everywhere` in storage |
+| `extension/manifest.json` lines 19-20 | `"optional_permissions": ["<all_urls>"]` — Chrome MV3 only |
+| `extension/manifest-firefox.json` | No `background` key, no `optional_permissions` |
+| `extension/manifest-safari.json` | No `background` key, no `optional_permissions` |
+
+**What makes it over-unified:**
+
+1. `background.js` exists as a single file but only loads in Chrome (the Firefox and Safari manifests have no `background` entry). Its existence is implicitly browser-gated by the build/manifest system, not by any code-level guard.
+2. `popup.js` line 15: `if (typeof chrome === 'undefined' || !chrome.scripting)` — Firefox provides a `chrome` compat object, and modern Firefox (MV3) does have `chrome.scripting`. This check is unreliable for Firefox MV2: the condition depends on runtime environment rather than explicit browser detection. The result is undefined behavior in Firefox.
+3. The `everywhere` setting persists in `storage.sync` for all browsers. On Firefox and Safari where the section is hidden, an `everywhere: true` value could be left over from a Chrome install (if the user syncs storage), causing the content script to believe "everywhere" is enabled when the background dynamic injection is not running.
+4. There is no single `shouldApplyRTL(url, settings)` predicate. The decision of whether to run RTL on a given page is implicit: if content.js is injected (by manifest match or dynamic registration), it runs. There is no per-URL enabled/disabled logic in content.js itself — mode is global, not per-site.
+
+**What should stay browser-specific:** manifest keys (`optional_permissions`, `background.service_worker`), the dynamic scripting API call, and the permission request flow (Chrome only).
+
+**What should be shared:** a single predicate that determines whether the extension is active on the current URL given the settings object. This would make content.js self-aware rather than relying purely on injection gating.
+
+---
+
+### Platform count
+
+The `extension/manifest.json` content_scripts `matches` array lists 24 URL patterns covering 20 distinct services (some services have 2 entries, e.g., `chatgpt.com` + `chat.openai.com`). The "20+" claim in the README and popup UI is accurate.
+
+---
+
+**HARD STOP — Phase 1 complete. Awaiting review before any code changes.**
+
+---
+
+## Phase 2 — Bug #1 fix: Off mode teardown (2026-05-09)
+
+### What changed
+
+**`extension/content.js`** — only this file was modified. No CSS changes, no other files touched.
+
+#### 1. Added `modifiedElements` tracking Map
+
+```js
+const modifiedElements = new Map(); // element → {attrName: originalValue}
+```
+
+A module-level `Map` where each key is a DOM element Yameen has mutated and each value is an object recording the attribute's value *before* Yameen touched it (`null` if the attribute was absent). Using a `Map` (not `WeakMap`) because teardown requires iteration over all tracked elements.
+
+#### 2. Added `track()` and `untrack()` helpers
+
+`track(el, attrName)` — called **before** every `setAttribute`. Saves the original value the first time a given attribute on a given element is mutated. Idempotent: subsequent calls on the same element/attribute are no-ops (the first snapshot is kept).
+
+`untrack(el, attrName)` — restores a single attribute to its pre-Yameen value and removes the entry from `modifiedElements`. Used in the "element no longer qualifies" code paths that previously called `el.removeAttribute(...)` directly.
+
+#### 3. Named `onInput` function (was anonymous)
+
+The `input` event listener is now a named function so `document.removeEventListener` can target it precisely. Previously it was anonymous and could never be removed.
+
+#### 4. Added `teardownAll()`, removed `clearAll()`
+
+`teardownAll()` replaces `clearAll()`. It:
+1. Calls `obs.disconnect()` to stop the MutationObserver.
+2. Calls `document.removeEventListener("input", onInput, true)` to remove the input listener.
+3. Iterates `modifiedElements` and restores every attribute to its pre-Yameen value (either removes it if original was `null`, or resets it to the original string if the page had its own value).
+4. Calls `modifiedElements.clear()`.
+5. Calls `restoreNumerals()` to revert numeral text-node changes.
+
+The old `clearAll()` used `querySelectorAll("[data-ymn]")` at teardown time, which would miss any element that had left the DOM while still modified. The new approach captures elements at mutation time and restores them regardless of current DOM presence.
+
+#### 5. Updated `applyMode()`
+
+- Calls `teardownAll()` instead of `obs.disconnect() + clearAll()`.
+- Re-adds `document.addEventListener("input", onInput, true)` when mode is not "off" (safe to call repeatedly — the browser deduplicates identical listener registrations).
+- Calls `track(document.body, "data-ymn-mode")` and `track(document.body, "data-ymn-numerals")` before setting those attributes, so teardown can restore them the same way as any other element.
+
+#### 6. Updated `processEl()` and `handleInputs()`
+
+Every `el.setAttribute("data-ymn", "rtl")` and `el.setAttribute("data-ymn-input", "rtl")` is now preceded by the corresponding `track()` call. Every previous `el.removeAttribute(...)` in the "element no longer qualifies" branch is replaced by `untrack()`, which restores the original value rather than blindly removing.
+
+#### 7. `obs` declaration moved from `const` to `let`
+
+`obs` is now declared `let obs;` near the top of the IIFE (alongside the other module-level variables) and assigned at the same location where `new MutationObserver(...)` previously appeared. This allows `teardownAll()` (defined earlier in the file) to reference `obs` without a temporal dead zone issue — by the time `teardownAll()` is ever *called*, `obs` is always assigned.
+
+### Why these choices
+
+- **`Map` over `WeakMap`**: teardown requires iterating all tracked elements; `WeakMap` is not iterable. A `Set` + `WeakMap` combination would also work but adds complexity. Since teardown calls `modifiedElements.clear()`, there is no risk of the Map retaining detached elements across sessions.
+- **`track` before `setAttribute`**: ensures we never miss the original value even if the element is mutated multiple times between teardown cycles.
+- **`removeEventListener` in teardown**: removes the only non-gated side-effect of the extension. The `setInterval` pollers remain (they self-gate on `mode === "off"`) — removing them would require storing interval IDs and is unnecessary for correctness.
+
+### Cross-browser
+
+`Map`, `WeakMap`, `removeEventListener`, named function references — all universally supported in Chrome MV3, Firefox MV2, and Safari MV2. No polyfills or browser-specific code paths introduced.
+
+### Test checklist (manual, required on all 3 browsers before Phase 3)
+
+- [ ] Type Arabic on claude.ai → RTL applied to input
+- [ ] Toggle Off → `data-ymn-input` removed from input, direction/alignment restored, no further RTL on new input
+- [ ] Toggle On → RTL re-applies cleanly
+- [ ] Type Arabic → get a response → Toggle Off → `data-ymn="rtl"` removed from all response elements
+- [ ] Force mode → Toggle Off → `data-ymn-mode` removed from `document.body`, page returns to LTR
+
+**HARD STOP — Phase 2 complete. Awaiting review before Phase 3.**
+
+---
+
+## Phase 3 — Bug #2 fix: Real numeral conversion (2026-05-09)
+
+### What changed
+
+**`extension/content.css`** — two rule blocks removed.
+**`extension/content.js`** — `convertNumerals` rewritten; call sites reorganised.
+
+#### CSS: `font-feature-settings` hack removed
+
+Deleted both occurrences:
+
+```css
+/* removed: */
+body[data-ymn-numerals="western"] [data-ymn="rtl"],
+body[data-ymn-numerals="western"] [data-ymn-input="rtl"] {
+  font-feature-settings: "lnum" !important;
+}
+
+/* removed: */
+body[data-ymn-mode="force"][data-ymn-numerals="western"] {
+  font-feature-settings: "lnum" !important;
+}
+```
+
+These rules applied a CSS lining-figures hint that made Eastern Arabic glyphs visually resemble Western digits in fonts that support the OpenType `lnum` feature. The actual DOM text was unchanged, so copy-paste, screen readers, and `textContent` reads all returned the original Eastern digits.
+
+#### JS: `convertNumerals` replaced with `convertNumerals(rootNode)`
+
+**Old behaviour:** Queried `document.querySelectorAll('[data-ymn="rtl"]')` and walked text nodes only within those already-RTL-marked elements. Supported both Eastern→Western and Western→Eastern depending on the `numerals` setting.
+
+**New behaviour:** Accepts any DOM node as `rootNode`. Walks all text nodes under it using `document.createTreeWalker(rootNode, NodeFilter.SHOW_TEXT, ...)`. Converts Eastern→Western only (when `numerals === "western"`; returns immediately otherwise). Restoring to original Eastern numerals is handled by `restoreNumerals()` via `originalTextNodes` WeakMap — no Western→Eastern pass needed.
+
+**Skip filter in `acceptNode`:**
+- `parent.closest("script, style, textarea, input, pre, code")` — skips non-content and code elements.
+- `parent.isContentEditable` — skips any element inside a contenteditable context (user input fields). Uses the built-in `isContentEditable` property, which walks the ancestor chain automatically; this correctly skips all chat input areas without needing custom element matching.
+
+All text nodes that pass the filter and contain Eastern numerals are converted in-place. The original text is saved to `originalTextNodes` before the first conversion so `restoreNumerals()` can undo it on teardown.
+
+#### New call sites for `convertNumerals`
+
+| Call site | What it does |
+|-----------|-------------|
+| `applyMode()` line: `convertNumerals(document.body)` | Full-document pass run once each time the extension activates (on load, SPA navigation, or settings change). Runs before `scan()`/`handleInputs()` so numerals are converted even in non-RTL content. |
+| MutationObserver callback: `convertNumerals(node)` per added element | Converts numerals in dynamically appended element nodes immediately (synchronous, no debounce). AI responses streamed into the DOM are converted token by token as they appear. |
+
+`convertNumerals()` was removed from `scan()`. RTL detection (`scan`) and numeral conversion are now separate responsibilities.
+
+#### MutationObserver callback restructured
+
+The old callback used `return` inside the `for` loop, which exited the entire callback after scheduling the first RTL debounce — meaning later mutations in the same batch were never visited, and added-node numeral conversion couldn't be run per-node. The new callback:
+
+1. Processes all mutations in the batch.
+2. Calls `convertNumerals(node)` for each added element node (synchronous).
+3. Sets `needsRtlScan = true` if any `childList` additions or `characterData` changes were found.
+4. Schedules the debounced RTL scan once after all mutations are processed.
+
+### Why these choices
+
+- **Full-document TreeWalker over RTL-element-scoped query:** Numerals appear in page content that may not be Arabic-ratio-eligible (e.g., a mostly-English article with a few Eastern numeral dates). The old approach missed those. The new approach catches all visible text.
+- **`isContentEditable` over `[contenteditable]` selector:** `isContentEditable` correctly follows the DOM inheritance chain — an element is considered editable if any ancestor has `contenteditable="true"` — without needing to repeat `closest("[contenteditable]")`.
+- **Synchronous conversion in observer vs. debounced scan:** RTL detection is debounced (120ms) because it involves `arabicRatio` calculation over many elements. Numeral conversion is cheap (regex scan), so running it synchronously on each added node gives immediate correct display as content streams in.
+- **`restoreNumerals()` unchanged:** It still finds `[data-ymn-original]` elements and restores their text nodes from `originalTextNodes`. This works correctly regardless of whether the nodes were converted from inside `scan()` (old) or from `convertNumerals(document.body)` (new).
+
+### Cross-browser
+
+`TreeWalker`, `NodeFilter`, `isContentEditable`, `Element.closest` — all standard, all three browsers. No differences.
+
+### Test checklist (manual, required on all 3 browsers before Phase 4)
+
+- [ ] Visit aljazeera.net or alarabiya.net with extension On → Eastern numerals in page text visually show as Western (0-9)
+- [ ] Open DevTools → inspect a converted text node → confirm `textContent` contains `0-9`, not `٠-٩`
+- [ ] Copy text containing converted numerals, paste into Notes/TextEdit → pastes as Western digits
+- [ ] Type Arabic containing Eastern numerals into Claude/ChatGPT input → numerals are NOT converted in the input field
+- [ ] Toggle Off → all converted text nodes restored to original Eastern numerals, `data-ymn-original` attributes removed
+- [ ] Toggle On → conversion re-applies
+- [ ] Numeral setting: switch from "western" to "hindi" → restores Eastern numerals in DOM
+
+**HARD STOP — Phase 3 complete. Awaiting review before Phase 4.**
+
+---
+
+## Phase 4 — Bug #3 proposal: "Any Website" mode cleanup (2026-05-09)
+
+### What is the over-unification doing wrong?
+
+The "everywhere" feature has one working implementation (Chrome MV3 background service worker + `scripting.registerContentScripts`) and two browsers where the feature does not and cannot exist (Firefox MV2 and Safari MV2, both of which have no background script in their manifests and no access to the dynamic scripting API). The problem is that the single guard meant to communicate this boundary — the popup's hide condition on line 15 — is testing the wrong thing:
+
+```js
+// current — unreliable
+if (typeof chrome === 'undefined' || !chrome.scripting) {
+  document.getElementById('everywhere-sec').style.display = 'none';
+}
+```
+
+**Why it's wrong:**
+
+Firefox exposes a `chrome` compat object, so `typeof chrome === 'undefined'` is `false` in Firefox. Firefox 102+ also exposes `chrome.scripting` (for MV3 compatibility), so `!chrome.scripting` may be `false` too — meaning the section is NOT hidden on Firefox MV2 even though the feature can't work there. The toggle appears, the user enables it, `everywhere: true` is stored, but background.js never loaded (it isn't in the Firefox manifest), so no dynamic script registration ever happens. The toggle does nothing silently.
+
+A secondary issue: the popup reads `everywhereEl.checked = s.everywhere` directly from storage without verifying the actual `<all_urls>` permission is still granted. If the permission was revoked via the browser's extension settings (not through Yameen's own UI), the toggle shows as enabled while the feature is broken.
+
+**What is NOT broken:**
+
+- `background.js` is correct and complete. It handles Chrome MV3 dynamic registration, verifies permission on install/update, and cleans up stale storage if permission was revoked. No change needed.
+- `content.js` has no awareness of "everywhere" state and doesn't need any — it runs wherever it's injected, and injection is already gated correctly by the manifests and Chrome's scripting API. A `shouldApplyRTL(url, settings)` predicate in content.js would be redundant: if content.js is executing, injection was already authorised. The manifests are the gate, not a runtime predicate.
+
+---
+
+### Minimal correct fix — two changes to `popup.js` only
+
+#### Change 1 — Fix the feature detection (line 15)
+
+Replace the check with one that tests the exact API `background.js` calls:
+
+```js
+// before
+if (typeof chrome === 'undefined' || !chrome.scripting) {
+
+// after
+if (typeof chrome?.scripting?.registerContentScripts !== 'function') {
+```
+
+`chrome.scripting.registerContentScripts` is the precise method used in `background.js` (line 42). If that method is not a function — whether because `chrome` is absent, `chrome.scripting` is absent, or `scripting` exists but the MV3-only `registerContentScripts` method doesn't — the section is hidden. This is falsifiable by the exact API boundary and requires no browser-name string matching.
+
+This one-line change:
+- Correctly hides the section on Safari (no `chrome.scripting`)
+- Correctly hides the section on Firefox MV2 (no `chrome.scripting.registerContentScripts`, even if `chrome.scripting` itself exists)
+- Correctly shows the section on Chrome MV3 (which has the full API)
+- Will correctly show the section if Firefox ever ships MV3 support for `registerContentScripts` — no future maintenance needed
+
+#### Change 2 — Verify actual permission state at popup open
+
+After reading storage, check whether the `<all_urls>` permission is genuinely granted before displaying the toggle as on:
+
+```js
+everywhereEl.checked = s.everywhere;
+
+// add after:
+if (s.everywhere) {
+  api.permissions.contains({ origins: ["<all_urls>"] }, (granted) => {
+    if (!granted) {
+      everywhereEl.checked = false;
+      api.storage.sync.set({ everywhere: false });
+    }
+  });
+}
+```
+
+This brings popup state into sync with reality in the same case that `background.js` handles on install/update, but for the popup-open case (which happens every time the user clicks the extension icon).
+
+---
+
+### What stays browser-specific (unchanged)
+
+| Concern | Where it lives | Change? |
+|---------|---------------|---------|
+| Dynamic script registration | `background.js` + Chrome MV3 manifest | No |
+| Optional `<all_urls>` permission declaration | `extension/manifest.json` only | No |
+| No background script | `manifest-firefox.json`, `manifest-safari.json` | No |
+| Permission request flow | `popup.js` `everywhereEl` change listener | No |
+
+---
+
+### What this does NOT do (by design)
+
+- No `shouldApplyRTL` predicate in `content.js` — unnecessary because the injection gating already provides this.
+- No new shared module — both changes are localised to two lines in `popup.js`.
+- No change to how `background.js` works — it is already the correct canonical implementation.
+
+---
+
+**HARD STOP — Phase 4 proposal written. Awaiting review before any code changes.**
+
+### Phase 4 implementation
+
+Implemented exactly as proposed. Two edits to `extension/popup.js` only.
+
+**Change 1 — popup.js line 15:**
+```js
+// before
+if (typeof chrome === 'undefined' || !chrome.scripting) {
+// after
+if (typeof chrome?.scripting?.registerContentScripts !== 'function') {
+```
+
+**Change 2 — popup.js after `everywhereEl.checked = s.everywhere`:**
+```js
+if (s.everywhere) {
+  api.permissions.contains({ origins: ["<all_urls>"] }, (granted) => {
+    if (!granted) {
+      everywhereEl.checked = false;
+      api.storage.sync.set({ everywhere: false });
+    }
+  });
+}
+```
+
+No other files touched.
+
+### Test checklist (manual, required on all 3 browsers before Phase 5)
+
+- [ ] **Chrome:** Open popup on claude.ai → "Any Website" section visible, toggle works, enabling requests permission, disabling removes it
+- [ ] **Chrome:** Enable "Any Website", revoke `<all_urls>` permission manually via chrome://extensions → reopen popup → toggle shows as Off, storage cleared
+- [ ] **Chrome:** Visit chatgpt.com (supported) → dot green, name shown
+- [ ] **Chrome:** Enable "Any Website", visit an unsupported site → dot purple, host shown
+- [ ] **Chrome:** Disable "Any Website", visit an unsupported site → dot grey, "غير مدعوم" shown
+- [ ] **Firefox:** Open popup → "Any Website" section hidden entirely
+- [ ] **Safari:** Open popup → "Any Website" section hidden entirely
+- [ ] **gemini.google.com:** Arabic input → RTL applied
+- [ ] **One unsupported site (e.g., github.com) on Chrome with "Any Website" On → RTL applies to Arabic input**
+
+**HARD STOP — Phase 4 complete. Awaiting review before Phase 5.**
+
+---
+
+## Phase 5 — Version bump to 1.2.0 (2026-05-09)
+
+### Files updated
+
+| File | Change |
+|------|--------|
+| `extension/manifest.json` | `"version": "1.1.0"` → `"1.2.0"` |
+| `extension/manifest-firefox.json` | `"version": "1.1.0"` → `"1.2.0"` |
+| `extension/manifest-safari.json` | `"version": "1.1.0"` → `"1.2.0"` |
+| `extension/popup.html` | `v1.1.0` → `v1.2.0` (popup header) |
+| `CHANGELOG.md` | Created at repo root (Phase 5.5) |
+
+### Files not present (nothing to update)
+- No `package.json` in the repo.
+- No Safari Xcode project (`.xcodeproj`, `Info.plist`, `project.pbxproj`) anywhere in the tree.
+- `README.md` version badge (`version-1.1.0`) left unchanged — Phase 5.6 replaces the entire file, so editing it now would be double-work.
+
+### Notes on CHANGELOG dates
+No git tags exist (`git log --tags` returned empty). The approximate dates from the task (`2026-04` for 1.1, `2026-03` for 1.0) were used as written. Today's date `2026-05-09` was used for 1.2.0.
+
+**HARD STOP — Phases 5 and 5.5 complete. Awaiting review before Phase 5.6.**
+
+---
+
+## Phase 5.6 — README rewrite (2026-05-09)
+
+### Logo path used
+
+`extension/icons/icon128.png` — confirmed present in the repo. No assets folder needed.
+
+### Internal links verified
+
+| Link | File | Present? |
+|------|------|---------|
+| `CHANGELOG.md` | repo root | Yes (created Phase 5.5) |
+| `CONTRIBUTING.md` | repo root | Yes |
+| `PUBLISHING-GUIDE.md` | repo root | Yes |
+| `LICENSE` | repo root | Yes |
+
+### Platform count
+
+"20+" retained — matches the Phase 1 audit count of 20 distinct services across 24 URL patterns.
+
+### Accuracy check on "How it works"
+
+Steps 4 and 5 of the "How it works" section describe the Phase 2 and Phase 3 implementations accurately:
+- Step 4 (TreeWalker + MutationObserver numeral conversion) — matches Phase 3 implementation.
+- Step 5 (full teardown on Off) — matches Phase 2 implementation.
+
+The old README's reference to `font-feature-settings: "lnum"` (step 7 in the old version) is gone. The new README does not mention it.
+
+### Logo render verification
+
+Cannot verify GitHub rendering until the branch is pushed (Phase 7). The path `extension/icons/icon128.png` is a standard relative path that GitHub renders correctly from the repo root.
+
+**HARD STOP — Phase 5.6 complete. Awaiting review before Phase 6.**
+
+---
+
+## Phase 6 — Build and test matrix (2026-05-09)
+
+### Build artifacts
+
+#### Chrome — `yameen-chrome.zip`
+
+```
+manifest.json      MV3, version 1.2.0
+background.js
+content.js
+content.css
+popup.html
+popup.js
+icon16.png
+icon32.png
+icon48.png
+icon128.png
+```
+
+Size: ~20 KB. `manifest.json` at zip root. Firefox and Safari manifests excluded. ✅
+
+#### Firefox — `yameen-firefox.zip`
+
+```
+manifest.json      MV2, version 1.2.0  (renamed from manifest-firefox.json)
+background.js
+content.js
+content.css
+popup.html
+popup.js
+icons/
+  icon16.png
+  icon32.png
+  icon48.png
+  icon128.png
+```
+
+Size: ~20 KB. Icons in `icons/` subfolder (required by MV2 path references). ✅
+
+#### Safari — Xcode project
+
+No Xcode project existed in the repo (confirmed Phase 5 audit). Generated fresh via:
+
+```bash
+xcrun safari-web-extension-converter /tmp/yameen-safari-src \
+  --app-name "Yameen" \
+  --bundle-identifier "dev.arj.yameen" \
+  --swift --no-open --force
+```
+
+Scheme names in the generated project: `Yameen (macOS)`, `Yameen (iOS)`. No "leanring-buddy" scheme exists — that note in Phase 5 applied to a pre-existing project; this repo had none, so the generated project uses the standard converted name.
+
+```
+xcodebuild -project Yameen.xcodeproj -scheme "Yameen (macOS)" \
+  -configuration Release -destination "platform=macOS" build
+→ ** BUILD SUCCEEDED **
+```
+
+✅
+
+---
+
+## 1.2 Test Matrix
+
+Artifact checks (✅/❌ filled by build above). Browser checks require manual testing on physical installs.
+
+### Artifacts
+
+| Check | Result |
+|-------|--------|
+| Chrome zip exists, `manifest_version: 3`, `version: 1.2.0` | ✅ |
+| Firefox zip exists, `manifest_version: 2`, `version: 1.2.0` | ✅ |
+| Safari `xcodebuild` macOS scheme completes with no errors | ✅ |
+
+### Chrome (manual)
+
+| Test | Pass? |
+|------|-------|
+| Fresh install → extension loads without errors | ☐ |
+| Arabic input on claude.ai → RTL applied to input | ☐ |
+| Toggle Off → `data-ymn-input` removed, direction restored, no further RTL on new input | ☐ |
+| Toggle On → RTL re-applies | ☐ |
+| AI response with Arabic appears → RTL applied to response elements | ☐ |
+| Toggle Off → response elements restored, `data-ymn` removed | ☐ |
+| Visit aljazeera.net → Eastern numerals convert to Western in page text | ☐ |
+| Inspect converted node in DevTools → `textContent` shows 0-9, not ٠-٩ | ☐ |
+| Copy numeral text, paste into Notes → Western digits pasted | ☐ |
+| Type Arabic with Eastern numerals in input → NOT converted in input | ☐ |
+| "Any Website" toggle shows in popup | ☐ |
+| Enable "Any Website" → permission prompt appears | ☐ |
+| Unsupported site (e.g. github.com) with "Any Website" On → Arabic RTL applied | ☐ |
+| Disable "Any Website" → reverts | ☐ |
+| Revoke `<all_urls>` permission via chrome://extensions → reopen popup → toggle shows Off | ☐ |
+| chatgpt.com → Arabic input → RTL applied | ☐ |
+| gemini.google.com → Arabic input → RTL applied | ☐ |
+
+### Firefox (manual)
+
+| Test | Pass? |
+|------|-------|
+| Fresh install from zip → extension loads | ☐ |
+| Arabic input on claude.ai → RTL applied | ☐ |
+| Toggle Off → direction restored | ☐ |
+| "Any Website" section hidden in popup | ☐ |
+| Eastern numerals on page → convert to Western | ☐ |
+| chatgpt.com → Arabic input → RTL applied | ☐ |
+| gemini.google.com → Arabic input → RTL applied | ☐ |
+
+### Safari (manual)
+
+| Test | Pass? |
+|------|-------|
+| App installs and runs | ☐ |
+| Enable extension in Safari Settings → Extensions | ☐ |
+| Arabic input on claude.ai → RTL applied | ☐ |
+| Toggle Off → direction restored | ☐ |
+| "Any Website" section hidden in popup | ☐ |
+| Eastern numerals on page → convert to Western | ☐ |
+| chatgpt.com → Arabic input → RTL applied | ☐ |
+| gemini.google.com → Arabic input → RTL applied | ☐ |
+
+**HARD STOP — Phase 6 complete. Awaiting manual test sign-off and review before Phase 7.**

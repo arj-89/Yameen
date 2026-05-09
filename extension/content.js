@@ -9,9 +9,61 @@
   const WESTERN_TO_EASTERN = {'0':'٠','1':'١','2':'٢','3':'٣','4':'٤','5':'٥','6':'٦','7':'٧','8':'٨','9':'٩'};
   const originalTextNodes = new WeakMap();
 
+  // element → {attrName: valueBeforeYameen} — populated before every mutation.
+  const modifiedElements = new Map();
+
   let mode = "auto";
   let numerals = "western";
   let threshold = 0.12;
+  let obs; // assigned below after MutationObserver construction
+
+  // Save original attribute value before Yameen's first mutation of that attribute on el.
+  function track(el, attrName) {
+    if (!modifiedElements.has(el)) modifiedElements.set(el, {});
+    const state = modifiedElements.get(el);
+    if (!(attrName in state)) state[attrName] = el.getAttribute(attrName);
+  }
+
+  // Restore one attribute to its pre-Yameen value and stop tracking it on el.
+  function untrack(el, attrName) {
+    const state = modifiedElements.get(el);
+    if (!state || !(attrName in state)) return;
+    const original = state[attrName];
+    if (original === null) {
+      el.removeAttribute(attrName);
+    } else {
+      el.setAttribute(attrName, original);
+    }
+    delete state[attrName];
+    if (Object.keys(state).length === 0) modifiedElements.delete(el);
+  }
+
+  // Named so it can be added and removed symmetrically.
+  function onInput(e) {
+    if (mode === "off") return;
+    const t = e.target;
+    if (t.matches?.('[contenteditable="true"], textarea, .ProseMirror, [role="textbox"]')) {
+      handleInputs();
+    }
+  }
+
+  // Full teardown: disconnect observer, remove listener, restore every mutated element.
+  function teardownAll() {
+    obs.disconnect();
+    document.removeEventListener("input", onInput, true);
+
+    for (const [el, attrs] of modifiedElements) {
+      for (const [attr, original] of Object.entries(attrs)) {
+        if (original === null) {
+          el.removeAttribute(attr);
+        } else {
+          el.setAttribute(attr, original);
+        }
+      }
+    }
+    modifiedElements.clear();
+    restoreNumerals();
+  }
 
   function loadSettings() {
     storage.sync.get(
@@ -33,15 +85,23 @@
   }
 
   function applyMode() {
-    obs.disconnect();
-    clearAll();
+    teardownAll();
 
     if (mode === "off") return;
 
+    document.addEventListener("input", onInput, true);
     obs.observe(document.body, { childList: true, subtree: true, characterData: true });
 
-    if (mode === "force") document.body.setAttribute("data-ymn-mode", "force");
-    if (numerals === "western") document.body.setAttribute("data-ymn-numerals", "western");
+    if (mode === "force") {
+      track(document.body, "data-ymn-mode");
+      document.body.setAttribute("data-ymn-mode", "force");
+    }
+    if (numerals === "western") {
+      track(document.body, "data-ymn-numerals");
+      document.body.setAttribute("data-ymn-numerals", "western");
+    }
+
+    convertNumerals(document.body);
 
     if (mode === "auto") scan();
     else handleInputs();
@@ -116,9 +176,10 @@
       const text = directText(el);
       if (text.trim().length < 2) return;
       if (hasArabic(text) && arabicRatio(text) >= threshold) {
+        track(el, "data-ymn");
         el.setAttribute("data-ymn", "rtl");
-      } else if (el.hasAttribute("data-ymn")) {
-        el.removeAttribute("data-ymn");
+      } else {
+        untrack(el, "data-ymn");
       }
       return;
     }
@@ -126,9 +187,10 @@
     if (CONTAINER_TAGS.has(tag)) {
       const text = el.textContent || "";
       if (hasArabic(text) && arabicRatio(text) >= threshold) {
+        track(el, "data-ymn");
         el.setAttribute("data-ymn", "rtl");
-      } else if (el.hasAttribute("data-ymn")) {
-        el.removeAttribute("data-ymn");
+      } else {
+        untrack(el, "data-ymn");
       }
       return;
     }
@@ -138,9 +200,12 @@
       if (dt.trim().length < 3) return;
       if (hasArabic(dt) && arabicRatio(dt) >= threshold) {
         const hasBlock = [...el.children].some((c) => BLOCK_SET.has(c.tagName));
-        if (!hasBlock) el.setAttribute("data-ymn", "rtl");
-      } else if (el.hasAttribute("data-ymn")) {
-        el.removeAttribute("data-ymn");
+        if (!hasBlock) {
+          track(el, "data-ymn");
+          el.setAttribute("data-ymn", "rtl");
+        }
+      } else {
+        untrack(el, "data-ymn");
       }
     }
   }
@@ -153,13 +218,15 @@
       if (el.offsetHeight < 15) continue;
 
       if (mode === "force") {
+        track(el, "data-ymn-input");
         el.setAttribute("data-ymn-input", "rtl");
       } else if (mode === "auto") {
         const text = el.textContent || el.value || "";
         if (hasArabic(text)) {
+          track(el, "data-ymn-input");
           el.setAttribute("data-ymn-input", "rtl");
         } else {
-          el.removeAttribute("data-ymn-input");
+          untrack(el, "data-ymn-input");
         }
       }
     }
@@ -183,7 +250,6 @@
     }
 
     handleInputs();
-    convertNumerals();
   }
 
   function restoreNumerals() {
@@ -200,52 +266,31 @@
     });
   }
 
-  function clearAll() {
-    restoreNumerals();
-    document.querySelectorAll("[data-ymn]").forEach((e) => e.removeAttribute("data-ymn"));
-    document.querySelectorAll("[data-ymn-input]").forEach((e) => e.removeAttribute("data-ymn-input"));
-    document.querySelectorAll("[data-ymn-original]").forEach((e) => e.removeAttribute("data-ymn-original"));
-    document.body.removeAttribute("data-ymn-mode");
-    document.body.removeAttribute("data-ymn-numerals");
-  }
+  // Converts Eastern Arabic numerals (٠-٩) to Western (0-9) in all text nodes
+  // under rootNode, skipping user-editable and non-content elements.
+  function convertNumerals(rootNode) {
+    if (numerals !== "western") return;
 
-  function convertNumerals() {
-    const toWestern = numerals === "western";
-    const pattern = toWestern ? /[٠-٩]/ : /[0-9]/;
-    const replaceRE = toWestern ? /[٠-٩]/g : /[0-9]/g;
-    const map = toWestern ? EASTERN_TO_WESTERN : WESTERN_TO_EASTERN;
-
-    document.querySelectorAll('[data-ymn="rtl"]').forEach((rtlEl) => {
-      if (isCode(rtlEl)) return;
-      const walker = document.createTreeWalker(rtlEl, NodeFilter.SHOW_TEXT, {
-        acceptNode(node) {
-          const parent = node.parentElement;
-          if (!parent) return NodeFilter.FILTER_SKIP;
-          if (parent.closest("pre, code")) return NodeFilter.FILTER_SKIP;
-          if (/code|CodeBlock|hljs|syntax|prism/i.test(parent.className || "")) return NodeFilter.FILTER_SKIP;
-          const text = originalTextNodes.has(node) ? originalTextNodes.get(node) : node.textContent;
-          return pattern.test(text) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
-        },
-      });
-      let node;
-      while ((node = walker.nextNode())) {
-        if (!originalTextNodes.has(node)) originalTextNodes.set(node, node.textContent);
-        const converted = originalTextNodes.get(node).replace(replaceRE, (c) => map[c]);
-        if (node.textContent !== converted) node.textContent = converted;
-        if (node.parentElement && !node.parentElement.hasAttribute("data-ymn-original")) {
-          node.parentElement.setAttribute("data-ymn-original", "1");
-        }
-      }
+    const walker = document.createTreeWalker(rootNode, NodeFilter.SHOW_TEXT, {
+      acceptNode(node) {
+        const parent = node.parentElement;
+        if (!parent) return NodeFilter.FILTER_SKIP;
+        if (parent.closest("script, style, textarea, input, pre, code")) return NodeFilter.FILTER_SKIP;
+        if (parent.isContentEditable) return NodeFilter.FILTER_SKIP;
+        return /[٠-٩]/.test(node.textContent) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+      },
     });
-  }
 
-  document.addEventListener("input", (e) => {
-    if (mode === "off") return;
-    const t = e.target;
-    if (t.matches?.('[contenteditable="true"], textarea, .ProseMirror, [role="textbox"]')) {
-      handleInputs();
+    let node;
+    while ((node = walker.nextNode())) {
+      if (!originalTextNodes.has(node)) originalTextNodes.set(node, node.textContent);
+      const converted = originalTextNodes.get(node).replace(/[٠-٩]/g, (c) => EASTERN_TO_WESTERN[c]);
+      if (node.textContent !== converted) node.textContent = converted;
+      if (node.parentElement && !node.parentElement.hasAttribute("data-ymn-original")) {
+        node.parentElement.setAttribute("data-ymn-original", "1");
+      }
     }
-  }, true);
+  }
 
   let lastUrl = location.href;
   setInterval(() => {
@@ -256,17 +301,25 @@
   }, 1000);
 
   let timer = null;
-  const obs = new MutationObserver((mutations) => {
+  obs = new MutationObserver((mutations) => {
     if (mode === "off") return;
+    let needsRtlScan = false;
     for (const m of mutations) {
-      if (m.addedNodes.length > 0 || m.type === "characterData") {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-          if (mode === "auto") scan();
-          else if (mode === "force") handleInputs();
-        }, 120);
-        return;
+      if (m.type === "childList") {
+        for (const node of m.addedNodes) {
+          if (node.nodeType === Node.ELEMENT_NODE) convertNumerals(node);
+        }
+        if (m.addedNodes.length > 0) needsRtlScan = true;
+      } else if (m.type === "characterData") {
+        needsRtlScan = true;
       }
+    }
+    if (needsRtlScan) {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        if (mode === "auto") scan();
+        else if (mode === "force") handleInputs();
+      }, 120);
     }
   });
 
