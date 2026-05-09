@@ -5,8 +5,8 @@ Thanks for wanting to help Arabic (and RTL) speakers read the web properly.
 ## Quick Start
 
 ```bash
-git clone https://github.com/arj-89/yameen.git
-cd yameen/extension
+git clone https://github.com/arj-89/Yameen.git
+cd Yameen/extension
 ```
 
 1. Open `chrome://extensions` → Developer Mode → Load unpacked → select `extension/`

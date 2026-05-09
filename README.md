@@ -8,9 +8,9 @@ Automatic right-to-left text direction for Claude, ChatGPT, Gemini, Grok, DeepSe
 
 Install once. Read naturally.
 
-[![Chrome Web Store](https://img.shields.io/badge/Chrome-Web%20Store-blue?logo=googlechrome&logoColor=white)](#)
-[![Firefox Add-ons](https://img.shields.io/badge/Firefox-Add--ons-orange?logo=firefox&logoColor=white)](#)
-[![Safari](https://img.shields.io/badge/Safari-App%20Store-black?logo=safari&logoColor=white)](#)
+[![Chrome Web Store](https://img.shields.io/badge/Chrome-Web%20Store-blue?logo=googlechrome&logoColor=white)](https://chrome.google.com/webstore/detail/nephalabmiodkhilmfcblhcfdebedbbp)
+[![Firefox Add-ons](https://img.shields.io/badge/Firefox-Add--ons-orange?logo=firefox&logoColor=white)](https://addons.mozilla.org/en-US/firefox/addon/yameen-rtl/)
+[![Safari](https://img.shields.io/badge/Safari-App%20Store-black?logo=safari&logoColor=white)](https://apps.apple.com/app/yameen/id6767819611)
 [![Version](https://img.shields.io/badge/version-1.1.0-indigo)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-gold.svg)](LICENSE)
 
@@ -52,18 +52,18 @@ Every AI chat and most productivity tools render Arabic text left-to-right. Para
 ## Install
 
 ### Chrome / Arc / Edge / Brave / Opera / Dia / DuckDuckGo
-Install from [Chrome Web Store](#) — one click. Works on all Chromium-based browsers.
+Install from [Chrome Web Store](https://chrome.google.com/webstore/detail/nephalabmiodkhilmfcblhcfdebedbbp) — one click. Works on all Chromium-based browsers.
 
 ### Firefox
-Install from [Firefox Add-ons](#) — one click.
+Install from [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/yameen-rtl/) — one click.
 
 ### Safari
-Install from [Mac App Store](#) — one click, then enable in Safari Settings → Extensions.
+Install from [Mac App Store](https://apps.apple.com/app/yameen/id6767819611) — one click, then enable in Safari Settings → Extensions.
 
 ### Manual (Development)
 ```bash
-git clone https://github.com/arj-89/yameen.git
-cd yameen/extension
+git clone https://github.com/arj-89/Yameen.git
+cd Yameen/extension
 ```
 1. Open `chrome://extensions`
 2. Enable Developer Mode
@@ -151,6 +151,6 @@ MIT — see [LICENSE](LICENSE).
 
 **صُنع للقارئ العربي**
 
-[Website](https://yameen.bixet.tech) · [Chrome Web Store](#) · [Firefox Add-ons](#) · [Product Hunt](#)
+[Website](https://yameen.bixet.tech) · [Chrome Web Store](https://chrome.google.com/webstore/detail/nephalabmiodkhilmfcblhcfdebedbbp) · [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/yameen-rtl/) · [Product Hunt](https://www.producthunt.com/products/yameen)
 
 </div>

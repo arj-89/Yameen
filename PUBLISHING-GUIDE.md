@@ -9,9 +9,9 @@ Before submitting to any store, you need:
 - [x] manifest-firefox.json (Firefox MV2) — ready
 - [x] Privacy policy page hosted at a public URL — ready (privacy.html)
 - [x] Icons 16/48/128px — ready
-- [ ] Chrome Web Store developer account ($5 one-time)
-- [ ] Firefox Add-on developer account (free)
-- [ ] Apple Developer account ($99/year — you may already have one)
+- [x] Chrome Web Store developer account ($5 one-time) — extension ID: nephalabmiodkhilmfcblhcfdebedbbp
+- [x] Firefox Add-on developer account (free)
+- [x] Apple Developer account ($99/year) — app ID: 6767819611
 - [ ] Screenshots: 1280x800px (at least 1, up to 5)
 - [ ] Small promo tile: 440x280px
 - [x] Privacy policy URL: https://yameen.bixet.tech/privacy.html
@@ -218,10 +218,10 @@ Apple reviews typically take 1-3 days.
 
 After publishing on all three stores:
 
-1. **Update the landing page** with direct store links:
-   - Chrome Web Store URL
-   - Firefox Add-ons URL
-   - Mac App Store URL
+1. **Store links** (already live):
+   - Chrome: https://chrome.google.com/webstore/detail/nephalabmiodkhilmfcblhcfdebedbbp
+   - Firefox: https://addons.mozilla.org/en-US/firefox/addon/yameen-rtl/
+   - Safari: https://apps.apple.com/app/yameen/id6767819611
 
 2. **Share on social media** — the Saudi tech community is active on X/Twitter. The comparison table against اتجاه is your strongest marketing asset.
 
