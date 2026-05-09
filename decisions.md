@@ -590,3 +590,45 @@ Artifact checks (✅/❌ filled by build above). Browser checks require manual t
 | gemini.google.com → Arabic input → RTL applied | ☐ |
 
 **HARD STOP — Phase 6 complete. Awaiting manual test sign-off and review before Phase 7.**
+
+---------
+
+## v2.0 — تصحيح / Fix (planned)
+
+Convert text typed under the wrong keyboard layout. Examples:
+- لاقشاش → hello (user wanted English, was on Arabic layout)
+- lkpfh → مرحبا (user wanted Arabic, was on English layout)
+
+This is layout conversion only. Not translation, not transliteration, not "did you mean."
+
+### Scope
+
+- Bidirectional: Arabic ↔ English conversion only.
+- Selection-based: user selects the wrong-layout text and triggers Fix. If no selection is present at trigger time, Fix operates on the last word at the cursor.
+- Triggers: keyboard shortcut + right-click context menu.
+- Works inside any text input or contenteditable on any site Yameen is enabled on.
+- v2.0 milestone. Do NOT bundle with v1.x bug-fix releases.
+
+### Locked decisions
+
+- **Default shortcut:** ⌘+Shift+F (Mac) / Ctrl+Shift+F (Windows/Linux). User-rebindable via the standard browser Extensions shortcuts page (`chrome://extensions/shortcuts` etc.).
+- **Trigger fallback behavior:** if a selection exists, Fix operates on the selection. If no selection, Fix operates on the last word at the cursor position. If neither (empty input, no cursor), Fix does nothing.
+- **Right-click context menu:** "تصحيح / Fix" appears only when a text selection exists in an editable field.
+- **Layout setup:** lives on the Options page only. Never shown as a first-run modal, never as a popup interrupt. If the user triggers Fix before configuring layouts, Fix uses the default mapping (Mac Arabic + QWERTY) and a small toolbar badge prompts the user to confirm in Options.
+- **Layouts supported at v2.0 launch:** Mac Arabic, Arabic – PC, Arabic – QWERTY (Arabic side); QWERTY only (English side). AZERTY/QWERTZ deferred until requested.
+- **Visual feedback on successful Fix:**
+  1. Toolbar icon badge flash with "تم / Fixed" for ~1 second.
+  2. Replaced text briefly highlighted in the input for ~500ms then fades.
+  3. Native ⌘+Z (Cmd+Z / Ctrl+Z) undo must restore the original text. This is non-negotiable — if undo is broken, the feature is broken.
+- **No-op case:** if Fix would produce text identical to the input (e.g., user already on the correct layout, or selection is empty after trimming), do nothing silently. No toast, no badge, no error.
+
+### Out of scope for v2.0
+
+- Translation or "did you mean" suggestions
+- Auto-detection of when Fix should trigger (no inline ghost suggestions)
+- AZERTY, QWERTZ, Dvorak, Colemak
+- Mobile (extension is desktop-only by platform)
+
+### Open questions
+
+- (none currently — revisit before v2.0 build kickoff)
