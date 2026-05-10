@@ -15,7 +15,7 @@
   let mode = "auto";
   let numerals = "western";
   let threshold = 0.12;
-  let obs; // assigned below after MutationObserver construction
+  let obs = { disconnect() {}, observe() {} }; // safe stub; replaced below with real MutationObserver
 
   // Save original attribute value before Yameen's first mutation of that attribute on el.
   function track(el, attrName) {
@@ -174,8 +174,7 @@
 
     if (LEAF_TAGS.has(tag)) {
       const text = directText(el);
-      if (text.trim().length < 2) return;
-      if (hasArabic(text) && arabicRatio(text) >= threshold) {
+      if (hasArabic(text)) {
         track(el, "data-ymn");
         el.setAttribute("data-ymn", "rtl");
       } else {
@@ -186,7 +185,7 @@
 
     if (CONTAINER_TAGS.has(tag)) {
       const text = el.textContent || "";
-      if (hasArabic(text) && arabicRatio(text) >= threshold) {
+      if (hasArabic(text)) {
         track(el, "data-ymn");
         el.setAttribute("data-ymn", "rtl");
       } else {
@@ -197,13 +196,9 @@
 
     if (tag === "DIV" || tag === "SPAN") {
       const dt = directText(el);
-      if (dt.trim().length < 3) return;
-      if (hasArabic(dt) && arabicRatio(dt) >= threshold) {
-        const hasBlock = [...el.children].some((c) => BLOCK_SET.has(c.tagName));
-        if (!hasBlock) {
-          track(el, "data-ymn");
-          el.setAttribute("data-ymn", "rtl");
-        }
+      if (hasArabic(dt)) {
+        track(el, "data-ymn");
+        el.setAttribute("data-ymn", "rtl");
       } else {
         untrack(el, "data-ymn");
       }

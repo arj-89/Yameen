@@ -12,7 +12,9 @@ const PLATFORMS = {
   "clickup.com":"ClickUp","app.clickup.com":"ClickUp",
 };
 
-if (typeof chrome?.scripting?.registerContentScripts !== 'function') {
+const _hasDynamic = typeof chrome?.scripting?.registerContentScripts === 'function';
+const _isSafari = navigator.vendor.includes('Apple');
+if (!_hasDynamic && !_isSafari) {
   document.getElementById('everywhere-sec').style.display = 'none';
 }
 
@@ -74,7 +76,7 @@ document.querySelectorAll('input[name="numerals"]').forEach((r) => {
   });
 });
 
-// Chrome-only — section is hidden on Firefox/Safari
+// Chrome uses registerContentScripts; Safari uses optional <all_urls> permission. Hidden on Firefox only.
 everywhereEl.addEventListener("change", async () => {
   if (everywhereEl.checked) {
     try {
