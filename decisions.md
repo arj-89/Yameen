@@ -632,3 +632,17 @@ This is layout conversion only. Not translation, not transliteration, not "did y
 ### Open questions
 
 - (none currently — revisit before v2.0 build kickoff)
+
+---
+
+## v1.3 — Housekeeping items to resolve before next Safari submission
+
+### Build number source of truth (2026-05-12)
+
+`CURRENT_PROJECT_VERSION` in `Yameen.xcodeproj/project.pbxproj` drifted from App Store Connect's actual build number (local was 2; App Store Connect had already processed build 3). Decide on one of:
+
+1. **Auto-increment + commit** — a `scripts/bump-build.sh` helper that reads the current value, increments it, patches the pbxproj, and commits with `chore: bump build to N` before every archive. The commit keeps git and App Store Connect in sync.
+2. **Manual bump + commit** — engineer manually edits `CURRENT_PROJECT_VERSION` in the pbxproj and commits the change before running Xcode → Archive. Simple, but relies on discipline.
+3. **CI-driven** — set `CURRENT_PROJECT_VERSION` to `$(BUILD_NUMBER)` in build settings and let the CI runner inject it at archive time. Eliminates the file entirely as a source of truth.
+
+**Decision required before the v1.3 Safari archive.** Until then, always verify the local pbxproj value against App Store Connect's last-processed build before bumping.
