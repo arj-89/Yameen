@@ -646,3 +646,23 @@ This is layout conversion only. Not translation, not transliteration, not "did y
 3. **CI-driven** — set `CURRENT_PROJECT_VERSION` to `$(BUILD_NUMBER)` in build settings and let the CI runner inject it at archive time. Eliminates the file entirely as a source of truth.
 
 **Decision required before the v1.3 Safari archive.** Until then, always verify the local pbxproj value against App Store Connect's last-processed build before bumping.
+
+---
+
+### Build number strategy — proposed 2026-05-28 (awaiting confirmation)
+
+**Current state:** App Store Connect has processed builds through build 5. Local `CURRENT_PROJECT_VERSION` in the pbxproj is `4`. Drift is now 1.
+
+**Proposed: Option 2 — Manual bump + commit.**
+
+Rationale: the Xcode project lives on Desktop and is not tracked in the main git repo, so neither a bump script nor agvtool adds value over a manual edit. CI-driven (Option 3) requires the deferred CI fix first. Option 2 is one field edit and one commit per archive — minimal overhead for a single-developer cadence.
+
+**Procedure for every future Safari archive:**
+
+1. Check App Store Connect → Apps → Yameen → TestFlight → note the highest build number already processed for the current marketing version.
+2. Open `Yameen.xcodeproj` → `Yameen` target → Build Settings → search `CURRENT_PROJECT_VERSION` → set to (last processed + 1).
+3. Also set the same value in the `Yameen Extension` target (both targets must agree).
+4. Commit the pbxproj change: `chore: bump Safari build to N`.
+5. Run Xcode → Product → Archive.
+
+**Immediate action for next archive:** set `CURRENT_PROJECT_VERSION = 6` in both targets (since build 5 is the last App Store Connect build), commit, then archive.
