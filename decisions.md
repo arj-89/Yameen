@@ -666,3 +666,14 @@ Rationale: the Xcode project lives on Desktop and is not tracked in the main git
 5. Run Xcode → Product → Archive.
 
 **Immediate action for next archive:** set `CURRENT_PROJECT_VERSION = 6` in both targets (since build 5 is the last App Store Connect build), commit, then archive.
+
+---
+
+### GitHub Actions secrets — CI blocker (2026-05-28)
+
+⚠️ CI BLOCKER: All six GitHub Actions secrets are absent (confirmed empty in repo Settings → Secrets, 2026-05-28). `publish.yml` is now syntactically correct but WILL fail at the upload step until these are created:
+
+- `FIREFOX_API_KEY`, `FIREFOX_API_SECRET` — from addons.mozilla.org/developers/addon/api/key/
+- `CHROME_EXTENSION_ID` (= `nephalabmiodkhilmfcblhcfdebedbbp`), `CHROME_CLIENT_ID`, `CHROME_CLIENT_SECRET`, `CHROME_REFRESH_TOKEN` — from Google Cloud Console OAuth2 + one-time refresh-token flow
+
+Must be set before the next tagged release. Until then, the `publish.yml` fix is correct but inert.
