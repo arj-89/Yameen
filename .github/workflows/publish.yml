@@ -25,7 +25,7 @@ jobs:
         run: |
           cd extension
           zip -r ../yameen-chrome.zip . \
-            -x "manifest-firefox.json" "*.DS_Store"
+            -x "manifest-firefox.json" "icons/icon-source.png" "*.DS_Store"
 
       # ── Package Firefox zip ──
       - name: Package Firefox extension
@@ -36,29 +36,28 @@ jobs:
           cp manifest-firefox.json manifest.json
           zip -r ../yameen-firefox.zip . \
             -x "manifest-chrome-backup.json" "manifest-firefox.json" \
-            -x "background.js" "*.DS_Store"
+            -x "background.js" "icons/icon-source.png" "*.DS_Store"
           # Restore Chrome manifest
           mv manifest-chrome-backup.json manifest.json
 
       # ── Upload to Chrome Web Store ──
-      - name: Publish to Chrome Web Store
-        uses: niceurls/chrome-webstore-upload-action@v3
+      - name: Upload to Chrome Web Store
+        uses: mnao305/chrome-extension-upload@v5.0.0
         with:
+          file-path: yameen-chrome.zip
           extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
           client-id: ${{ secrets.CHROME_CLIENT_ID }}
           client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
           refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
-          zip-path: yameen-chrome.zip
-          publish: true
 
       # ── Upload to Firefox Add-ons ──
-      - name: Publish to Firefox Add-ons
-        uses: yayuyokitano/firefox-addon@v1
+      - name: Upload to Firefox Add-ons
+        uses: wdzeng/firefox-addon@v1
         with:
-          api-key: ${{ secrets.FIREFOX_API_KEY }}
-          api-secret: ${{ secrets.FIREFOX_API_SECRET }}
-          guid: 'yameen@arj.dev'
+          addon-guid: yameen@arj.dev
           xpi-path: yameen-firefox.zip
+          jwt-issuer: ${{ secrets.FIREFOX_API_KEY }}
+          jwt-secret: ${{ secrets.FIREFOX_API_SECRET }}
 
       # ── Create GitHub Release ──
       - name: Create GitHub Release
