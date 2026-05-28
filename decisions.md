@@ -593,7 +593,7 @@ Artifact checks (✅/❌ filled by build above). Browser checks require manual t
 
 ---------
 
-## v2.0 — تصحيح / Fix (planned)
+## v1.5 — تصحيح / Fix (planned)
 
 Convert text typed under the wrong keyboard layout. Examples:
 - لاقشاش → hello (user wanted English, was on Arabic layout)
@@ -649,23 +649,29 @@ This is layout conversion only. Not translation, not transliteration, not "did y
 
 ---
 
-### Build number strategy — proposed 2026-05-28 (awaiting confirmation)
+### Build number strategy — locked 2026-05-28
 
-**Current state:** App Store Connect has processed builds through build 5. Local `CURRENT_PROJECT_VERSION` in the pbxproj is `4`. Drift is now 1.
+**Locked decision: Option 2 — Manual bump + commit**, with pre-archive `grep` verification.
 
-**Proposed: Option 2 — Manual bump + commit.**
+**Current state:** App Store Connect has processed builds through build 5. Local `CURRENT_PROJECT_VERSION` in the pbxproj is `4`. Drift is 1. Next archive must use build 6.
 
-Rationale: the Xcode project lives on Desktop and is not tracked in the main git repo, so neither a bump script nor agvtool adds value over a manual edit. CI-driven (Option 3) requires the deferred CI fix first. Option 2 is one field edit and one commit per archive — minimal overhead for a single-developer cadence.
+**Rationale:** The Xcode project lives on Desktop and is not tracked in git, so a bump script (Option 1) would patch a file git never sees — the stated benefit of keeping git and App Store Connect in sync disappears. CI-driven (Option 3) requires a functioning pipeline with secrets present; that is v1.3 deferred work. Option 2 is one Build Settings edit and one commit, sufficient for a solo dev shipping occasional releases.
 
-**Procedure for every future Safari archive:**
+**Checklist for every future Safari archive:**
 
-1. Check App Store Connect → Apps → Yameen → TestFlight → note the highest build number already processed for the current marketing version.
-2. Open `Yameen.xcodeproj` → `Yameen` target → Build Settings → search `CURRENT_PROJECT_VERSION` → set to (last processed + 1).
-3. Also set the same value in the `Yameen Extension` target (both targets must agree).
-4. Commit the pbxproj change: `chore: bump Safari build to N`.
-5. Run Xcode → Product → Archive.
+1. Open App Store Connect → Apps → Yameen → TestFlight → note the highest build number already processed for the current marketing version. Call it N.
+2. Open `Yameen.xcodeproj` in Xcode.
+3. Select the **Yameen** target → Build Settings → search `CURRENT_PROJECT_VERSION` → set value to N + 1.
+4. Select the **Yameen Extension** target → same field → set to the same value. Both targets must match.
+5. Save. Run this verification before touching Archive:
+   ```
+   grep CURRENT_PROJECT_VERSION ~/Desktop/Yameen/Yameen.xcodeproj/project.pbxproj
+   ```
+   Confirm the value appears twice (once per target) and both read N + 1.
+6. Commit the pbxproj change: `chore: bump Safari build to N+1`.
+7. Run Xcode → Product → Archive.
 
-**Immediate action for next archive:** set `CURRENT_PROJECT_VERSION = 6` in both targets (since build 5 is the last App Store Connect build), commit, then archive.
+**Deferred research question (investigate during v1.4 planning):** Should the Safari Xcode project move from `~/Desktop/Yameen/` into the main Yameen git repo? That would make the pbxproj trackable, eliminate the drift class of problems permanently, and eventually let CI read versions directly. Risks to evaluate: archive/signing config disruption, dSYM history, repo size from xcuserdata. If migration is clean, do it. If messy, manual bump + commit remains the answer indefinitely.
 
 ---
 
@@ -677,3 +683,88 @@ Rationale: the Xcode project lives on Desktop and is not tracked in the main git
 - `CHROME_EXTENSION_ID` (= `nephalabmiodkhilmfcblhcfdebedbbp`), `CHROME_CLIENT_ID`, `CHROME_CLIENT_SECRET`, `CHROME_REFRESH_TOKEN` — from Google Cloud Console OAuth2 + one-time refresh-token flow
 
 Must be set before the next tagged release. Until then, the `publish.yml` fix is correct but inert.
+
+#### Setup checklist
+
+**Firefox (2 secrets)**
+
+1. Go to addons.mozilla.org → click your avatar → Developer Hub → Manage API Keys.
+2. Generate new credentials (or use existing). You will see:
+   - **JWT issuer** → this is the value for `FIREFOX_API_KEY`
+   - **JWT secret** → this is the value for `FIREFOX_API_SECRET`
+3. In the GitHub repo: Settings → Secrets and variables → Actions → New repository secret. Create both.
+
+**Chrome (4 secrets)**
+
+`CHROME_EXTENSION_ID` is already known: `nephalabmiodkhilmfcblhcfdebedbbp`. Add it as a secret as-is.
+
+For the OAuth credentials, the Chrome Web Store API requires a Google Cloud project with the API enabled and an OAuth 2.0 client:
+
+1. Go to console.cloud.google.com → create or select a project (e.g. "Yameen CWS").
+2. APIs & Services → Enable APIs → search "Chrome Web Store API" → Enable.
+3. APIs & Services → Credentials → Create Credentials → OAuth client ID → Application type: **Desktop app** → name it anything → Create.
+4. Note the **Client ID** → value for `CHROME_CLIENT_ID`.
+5. Note the **Client secret** → value for `CHROME_CLIENT_SECRET`.
+6. Generate the refresh token (one-time, run locally):
+   - Visit this URL in a browser (substitute your client ID):
+     ```
+     https://accounts.google.com/o/oauth2/auth?client_id=YOUR_CLIENT_ID&response_type=code&scope=https://www.googleapis.com/auth/chromewebstore&redirect_uri=urn:ietf:wg:oauth:2.0:oob&access_type=offline
+     ```
+   - Sign in with the Google account that owns the extension. Grant access.
+   - Copy the **authorization code** from the page.
+   - Exchange it for a refresh token (substitute your values):
+     ```
+     curl -s -X POST https://oauth2.googleapis.com/token \
+       -d "code=AUTH_CODE&client_id=CLIENT_ID&client_secret=CLIENT_SECRET\
+     &redirect_uri=urn:ietf:wg:oauth:2.0:oob&grant_type=authorization_code"
+     ```
+   - The JSON response contains `"refresh_token"` → value for `CHROME_REFRESH_TOKEN`.
+7. Add all four secrets to GitHub: `CHROME_EXTENSION_ID`, `CHROME_CLIENT_ID`, `CHROME_CLIENT_SECRET`, `CHROME_REFRESH_TOKEN`.
+
+**Verification:** once all 6 secrets are set, push a test tag (`v1.3.0` or similar at release time) and confirm the workflow reaches the upload steps without failing at "Set up job" or secret resolution.
+
+---
+
+### Store screenshots — plan locked 2026-05-28, capture deferred to v2.0
+
+**Capture session is NOT a v1.3 task — defer to v2.0 marketing relaunch.** The popup UI will change materially in v1.4 (All Sites surface) and v1.6 (Arabic copy rewrite), so any screenshots taken before v1.6 will be stale by the time they ship. Lock the plan now, shoot then.
+
+#### Store specs
+
+| Store | Required dimensions | Format | Max count |
+|-------|-------------------|--------|-----------|
+| Chrome Web Store | Exactly 1280x800 or 640x400 | PNG or JPEG, no alpha | 5 |
+| Firefox AMO | Min 165px shortest side; recommend 1280x800 | PNG or JPEG | 5 |
+
+Use 1280x800 for both — one capture session covers both listings.
+
+#### Shot list (execute at v2.0)
+
+| # | Subject | Notes |
+|---|---------|-------|
+| 1 | Popup in situ | Open over an Arabic page (aljazeera.net or claude.ai). Show mode selector, platform dot, numeral toggle. |
+| 2 | RTL on AI platform — before/after | Split or side-by-side: raw Arabic left-aligned vs. Yameen On right-aligned. Use Claude or ChatGPT. |
+| 3 | RTL on a second platform | ChatGPT, Gemini, or a news site. Shows breadth. |
+| 4 | Numeral conversion | Real Arabic page with dates/counts. Eastern ٢٠٢٤ → Western 2024 visible. |
+| 5 | Any Website toggle (Chrome listing only) | Popup on an unsupported site (e.g. github.com) with كل المواقع enabled and RTL applied. For Firefox listing substitute with a second platform or cleaner popup shot — the toggle is hidden on Firefox. |
+
+---
+
+## Yameen Roadmap (locked 2026-05-28)
+
+| Version | Theme | Summary |
+|---------|-------|---------|
+| v1.3 | Housekeeping | CI secrets setup (deferred — see CI blocker note above), build-number source-of-truth strategy, real store screenshots. Arms the CI pipeline for later auto-publish. |
+| v1.4 | All Sites rebuild | Rip out and rebuild the كل المواقع / Any Website implementation from scratch as one shared cross-browser module with identical behavior on Chrome, Firefox, and Safari. Repositions Yameen from "Arabic RTL for AI platforms" to "Arabic RTL anywhere on the web" — curated platforms are the zero-config tier, All Sites is the opt-in best-effort tier. This is the centerpiece of the 2.0 arc. |
+| v1.5 | تصحيح / Fix | Keyboard-layout correction feature, already fully specced earlier in this document. |
+| v1.6 | Arabic copy system | Redesign all UI terminology authored in Arabic (not translated) — popup labels (مستوى, نظام الأرقام, النطاق), RTL-level states (currently English Off/Auto/Force → Arabic), helper text, version string, plus store listings, website copy, and a new general tagline. Comes after v1.4/v1.5 because both add new UI that needs naming. |
+| v2.0 | Marketing relaunch | Website overhaul, all 3 store listings refreshed, Product Hunt relaunch. Includes an honest, factual competitor comparison table that links to competitors in the header. |
+| v2.1+ | Maintenance | Bug fixes, CI-driven. |
+
+### v1.4 — cross-browser parity defect (locked requirement)
+
+Cross-browser parity defect to fix: the كل المواقع scope section is hidden/inert on Firefox in v1.2.0 (and was entirely absent in v1.1.0). v1.4 must surface and wire it identically on all three browsers.
+
+### Positioning principle (locked)
+
+All Sites mode is opt-in and best-effort by design; curated platforms remain the guaranteed tier. Positioning must never promise "works perfectly everywhere."
