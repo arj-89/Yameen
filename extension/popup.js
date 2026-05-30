@@ -12,7 +12,9 @@ const PLATFORMS = {
   "clickup.com":"ClickUp","app.clickup.com":"ClickUp",
 };
 
-const _hasDynamic = typeof chrome?.scripting?.registerContentScripts === 'function';
+const _hasDynamic =
+  (typeof chrome !== 'undefined' && typeof chrome?.scripting?.registerContentScripts === 'function') ||
+  (typeof browser !== 'undefined' && typeof browser?.contentScripts?.register === 'function');
 const _isSafari = navigator.vendor.includes('Apple');
 if (!_hasDynamic && !_isSafari) {
   document.getElementById('everywhere-sec').style.display = 'none';
@@ -76,23 +78,48 @@ document.querySelectorAll('input[name="numerals"]').forEach((r) => {
   });
 });
 
-// Chrome uses registerContentScripts; Safari uses optional <all_urls> permission. Hidden on Firefox only.
+function showEverywhereStatus(msg, isError) {
+  const el = document.getElementById('everywhere-status');
+  el.textContent = msg;
+  el.className = 'everywhere-status' + (isError ? ' error' : '');
+  el.hidden = false;
+}
+
+function clearEverywhereStatus() {
+  const el = document.getElementById('everywhere-status');
+  el.hidden = true;
+  el.textContent = '';
+  el.className = 'everywhere-status';
+}
+
+// Chrome: registerContentScripts; Firefox: contentScripts.register; Safari: static <all_urls> manifest match.
 everywhereEl.addEventListener("change", async () => {
+  clearEverywhereStatus();
   if (everywhereEl.checked) {
-    try {
-      const granted = await api.permissions.request({ origins: ["<all_urls>"] });
-      if (granted) {
-        api.storage.sync.set({ everywhere: true });
-      } else {
+    if (_isSafari) {
+      api.storage.sync.set({ everywhere: true });
+    } else {
+      try {
+        const granted = await api.permissions.request({ origins: ["<all_urls>"] });
+        if (granted) {
+          api.storage.sync.set({ everywhere: true });
+        } else {
+          everywhereEl.checked = false;
+          showEverywhereStatus("الإذن مطلوب لتفعيل كل المواقع", true);
+        }
+      } catch {
         everywhereEl.checked = false;
+        showEverywhereStatus("هذا المتصفح لا يدعم تفعيل كل المواقع حالياً", true);
       }
-    } catch {
-      everywhereEl.checked = false;
     }
   } else {
-    try {
-      await api.permissions.remove({ origins: ["<all_urls>"] });
-    } catch {}
-    api.storage.sync.set({ everywhere: false });
+    if (_isSafari) {
+      api.storage.sync.set({ everywhere: false });
+    } else {
+      try {
+        await api.permissions.remove({ origins: ["<all_urls>"] });
+      } catch {}
+      api.storage.sync.set({ everywhere: false });
+    }
   }
 });

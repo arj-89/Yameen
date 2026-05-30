@@ -8,6 +8,7 @@
 
 const browserAPI = typeof browser !== "undefined" ? browser : chrome;
 const DYNAMIC_SCRIPT_ID = "yameen-everywhere";
+let firefoxContentScriptHandle = null;
 
 // Listen for setting changes from popup
 browserAPI.storage.onChanged.addListener(async (changes) => {
@@ -36,25 +37,51 @@ browserAPI.runtime.onInstalled.addListener(async () => {
 
 async function registerEverywhere() {
   try {
-    const existing = await browserAPI.scripting.getRegisteredContentScripts({ ids: [DYNAMIC_SCRIPT_ID] });
-    if (existing.length > 0) return;
-
-    await browserAPI.scripting.registerContentScripts([{
-      id: DYNAMIC_SCRIPT_ID,
-      matches: ["<all_urls>"],
-      js: ["content.js"],
-      css: ["content.css"],
-      runAt: "document_idle",
-    }]);
+    // Chrome MV3 path
+    if (typeof chrome !== 'undefined' && chrome?.scripting?.registerContentScripts) {
+      const existing = await browserAPI.scripting.getRegisteredContentScripts({ ids: [DYNAMIC_SCRIPT_ID] });
+      if (existing.length > 0) return { ok: true, alreadyRegistered: true };
+      await browserAPI.scripting.registerContentScripts([{
+        id: DYNAMIC_SCRIPT_ID,
+        matches: ["<all_urls>"],
+        js: ["content.js"],
+        css: ["content.css"],
+        runAt: "document_idle",
+      }]);
+      return { ok: true };
+    }
+    // Firefox MV2 path
+    if (typeof browser !== 'undefined' && browser?.contentScripts?.register) {
+      if (firefoxContentScriptHandle) return { ok: true, alreadyRegistered: true };
+      firefoxContentScriptHandle = await browser.contentScripts.register({
+        matches: ["<all_urls>"],
+        js: [{ file: "content.js" }],
+        css: [{ file: "content.css" }],
+        runAt: "document_idle",
+      });
+      return { ok: true };
+    }
+    return { ok: false, reason: "no-dynamic-api" };
   } catch (e) {
     console.error("[yameen] Failed to register everywhere script:", e);
+    return { ok: false, reason: "register-threw", error: e.message };
   }
 }
 
 async function unregisterEverywhere() {
   try {
-    await browserAPI.scripting.unregisterContentScripts({ ids: [DYNAMIC_SCRIPT_ID] });
-  } catch {
-    // Not registered — that's fine
+    if (typeof chrome !== 'undefined' && chrome?.scripting?.unregisterContentScripts) {
+      await browserAPI.scripting.unregisterContentScripts({ ids: [DYNAMIC_SCRIPT_ID] });
+      return { ok: true };
+    }
+    if (firefoxContentScriptHandle) {
+      await firefoxContentScriptHandle.unregister();
+      firefoxContentScriptHandle = null;
+      return { ok: true };
+    }
+    return { ok: false, reason: "no-dynamic-api" };
+  } catch (e) {
+    console.error("[yameen] Failed to unregister everywhere script:", e);
+    return { ok: false, reason: "unregister-threw", error: e.message };
   }
 }
