@@ -4,3 +4,15 @@ node_modules/
 *.crx
 *.pem
 health-report.md
+
+# Xcode
+build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+.swiftpm/
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM

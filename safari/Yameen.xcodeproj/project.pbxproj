@@ -1,0 +1,637 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		06A5219B2FB0312B00BC7B7F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A5219A2FB0312B00BC7B7F /* AppDelegate.swift */; };
+		06A5219F2FB0312B00BC7B7F /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = 06A5219D2FB0312B00BC7B7F /* Main.html */; };
+		06A521A12FB0312B00BC7B7F /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 06A521A02FB0312B00BC7B7F /* Icon.png */; };
+		06A521A32FB0312B00BC7B7F /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = 06A521A22FB0312B00BC7B7F /* Style.css */; };
+		06A521A52FB0312B00BC7B7F /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = 06A521A42FB0312B00BC7B7F /* Script.js */; };
+		06A521A72FB0312B00BC7B7F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A521A62FB0312B00BC7B7F /* ViewController.swift */; };
+		06A521AA2FB0312B00BC7B7F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06A521A82FB0312B00BC7B7F /* Main.storyboard */; };
+		06A521AC2FB0312C00BC7B7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06A521AB2FB0312C00BC7B7F /* Assets.xcassets */; };
+		06A521B32FB0312C00BC7B7F /* Yameen Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 06A521B22FB0312C00BC7B7F /* Yameen Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		06A521B82FB0312C00BC7B7F /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A521B72FB0312C00BC7B7F /* SafariWebExtensionHandler.swift */; };
+		06A521CB2FB0312C00BC7B7F /* popup.js in Resources */ = {isa = PBXBuildFile; fileRef = 06A521C42FB0312C00BC7B7F /* popup.js */; };
+		06A521CC2FB0312C00BC7B7F /* content.css in Resources */ = {isa = PBXBuildFile; fileRef = 06A521C52FB0312C00BC7B7F /* content.css */; };
+		06A521CD2FB0312C00BC7B7F /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = 06A521C62FB0312C00BC7B7F /* background.js */; };
+		06A521CE2FB0312C00BC7B7F /* popup.html in Resources */ = {isa = PBXBuildFile; fileRef = 06A521C72FB0312C00BC7B7F /* popup.html */; };
+		06A521CF2FB0312C00BC7B7F /* icons in Resources */ = {isa = PBXBuildFile; fileRef = 06A521C82FB0312C00BC7B7F /* icons */; };
+		06A521D02FB0312C00BC7B7F /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 06A521C92FB0312C00BC7B7F /* manifest.json */; };
+		06A521D12FB0312C00BC7B7F /* content.js in Resources */ = {isa = PBXBuildFile; fileRef = 06A521CA2FB0312C00BC7B7F /* content.js */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		06A521B42FB0312C00BC7B7F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 06A5218F2FB0312B00BC7B7F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 06A521B12FB0312C00BC7B7F;
+			remoteInfo = "Yameen Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		06A521BF2FB0312C00BC7B7F /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				06A521B32FB0312C00BC7B7F /* Yameen Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		06A521972FB0312B00BC7B7F /* Yameen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yameen.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		06A5219A2FB0312B00BC7B7F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		06A5219E2FB0312B00BC7B7F /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = Base.lproj/Main.html; sourceTree = "<group>"; };
+		06A521A02FB0312B00BC7B7F /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		06A521A22FB0312B00BC7B7F /* Style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
+		06A521A42FB0312B00BC7B7F /* Script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Script.js; sourceTree = "<group>"; };
+		06A521A62FB0312B00BC7B7F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		06A521A92FB0312B00BC7B7F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		06A521AB2FB0312C00BC7B7F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		06A521AD2FB0312C00BC7B7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		06A521B22FB0312C00BC7B7F /* Yameen Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Yameen Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		06A521B72FB0312C00BC7B7F /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		06A521B92FB0312C00BC7B7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		06A521C42FB0312C00BC7B7F /* popup.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = popup.js; path = ../../extension/popup.js; sourceTree = "<group>"; };
+		06A521C52FB0312C00BC7B7F /* content.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = content.css; path = ../../extension/content.css; sourceTree = "<group>"; };
+		06A521C62FB0312C00BC7B7F /* background.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = background.js; path = ../../extension/background.js; sourceTree = "<group>"; };
+		06A521C72FB0312C00BC7B7F /* popup.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = popup.html; path = ../../extension/popup.html; sourceTree = "<group>"; };
+		06A521C82FB0312C00BC7B7F /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = icons; path = ../../extension/icons; sourceTree = "<group>"; };
+		06A521C92FB0312C00BC7B7F /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../extension/manifest.json; sourceTree = "<group>"; };
+		06A521CA2FB0312C00BC7B7F /* content.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = content.js; path = ../../extension/content.js; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		06A521942FB0312B00BC7B7F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		06A521AF2FB0312C00BC7B7F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		06A5218E2FB0312B00BC7B7F = {
+			isa = PBXGroup;
+			children = (
+				06A521992FB0312B00BC7B7F /* Yameen */,
+				06A521B62FB0312C00BC7B7F /* Yameen Extension */,
+				06A521982FB0312B00BC7B7F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		06A521982FB0312B00BC7B7F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				06A521972FB0312B00BC7B7F /* Yameen.app */,
+				06A521B22FB0312C00BC7B7F /* Yameen Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		06A521992FB0312B00BC7B7F /* Yameen */ = {
+			isa = PBXGroup;
+			children = (
+				06A5219A2FB0312B00BC7B7F /* AppDelegate.swift */,
+				06A521A62FB0312B00BC7B7F /* ViewController.swift */,
+				06A521A82FB0312B00BC7B7F /* Main.storyboard */,
+				06A521AB2FB0312C00BC7B7F /* Assets.xcassets */,
+				06A521AD2FB0312C00BC7B7F /* Info.plist */,
+				06A5219C2FB0312B00BC7B7F /* Resources */,
+			);
+			path = Yameen;
+			sourceTree = "<group>";
+		};
+		06A5219C2FB0312B00BC7B7F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				06A5219D2FB0312B00BC7B7F /* Main.html */,
+				06A521A02FB0312B00BC7B7F /* Icon.png */,
+				06A521A22FB0312B00BC7B7F /* Style.css */,
+				06A521A42FB0312B00BC7B7F /* Script.js */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		06A521B62FB0312C00BC7B7F /* Yameen Extension */ = {
+			isa = PBXGroup;
+			children = (
+				06A521C32FB0312C00BC7B7F /* Resources */,
+				06A521B72FB0312C00BC7B7F /* SafariWebExtensionHandler.swift */,
+				06A521B92FB0312C00BC7B7F /* Info.plist */,
+			);
+			path = "Yameen Extension";
+			sourceTree = "<group>";
+		};
+		06A521C32FB0312C00BC7B7F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				06A521C42FB0312C00BC7B7F /* popup.js */,
+				06A521C52FB0312C00BC7B7F /* content.css */,
+				06A521C62FB0312C00BC7B7F /* background.js */,
+				06A521C72FB0312C00BC7B7F /* popup.html */,
+				06A521C82FB0312C00BC7B7F /* icons */,
+				06A521C92FB0312C00BC7B7F /* manifest.json */,
+				06A521CA2FB0312C00BC7B7F /* content.js */,
+			);
+			name = Resources;
+			path = "Yameen Extension";
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		06A521962FB0312B00BC7B7F /* Yameen */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 06A521C02FB0312C00BC7B7F /* Build configuration list for PBXNativeTarget "Yameen" */;
+			buildPhases = (
+				06A521932FB0312B00BC7B7F /* Sources */,
+				06A521942FB0312B00BC7B7F /* Frameworks */,
+				06A521952FB0312B00BC7B7F /* Resources */,
+				06A521BF2FB0312C00BC7B7F /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				06A521B52FB0312C00BC7B7F /* PBXTargetDependency */,
+			);
+			name = Yameen;
+			packageProductDependencies = (
+			);
+			productName = Yameen;
+			productReference = 06A521972FB0312B00BC7B7F /* Yameen.app */;
+			productType = "com.apple.product-type.application";
+		};
+		06A521B12FB0312C00BC7B7F /* Yameen Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 06A521BC2FB0312C00BC7B7F /* Build configuration list for PBXNativeTarget "Yameen Extension" */;
+			buildPhases = (
+				06A521AE2FB0312C00BC7B7F /* Sources */,
+				06A521AF2FB0312C00BC7B7F /* Frameworks */,
+				06A521B02FB0312C00BC7B7F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Yameen Extension";
+			packageProductDependencies = (
+			);
+			productName = "Yameen Extension";
+			productReference = 06A521B22FB0312C00BC7B7F /* Yameen Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		06A5218F2FB0312B00BC7B7F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2640;
+				LastUpgradeCheck = 2650;
+				TargetAttributes = {
+					06A521962FB0312B00BC7B7F = {
+						CreatedOnToolsVersion = 26.4.1;
+					};
+					06A521B12FB0312C00BC7B7F = {
+						CreatedOnToolsVersion = 26.4.1;
+					};
+				};
+			};
+			buildConfigurationList = 06A521922FB0312B00BC7B7F /* Build configuration list for PBXProject "Yameen" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 06A5218E2FB0312B00BC7B7F;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 06A521982FB0312B00BC7B7F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				06A521962FB0312B00BC7B7F /* Yameen */,
+				06A521B12FB0312C00BC7B7F /* Yameen Extension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		06A521952FB0312B00BC7B7F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06A521A12FB0312B00BC7B7F /* Icon.png in Resources */,
+				06A521AA2FB0312B00BC7B7F /* Main.storyboard in Resources */,
+				06A521A52FB0312B00BC7B7F /* Script.js in Resources */,
+				06A5219F2FB0312B00BC7B7F /* Main.html in Resources */,
+				06A521AC2FB0312C00BC7B7F /* Assets.xcassets in Resources */,
+				06A521A32FB0312B00BC7B7F /* Style.css in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		06A521B02FB0312C00BC7B7F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06A521CB2FB0312C00BC7B7F /* popup.js in Resources */,
+				06A521CE2FB0312C00BC7B7F /* popup.html in Resources */,
+				06A521CD2FB0312C00BC7B7F /* background.js in Resources */,
+				06A521CF2FB0312C00BC7B7F /* icons in Resources */,
+				06A521D02FB0312C00BC7B7F /* manifest.json in Resources */,
+				06A521D12FB0312C00BC7B7F /* content.js in Resources */,
+				06A521CC2FB0312C00BC7B7F /* content.css in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		06A521932FB0312B00BC7B7F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06A521A72FB0312B00BC7B7F /* ViewController.swift in Sources */,
+				06A5219B2FB0312B00BC7B7F /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		06A521AE2FB0312C00BC7B7F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06A521B82FB0312C00BC7B7F /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		06A521B52FB0312C00BC7B7F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 06A521B12FB0312C00BC7B7F /* Yameen Extension */;
+			targetProxy = 06A521B42FB0312C00BC7B7F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		06A5219D2FB0312B00BC7B7F /* Main.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				06A5219E2FB0312B00BC7B7F /* Base */,
+			);
+			name = Main.html;
+			sourceTree = "<group>";
+		};
+		06A521A82FB0312B00BC7B7F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				06A521A92FB0312B00BC7B7F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		06A521BA2FB0312C00BC7B7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = C4DNVE598D;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		06A521BB2FB0312C00BC7B7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = C4DNVE598D;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		06A521BD2FB0312C00BC7B7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Yameen Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Yameen Extension";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.2;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.arj.Yameen.Extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		06A521BE2FB0312C00BC7B7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Yameen Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Yameen Extension";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.2;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.arj.Yameen.Extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		06A521C12FB0312C00BC7B7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 4;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Yameen/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Yameen;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.2;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.arj.Yameen;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		06A521C22FB0312C00BC7B7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 4;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Yameen/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Yameen;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.2;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.arj.Yameen;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		06A521922FB0312B00BC7B7F /* Build configuration list for PBXProject "Yameen" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				06A521BA2FB0312C00BC7B7F /* Debug */,
+				06A521BB2FB0312C00BC7B7F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		06A521BC2FB0312C00BC7B7F /* Build configuration list for PBXNativeTarget "Yameen Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				06A521BD2FB0312C00BC7B7F /* Debug */,
+				06A521BE2FB0312C00BC7B7F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		06A521C02FB0312C00BC7B7F /* Build configuration list for PBXNativeTarget "Yameen" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				06A521C12FB0312C00BC7B7F /* Debug */,
+				06A521C22FB0312C00BC7B7F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 06A5218F2FB0312B00BC7B7F /* Project object */;
+}
