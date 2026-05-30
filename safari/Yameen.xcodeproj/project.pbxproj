@@ -22,7 +22,7 @@
 		06A521CD2FB0312C00BC7B7F /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = 06A521C62FB0312C00BC7B7F /* background.js */; };
 		06A521CE2FB0312C00BC7B7F /* popup.html in Resources */ = {isa = PBXBuildFile; fileRef = 06A521C72FB0312C00BC7B7F /* popup.html */; };
 		06A521CF2FB0312C00BC7B7F /* icons in Resources */ = {isa = PBXBuildFile; fileRef = 06A521C82FB0312C00BC7B7F /* icons */; };
-		06A521D02FB0312C00BC7B7F /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 06A521C92FB0312C00BC7B7F /* manifest.json */; };
+		06A521D02FB0312C00BC7B7F /* manifest-safari.json in Resources */ = {isa = PBXBuildFile; fileRef = 06A521C92FB0312C00BC7B7F /* manifest-safari.json */; };
 		06A521D12FB0312C00BC7B7F /* content.js in Resources */ = {isa = PBXBuildFile; fileRef = 06A521CA2FB0312C00BC7B7F /* content.js */; };
 /* End PBXBuildFile section */
 
@@ -69,7 +69,7 @@
 		06A521C62FB0312C00BC7B7F /* background.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = background.js; path = ../../extension/background.js; sourceTree = "<group>"; };
 		06A521C72FB0312C00BC7B7F /* popup.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = popup.html; path = ../../extension/popup.html; sourceTree = "<group>"; };
 		06A521C82FB0312C00BC7B7F /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = icons; path = ../../extension/icons; sourceTree = "<group>"; };
-		06A521C92FB0312C00BC7B7F /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../extension/manifest.json; sourceTree = "<group>"; };
+		06A521C92FB0312C00BC7B7F /* manifest-safari.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest-safari.json; path = ../../extension/manifest-safari.json; sourceTree = "<group>"; };
 		06A521CA2FB0312C00BC7B7F /* content.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = content.js; path = ../../extension/content.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -151,7 +151,7 @@
 				06A521C62FB0312C00BC7B7F /* background.js */,
 				06A521C72FB0312C00BC7B7F /* popup.html */,
 				06A521C82FB0312C00BC7B7F /* icons */,
-				06A521C92FB0312C00BC7B7F /* manifest.json */,
+				06A521C92FB0312C00BC7B7F /* manifest-safari.json */,
 				06A521CA2FB0312C00BC7B7F /* content.js */,
 			);
 			name = Resources;
@@ -189,6 +189,7 @@
 				06A521AE2FB0312C00BC7B7F /* Sources */,
 				06A521AF2FB0312C00BC7B7F /* Frameworks */,
 				06A521B02FB0312C00BC7B7F /* Resources */,
+				06A521D22FB0312C00BC7B7F /* Rename manifest-safari.json to manifest.json */,
 			);
 			buildRules = (
 			);
@@ -261,13 +262,32 @@
 				06A521CE2FB0312C00BC7B7F /* popup.html in Resources */,
 				06A521CD2FB0312C00BC7B7F /* background.js in Resources */,
 				06A521CF2FB0312C00BC7B7F /* icons in Resources */,
-				06A521D02FB0312C00BC7B7F /* manifest.json in Resources */,
+				06A521D02FB0312C00BC7B7F /* manifest-safari.json in Resources */,
 				06A521D12FB0312C00BC7B7F /* content.js in Resources */,
 				06A521CC2FB0312C00BC7B7F /* content.css in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		06A521D22FB0312C00BC7B7F /* Rename manifest-safari.json to manifest.json */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/manifest-safari.json",
+			);
+			name = "Rename manifest-safari.json to manifest.json";
+			outputPaths = (
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/manifest.json",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "mv \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/manifest-safari.json\" \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/manifest.json\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		06A521932FB0312B00BC7B7F /* Sources */ = {
@@ -449,6 +469,7 @@
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Yameen Extension/Info.plist";
@@ -485,6 +506,7 @@
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Yameen Extension/Info.plist";

@@ -326,9 +326,50 @@
     }, 700);
   }
 
-  if (document.readyState === "complete" || document.readyState === "interactive") {
-    setTimeout(init, 200);
-  } else {
-    window.addEventListener("DOMContentLoaded", () => setTimeout(init, 200));
+  function matchPatternToRegex(pattern) {
+    const escaped = pattern
+      .replace(/[.+?^${}()|[\]\\]/g, '\\$&')
+      .replace(/\*/g, '.*');
+    return new RegExp('^' + escaped + '$');
   }
+
+  (function gatedInit() {
+    const api2 = typeof browser !== 'undefined' ? browser : chrome;
+    const manifest = api2.runtime.getManifest();
+    const curatedPatterns = (manifest.content_scripts?.[0]?.matches || [])
+      .filter(p => p !== '<all_urls>')
+      .map(matchPatternToRegex);
+
+    const isCurated = curatedPatterns.some(re => re.test(location.href));
+
+    if (isCurated) {
+      if (document.readyState === "complete" || document.readyState === "interactive") {
+        setTimeout(init, 200);
+      } else {
+        window.addEventListener("DOMContentLoaded", () => setTimeout(init, 200));
+      }
+      return;
+    }
+
+    // Non-curated page: listen for toggle changes while page is open
+    api2.storage.onChanged.addListener((changes) => {
+      if (!changes.everywhere) return;
+      if (changes.everywhere.newValue) {
+        init();
+      } else {
+        teardownAll();
+      }
+    });
+
+    // Non-curated page: check current everywhere state
+    api2.storage.sync.get({ everywhere: false }, (s) => {
+      if (s.everywhere) {
+        if (document.readyState === "complete" || document.readyState === "interactive") {
+          setTimeout(init, 200);
+        } else {
+          window.addEventListener("DOMContentLoaded", () => setTimeout(init, 200));
+        }
+      }
+    });
+  })();
 })();
