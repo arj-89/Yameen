@@ -257,7 +257,7 @@ footer a:hover{color:var(--gold)}
       <div class="stat sr"><div class="num" data-count="20">0</div><div class="label">منصة مدعومة</div></div>
       <div class="stat sr sr-d1"><div class="num" data-count="3">0</div><div class="label">متصفحات رئيسية</div></div>
       <div class="stat sr sr-d2"><div class="num">0</div><div class="label">بيانات مُرسلة</div></div>
-      <div class="stat sr sr-d3 visible"><div class="num" data-count="40" data-no-plus>40</div><div class="label">حجم الإضافة بالـ KB</div></div>
+      <div class="stat sr sr-d3 visible"><div class="num"><span id="ext-size">190</span></div><div class="label">حجم الإضافة بالـ KB</div></div>
     </div>
   </div>
 </div>
@@ -585,6 +585,9 @@ const ua = navigator.userAgent;
 let detected = 'chrome';
 if (/Firefox/i.test(ua)) detected = 'firefox';
 else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) detected = 'safari';
+
+const extSize = { chrome: '190', firefox: '25', safari: '360' };
+document.getElementById('ext-size').textContent = extSize[detected];
 
 const browserIcons = {
   chrome: '<img src="https://www.google.com/s2/favicons?domain=chrome.google.com&sz=32" width="16" height="16" style="width:16px;height:16px;border-radius:3px;vertical-align:middle;flex-shrink:0" alt="">',
