@@ -16,6 +16,7 @@
   let numerals = "western";
   let threshold = 0.12;
   let obs = { disconnect() {}, observe() {} }; // safe stub; replaced below with real MutationObserver
+  let _intervalId = null;
 
   // Save original attribute value before Yameen's first mutation of that attribute on el.
   function track(el, attrName) {
@@ -65,6 +66,14 @@
     restoreNumerals();
   }
 
+  function teardown() {
+    teardownAll();
+    if (_intervalId) {
+      clearInterval(_intervalId);
+      _intervalId = null;
+    }
+  }
+
   function loadSettings() {
     storage.sync.get(
       { mode: "auto", numerals: "western", threshold: 0.12 },
@@ -77,10 +86,11 @@
     );
 
     storage.onChanged.addListener((changes) => {
-      if (changes.mode) mode = changes.mode.newValue;
-      if (changes.numerals) numerals = changes.numerals.newValue;
-      if (changes.threshold) threshold = changes.threshold.newValue;
-      applyMode();
+      let changed = false;
+      if (changes.mode)      { mode      = changes.mode.newValue;      changed = true; }
+      if (changes.numerals)  { numerals  = changes.numerals.newValue;  changed = true; }
+      if (changes.threshold) { threshold = changes.threshold.newValue; changed = true; }
+      if (changed) applyMode();
     });
   }
 
@@ -320,7 +330,8 @@
 
   function init() {
     loadSettings();
-    setInterval(() => {
+    if (_intervalId) clearInterval(_intervalId);
+    _intervalId = setInterval(() => {
       if (mode === "off") return;
       if (mode === "auto") scan();
     }, 700);
@@ -353,16 +364,27 @@
 
     // Non-curated page: listen for toggle changes while page is open
     api2.storage.onChanged.addListener((changes) => {
-      if (!changes.everywhere) return;
-      if (changes.everywhere.newValue) {
-        init();
-      } else {
-        teardownAll();
+      if (changes.everywhere) {
+        if (changes.everywhere.newValue) init();
+        else teardown();
+      }
+      if (changes.mode || changes.numerals || changes.threshold) {
+        loadSettings();
+      }
+    });
+
+    // Direct message from popup — Safari-reliability backup for storage.onChanged
+    api2.runtime.onMessage.addListener((msg) => {
+      if (msg?.type === 'everywhereChanged') {
+        if (msg.value) init();
+        else teardown();
+      } else if (msg?.type === 'settingsChanged') {
+        loadSettings();
       }
     });
 
     // Non-curated page: check current everywhere state
-    api2.storage.sync.get({ everywhere: false }, (s) => {
+    api2.storage.local.get({ everywhere: false }, (s) => {
       if (s.everywhere) {
         if (document.readyState === "complete" || document.readyState === "interactive") {
           setTimeout(init, 200);
