@@ -1,0 +1,21 @@
+version: 2
+
+# Added 2026-09-18 after the React2Shell incident (CVE-2025-55182):
+# Next.js 15.2.4 ran a known-vulnerable version for weeks because nothing was watching.
+#
+# Non-security version updates are GROUPED into one weekly PR per ecosystem.
+# Security updates are left UNGROUPED on purpose, so each arrives as its own PR
+# and can be triaged and merged on its own.
+
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    groups:
+      github-actions-version-updates:
+        applies-to: version-updates
+        patterns:
+          - "*"
